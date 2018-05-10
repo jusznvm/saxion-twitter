@@ -57,4 +57,34 @@ public class JSONParser {
         return statuses;
     }
 
+    public static ArrayList<DirectMessage> parseDMs(JSONObject jsonObject) {
+        ArrayList<DirectMessage> dms = new ArrayList<>();
+        try {
+            JSONArray jsonArray = jsonObject.getJSONArray("events");
+            for(int i = 0; i < jsonArray.length(); i++) {
+                JSONObject dmObj = jsonArray.getJSONObject(i);
+
+                JSONObject dmContent = dmObj.getJSONObject("message_create");
+
+                int timestamp = dmObj.getInt("created_timestamp");
+                int dmID = dmObj.getInt("id");
+
+                int recipientID = dmContent.getJSONObject("target").getInt("recipient_id");
+                int senderID = dmContent.getInt("sender_id");
+
+                String text = dmContent.getJSONObject("message_data").getString("text");
+
+                DirectMessage dm = new DirectMessage(
+                        recipientID, senderID,
+                        dmID, timestamp,
+                        text);
+
+                dms.add(dm);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return dms;
+    }
+
 }
