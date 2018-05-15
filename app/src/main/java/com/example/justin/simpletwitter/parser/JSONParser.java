@@ -25,6 +25,7 @@ public class JSONParser {
 
     public static ArrayList<Status> parseStatus(JSONObject jsonObject) {
         ArrayList<Status> statuses = new ArrayList<>();
+        Log.d("TEST", "parseStatus: " + jsonObject);
         try {
             JSONArray jsonArray = jsonObject.getJSONArray("statuses");
             for(int i = 0; i < jsonArray.length(); i++) {

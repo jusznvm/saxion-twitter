@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.example.justin.simpletwitter.fragment.HomeTimelineFragment;
 import com.example.justin.simpletwitter.fragment.TestFragment;
@@ -11,7 +12,7 @@ import com.example.justin.simpletwitter.fragment.UserTimelineFragment;
 
 import java.util.ArrayList;
 
-public class MyPagerAdapter extends FragmentPagerAdapter{
+public class MyPagerAdapter extends FragmentStatePagerAdapter {
 
 
     private final ArrayList<Fragment> mFragmentList = new ArrayList<>();

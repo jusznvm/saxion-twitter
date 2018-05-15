@@ -70,7 +70,7 @@ public class TweetAdapter extends ArrayAdapter<Status> {
         btnTest.setText(favoriteCount);
 
         // Crop and set profile avatar
-        Picasso.get().load(imgUrl).resize(30,30).centerCrop().into(ivAvatar);
+        Picasso.get().load(imgUrl).into(ivAvatar);
 
 
         return convertView;

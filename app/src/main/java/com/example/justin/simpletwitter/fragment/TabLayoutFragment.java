@@ -31,6 +31,7 @@ public class TabLayoutFragment extends Fragment {
         TabLayout tabLayout = view.findViewById(R.id.tab_layout);
         tabLayout.setupWithViewPager(vp);
         //setupTabIcons();
+
         return view;
     }
 
@@ -44,7 +45,7 @@ public class TabLayoutFragment extends Fragment {
     }
 
     private void setupViewPager(ViewPager viewPager) {
-         adapter = new MyPagerAdapter(getActivity().getSupportFragmentManager());
+        adapter = new MyPagerAdapter(getActivity().getSupportFragmentManager());
         adapter.addFrag(new HomeTimelineFragment(), "HOME");
         adapter.addFrag(new TestFragment(), "TEST");
         adapter.addFrag(new UserTimelineFragment(), "USER");
