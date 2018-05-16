@@ -28,8 +28,8 @@ public class TweetAdapter extends ArrayAdapter<Status> {
 
     private ArrayList<Status> statuses;
 
-    public TweetAdapter(@NonNull Context context, int resource, @NonNull List<Status> objects) {
-        super(context, resource, objects);
+    public TweetAdapter(@NonNull Context context, @NonNull List<Status> objects) {
+        super(context, R.layout.tweet, objects);
         statuses = (ArrayList<Status>) objects;
     }
 
@@ -71,7 +71,6 @@ public class TweetAdapter extends ArrayAdapter<Status> {
 
         // Crop and set profile avatar
         Picasso.get().load(imgUrl).into(ivAvatar);
-
 
         return convertView;
     }

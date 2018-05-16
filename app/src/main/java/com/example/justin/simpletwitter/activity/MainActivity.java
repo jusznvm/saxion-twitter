@@ -13,7 +13,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
-import com.example.justin.simpletwitter.view.ToolbarView;
 import com.example.justin.simpletwitter.fragment.TabLayoutFragment;
 import com.example.justin.simpletwitter.R;
 
@@ -21,23 +20,29 @@ import com.github.scribejava.apis.TwitterApi;
 import com.github.scribejava.core.builder.ServiceBuilder;
 import com.github.scribejava.core.oauth.OAuth10aService;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.InputStream;
 
-public class MainActivity extends FragmentActivity {
+public class MainActivity extends FragmentActivity
+{
 
-    private static JSONObject jsonObject = null;
 
     private DrawerLayout mDrawerLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        jsonObject = readFile();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
+
+
+
+
 
         mDrawerLayout = findViewById(R.id.activity_container);
         Button btnTest = findViewById(R.id.btn_test);
@@ -51,16 +56,12 @@ public class MainActivity extends FragmentActivity {
                 } else {
                     mDrawerLayout.openDrawer(GravityCompat.START);
                 }
-
             }
         });
 
         TabLayoutFragment firstFragment = new TabLayoutFragment();
         getSupportFragmentManager().beginTransaction().add(R.id.activity_content, firstFragment).commit();
-
-
       }
-
 
     public JSONObject readFile() {
 
@@ -76,10 +77,6 @@ public class MainActivity extends FragmentActivity {
         } catch (IOException | JSONException e) {
             e.printStackTrace();
         }
-        return jsonObject;
-    }
-
-    public static JSONObject getJsonObject() {
         return jsonObject;
     }
 

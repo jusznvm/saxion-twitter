@@ -1,5 +1,6 @@
 package com.example.justin.simpletwitter.fragment;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -8,15 +9,34 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
+import com.example.justin.simpletwitter.AppInfo;
 import com.example.justin.simpletwitter.R;
+import com.example.justin.simpletwitter.TwitterAPI;
 import com.example.justin.simpletwitter.activity.MainActivity;
 import com.example.justin.simpletwitter.adapter.TweetAdapter;
 import com.example.justin.simpletwitter.model.Status;
 import com.example.justin.simpletwitter.parser.JSONParser;
+import com.github.scribejava.core.model.OAuth1AccessToken;
+import com.github.scribejava.core.model.OAuth1RequestToken;
+import com.github.scribejava.core.model.OAuthRequest;
+import com.github.scribejava.core.model.Response;
+import com.github.scribejava.core.model.Verb;
+import com.github.scribejava.core.oauth.OAuth10aService;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.concurrent.ExecutionException;
 
 public class UserTimelineFragment extends Fragment {
+
+    private ListView lvUserTimeline;
+    private TweetAdapter adapter;
+    private static OAuth10aService service = AppInfo.getService();
+
+    private ArrayList<Status> statuses;
 
     public UserTimelineFragment() {
 
@@ -26,13 +46,41 @@ public class UserTimelineFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_user_timeline, container, false);
-        ListView lvTimline = view.findViewById(R.id.lv_user_timeline);
+        lvUserTimeline = view.findViewById(R.id.lv_user_timeline);
+        statuses = new ArrayList<>();
+        adapter = new TweetAdapter(getActivity(), statuses);
 
-        ArrayList<Status> statusses = JSONParser.parseStatus(MainActivity.getJsonObject());
-
-        TweetAdapter tweetAdapter = new TweetAdapter(getActivity(), R.layout.tweet, statusses);
-        lvTimline.setAdapter(tweetAdapter);
-
+        GetTimeLineTask task = new GetTimeLineTask();
+        task.execute();
         return view;
+    }
+
+    public class GetTimeLineTask extends AsyncTask<Void, Void, JSONArray> {
+
+        @Override
+        protected JSONArray doInBackground(Void... voids) {
+
+            OAuthRequest request = new OAuthRequest(Verb.GET, TwitterAPI.STATUSES_USER_TIMELINE);
+            OAuth1AccessToken token = AppInfo.getInstance().getAccessToken();
+            service.signRequest(token, request);
+            try {
+                final Response response = service.execute(request);
+                return new JSONArray(response.getBody());
+            } catch (InterruptedException | ExecutionException | IOException | JSONException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(JSONArray jsonArray) {
+            super.onPostExecute(jsonArray);
+            handleResult(jsonArray);
+        }
+
+        public void handleResult(JSONArray json) {
+            statuses.addAll(JSONParser.parseStatus(json));
+            adapter.notifyDataSetChanged();
+        }
     }
 }

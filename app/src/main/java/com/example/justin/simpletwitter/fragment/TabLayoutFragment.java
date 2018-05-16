@@ -8,6 +8,7 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.example.justin.simpletwitter.R;
 import com.example.justin.simpletwitter.adapter.MyPagerAdapter;
@@ -16,11 +17,13 @@ public class TabLayoutFragment extends Fragment {
 
     MyPagerAdapter adapter = null;
     TabLayout tabLayout = null;
-    private int[] tabIcons = {
+    final private int[] tabIcons = {
             R.drawable.ic_favorite_black_24dp,
             R.drawable.ic_call_black_24dp,
             R.drawable.ic_contacts_black_24dp
     };
+
+
 
     @Nullable
     @Override
@@ -30,8 +33,6 @@ public class TabLayoutFragment extends Fragment {
         setupViewPager(vp);
         TabLayout tabLayout = view.findViewById(R.id.tab_layout);
         tabLayout.setupWithViewPager(vp);
-        //setupTabIcons();
-
         return view;
     }
 
@@ -39,9 +40,10 @@ public class TabLayoutFragment extends Fragment {
      *  !!! Causes NullPointerException !!!
      */
     private void setupTabIcons() {
-        tabLayout.getTabAt(R.id.tab1).setIcon(tabIcons[0]);
-        tabLayout.getTabAt(R.id.tab2).setIcon(tabIcons[1]);
-        tabLayout.getTabAt(R.id.tab3).setIcon(tabIcons[2]);
+        // Create tabs
+            tabLayout.getTabAt(0).setIcon(tabIcons[0]);
+            tabLayout.getTabAt(R.id.tab2).setIcon(tabIcons[1]);
+            tabLayout.getTabAt(R.id.tab3).setIcon(tabIcons[2]);
     }
 
     private void setupViewPager(ViewPager viewPager) {

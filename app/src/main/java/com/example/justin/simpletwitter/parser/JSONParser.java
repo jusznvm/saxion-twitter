@@ -23,11 +23,11 @@ public class JSONParser {
 
     public static void JSONParser() {}
 
-    public static ArrayList<Status> parseStatus(JSONObject jsonObject) {
+    public static ArrayList<Status> parseStatus(JSONArray jsonArray) {
         ArrayList<Status> statuses = new ArrayList<>();
-        Log.d("TEST", "parseStatus: " + jsonObject);
+        Log.d("TEST", "parseStatus: " + jsonArray);
         try {
-            JSONArray jsonArray = jsonObject.getJSONArray("statuses");
+//            JSONArray jsonArray = jsonObject.getJSONArray("statuses");
             for(int i = 0; i < jsonArray.length(); i++) {
                 JSONObject tweetObj = jsonArray.getJSONObject(i);
 
@@ -36,7 +36,7 @@ public class JSONParser {
                 String createdAt = tweetObj.getString("created_at");
 
                 int retweetCount = tweetObj.getInt("retweet_count");
-                int favoriteCount = tweetObj.getInt("retweet_count");
+                int favoriteCount = tweetObj.getInt("favorite_count");
 
                 boolean favorited = tweetObj.getBoolean("favorited");
                 boolean retweeted = tweetObj.getBoolean("retweeted");

@@ -1,7 +1,6 @@
 package com.example.justin.simpletwitter.fragment;
 
 
-import android.icu.text.IDNA;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -13,22 +12,22 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.example.justin.simpletwitter.InfoApi;
+import com.example.justin.simpletwitter.AppInfo;
 import com.example.justin.simpletwitter.R;
+import com.example.justin.simpletwitter.TwitterAPI;
 import com.example.justin.simpletwitter.adapter.TweetAdapter;
-import com.example.justin.simpletwitter.activity.MainActivity;
 import com.example.justin.simpletwitter.model.Status;
 import com.example.justin.simpletwitter.parser.JSONParser;
+import com.github.scribejava.core.model.OAuth1AccessToken;
 import com.github.scribejava.core.model.OAuthRequest;
 import com.github.scribejava.core.model.Response;
 import com.github.scribejava.core.model.Verb;
 import com.github.scribejava.core.oauth.OAuth10aService;
 
+import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
@@ -37,10 +36,8 @@ public class HomeTimelineFragment extends Fragment {
     private ListView lvTweets;
     private TweetAdapter tweetAdapter;
     private ArrayList<Status> statuses;
-    private TextView tvTest;
 
-    private OAuth10aService service = InfoApi.getService();
-    public static final String URL = "http://goedkopeserver.vanruud.nl/tweets.json";
+    private static OAuth10aService service = AppInfo.getService();
 
     public HomeTimelineFragment() {
     }
@@ -52,10 +49,10 @@ public class HomeTimelineFragment extends Fragment {
 
         statuses = new ArrayList<>();
         View view = inflater.inflate(R.layout.fragment_home_timeline, container, false);
-        tvTest = view.findViewById(R.id.tv_test);
         lvTweets = view.findViewById(R.id.lv_home_timeline);
-        tweetAdapter = new TweetAdapter(getActivity(), R.layout.tweet, statuses);
+        tweetAdapter = new TweetAdapter(getActivity(), statuses);
         lvTweets.setAdapter(tweetAdapter);
+
 
         HomeTimeLineTask task = new HomeTimeLineTask();
         task.execute();
@@ -63,7 +60,7 @@ public class HomeTimelineFragment extends Fragment {
         return view;
     }
 
-    class HomeTimeLineTask extends AsyncTask<Void, Void, JSONObject> {
+    class HomeTimeLineTask extends AsyncTask<Void, Void, JSONArray> {
 
         @Override
         protected void onPreExecute() {
@@ -71,12 +68,14 @@ public class HomeTimelineFragment extends Fragment {
         }
 
         @Override
-        protected JSONObject doInBackground(Void... aVoid) {
-            OAuthRequest request = new OAuthRequest(Verb.GET, URL);
+        protected JSONArray doInBackground(Void... aVoid) {
+            OAuthRequest request = new OAuthRequest(Verb.GET, TwitterAPI.STATUSES_HOME_TIMELINE);
+            OAuth1AccessToken token = AppInfo.getInstance().getAccessToken();
+            service.signRequest(token, request);
 
             try {
                 final Response response = service.execute(request);
-                return new JSONObject(response.getBody());
+                return new JSONArray(response.getBody());
             } catch (InterruptedException | ExecutionException | IOException | JSONException e) {
                 e.printStackTrace();
             }
@@ -84,12 +83,12 @@ public class HomeTimelineFragment extends Fragment {
         }
 
         @Override
-        protected void onPostExecute(JSONObject jsonObject) {
-            super.onPostExecute(jsonObject);
-            handleResult(jsonObject);
+        protected void onPostExecute(JSONArray jsonArray) {
+            super.onPostExecute(jsonArray);
+            handleResult(jsonArray);
         }
 
-        public void handleResult(JSONObject json) {
+        public void handleResult(JSONArray json) {
             statuses.addAll(JSONParser.parseStatus(json));
             tweetAdapter.notifyDataSetChanged();
         }
