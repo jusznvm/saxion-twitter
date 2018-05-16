@@ -51,7 +51,7 @@ public class TweetAdapter extends ArrayAdapter<Status> {
 
         ImageView ivAvatar = convertView.findViewById(R.id.iv_user_avatar);
 
-        Button btnTest = convertView.findViewById(R.id.btn_test);
+        Button btnFav = convertView.findViewById(R.id.btn_fav_tweet);
 
         // Protect ya neck
             // For tweet
@@ -67,7 +67,7 @@ public class TweetAdapter extends ArrayAdapter<Status> {
         tvScreenname.setText(screenName);
         tvUsername.setText(user.getName());
 
-        btnTest.setText(favoriteCount);
+        btnFav.setText(favoriteCount);
 
         // Crop and set profile avatar
         Picasso.get().load(imgUrl).into(ivAvatar);
