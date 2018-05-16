@@ -41,16 +41,7 @@ public class AuthorizationActivity extends AppCompatActivity {
 
                 if(url.startsWith("https://www.google.com")) {
                     Uri uri = Uri.parse(url);
-                    Log.d("XOXO", " uri = " + uri);
-
-                    String token = uri.toString();
-                    Log.d("URI  ", "Length = " + token.length()); // 111
-                    String x = "https://www.google.com/?oauth_token=shXIgAAAAAAA6BCQAAABY2mmd98&oauth_verifier=";
-                    Log.d("VERIFIER", "shouldOverrideUrlLoading: " + x.length());
-
-
                     verifier = uri.toString().substring(79, uri.toString().length());
-                    Log.d("VERIFIER ",  " X = " + verifier);
                     AuthTask authTask = new AuthTask();
                     authTask.execute();
                 }
@@ -67,8 +58,6 @@ public class AuthorizationActivity extends AppCompatActivity {
             try {
                 OAuth1RequestToken token = appInfo.getService().getRequestToken();
                 appInfo.setToken(token);
-                Log.d("TING", "doInBackground: ");
-
             } catch (IOException | ExecutionException | InterruptedException e) {
                 e.printStackTrace();
             }
@@ -90,16 +79,8 @@ public class AuthorizationActivity extends AppCompatActivity {
         protected Void doInBackground(Void... aVoid) {
             try {
                     OAuth1RequestToken reqToken = appInfo.getToken();
-                Log.d("YUNUS IS EEN EZEL", "REQTOKEN: " + reqToken.toString());
-                Log.d("YUNUS IS EEN EZEL", "VERIFIER: " + verifier);
-
-
                 OAuth1AccessToken accessToken = appInfo.getService().getAccessToken(reqToken, verifier);
                     appInfo.setAccessToken(accessToken);
-                    String x = accessToken.toString();
-                    if(appInfo.getInstance().getAccessToken() != null) {
-                        Log.d("YUNUS IS EEN EZEL", "doInBackground: " + x);
-                    }
             } catch (IOException | InterruptedException | ExecutionException e) {
                 e.printStackTrace();
             }
@@ -111,7 +92,6 @@ public class AuthorizationActivity extends AppCompatActivity {
             super.onPostExecute(aVoid);
             Intent intent = new Intent(AuthorizationActivity.this, MainActivity.class);
             startActivity(intent);
-
         }
     }
 }

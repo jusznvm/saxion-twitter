@@ -4,20 +4,19 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
 
 import com.example.justin.simpletwitter.AppInfo;
 import com.example.justin.simpletwitter.R;
 import com.example.justin.simpletwitter.TwitterAPI;
-import com.example.justin.simpletwitter.activity.MainActivity;
-import com.example.justin.simpletwitter.adapter.TweetAdapter;
+import com.example.justin.simpletwitter.adapter.StatusAdapter;
 import com.example.justin.simpletwitter.model.Status;
 import com.example.justin.simpletwitter.parser.JSONParser;
 import com.github.scribejava.core.model.OAuth1AccessToken;
-import com.github.scribejava.core.model.OAuth1RequestToken;
 import com.github.scribejava.core.model.OAuthRequest;
 import com.github.scribejava.core.model.Response;
 import com.github.scribejava.core.model.Verb;
@@ -32,9 +31,11 @@ import java.util.concurrent.ExecutionException;
 
 public class UserTimelineFragment extends Fragment {
 
-    private ListView lvUserTimeline;
-    private TweetAdapter adapter;
+    private RecyclerView.Adapter mAdapter;
+    private RecyclerView.LayoutManager mLayoutManager;
+    private RecyclerView mRecyclerView;
     private static OAuth10aService service = AppInfo.getService();
+    private static AppInfo appInfo = AppInfo.getInstance();
 
     private ArrayList<Status> statuses;
 
@@ -46,9 +47,15 @@ public class UserTimelineFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_user_timeline, container, false);
-        lvUserTimeline = view.findViewById(R.id.lv_user_timeline);
         statuses = new ArrayList<>();
-        adapter = new TweetAdapter(getActivity(), statuses);
+
+
+        mRecyclerView = view.findViewById(R.id.recycler_user_timeline);
+        mLayoutManager = new LinearLayoutManager(getActivity());
+        mRecyclerView.setLayoutManager(mLayoutManager);
+        mAdapter = new StatusAdapter(statuses);
+        mRecyclerView.setAdapter(mAdapter);
+
 
         GetTimeLineTask task = new GetTimeLineTask();
         task.execute();
@@ -61,7 +68,7 @@ public class UserTimelineFragment extends Fragment {
         protected JSONArray doInBackground(Void... voids) {
 
             OAuthRequest request = new OAuthRequest(Verb.GET, TwitterAPI.STATUSES_USER_TIMELINE);
-            OAuth1AccessToken token = AppInfo.getInstance().getAccessToken();
+            OAuth1AccessToken token = appInfo.getAccessToken();
             service.signRequest(token, request);
             try {
                 final Response response = service.execute(request);
@@ -80,7 +87,7 @@ public class UserTimelineFragment extends Fragment {
 
         public void handleResult(JSONArray json) {
             statuses.addAll(JSONParser.parseStatus(json));
-            adapter.notifyDataSetChanged();
+            mAdapter.notifyDataSetChanged();
         }
     }
 }
