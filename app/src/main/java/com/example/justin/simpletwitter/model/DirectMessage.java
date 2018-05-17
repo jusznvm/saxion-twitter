@@ -6,15 +6,16 @@ package com.example.justin.simpletwitter.model;
 
 public class DirectMessage {
 
-    private int recipientID;
-    private int senderID;
-    private int dmID;
-    private int timestampCreated;
+    private long recipientID;
+    private long senderID;
+    private long dmID;
+
+    private long timestampCreated;
 
     private String text;
 
-    public DirectMessage(int recipientID, int senderID,
-                         int dmID, int timestampCreated,
+    public DirectMessage(long recipientID, long senderID,
+                         long dmID, long timestampCreated,
                          String text) {
 
         this.recipientID = recipientID;
@@ -25,5 +26,7 @@ public class DirectMessage {
 
     }
 
-
+    public String getText() {
+        return text;
+    }
 }

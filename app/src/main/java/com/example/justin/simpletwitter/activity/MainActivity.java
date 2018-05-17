@@ -38,12 +38,6 @@ public class MainActivity extends FragmentActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
-
-
-
-
-
         mDrawerLayout = findViewById(R.id.activity_container);
         Button btnTest = findViewById(R.id.btn_test);
 

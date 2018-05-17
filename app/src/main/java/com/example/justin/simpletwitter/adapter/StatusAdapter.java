@@ -27,7 +27,7 @@ public class StatusAdapter extends RecyclerView.Adapter<StatusAdapter.ViewHolder
 
         private ImageView ivAvatar;
 
-        private Button btnFav;
+        private Button btnFav, btnReply, btnRetweet;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -38,6 +38,9 @@ public class StatusAdapter extends RecyclerView.Adapter<StatusAdapter.ViewHolder
             ivAvatar = itemView.findViewById(R.id.iv_user_avatar);
 
             btnFav = itemView.findViewById(R.id.btn_fav_tweet);
+            btnRetweet = itemView.findViewById(R.id.btn_retweet);
+            btnReply = itemView.findViewById(R.id.btn_reply);
+
         }
     }
 
@@ -63,6 +66,7 @@ public class StatusAdapter extends RecyclerView.Adapter<StatusAdapter.ViewHolder
         // Protect ya neck
             // For tweet
         String favoriteCount = String.valueOf(status.getFavoriteCount());
+        String retweetCount = String.valueOf(status.getRetweetCount());
 
             // For user
         String screenName = "@" + user.getUserName();
@@ -75,6 +79,7 @@ public class StatusAdapter extends RecyclerView.Adapter<StatusAdapter.ViewHolder
         holder.tvUsername.setText(user.getName());
 
         holder.btnFav.setText(favoriteCount);
+        holder.btnRetweet.setText(retweetCount);
 
         // Crop and set profile avatar
         Picasso.get().load(imgUrl).into(holder.ivAvatar);

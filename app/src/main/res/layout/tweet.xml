@@ -32,8 +32,30 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:drawableStart="@drawable/ic_star_border_black_24dp"
+                android:elevation="4dp"
+                android:drawableStart="@drawable/like_1"
                 card_view:layout_constraintStart_toStartOf="parent"
+                card_view:layout_constraintTop_toBottomOf="@+id/tv_tweet_text"></Button>
+
+
+            <Button
+                android:id="@+id/btn_retweet"
+                android:elevation="4dp"
+                style="@style/Base.Widget.AppCompat.Button.Borderless"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableStart="@drawable/ic_retweet"
+                card_view:layout_constraintStart_toEndOf="@+id/btn_fav_tweet"
+                card_view:layout_constraintTop_toBottomOf="@+id/tv_tweet_text"></Button>
+
+
+            <Button
+                android:id="@+id/btn_reply"
+                style="@style/Base.Widget.AppCompat.Button.Borderless"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="REPLY"
+                card_view:layout_constraintStart_toEndOf="@+id/btn_retweet"
                 card_view:layout_constraintTop_toBottomOf="@+id/tv_tweet_text"></Button>
 
             <TextView

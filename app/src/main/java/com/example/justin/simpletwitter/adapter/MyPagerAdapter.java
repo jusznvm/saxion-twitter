@@ -7,7 +7,6 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.example.justin.simpletwitter.fragment.HomeTimelineFragment;
-import com.example.justin.simpletwitter.fragment.TestFragment;
 import com.example.justin.simpletwitter.fragment.UserTimelineFragment;
 
 import java.util.ArrayList;
