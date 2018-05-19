@@ -1,7 +1,4 @@
 package com.example.justin.simpletwitter.model;
-
-import com.example.justin.simpletwitter.model.User;
-
 /**
  * Created by Justin on 5/9/2018.
  */
