@@ -8,7 +8,7 @@ public  class TwitterAPI {
      */
 
     /*
-        STATUSES
+     * STATUSES
      */
     public static final String STATUSES_HOME_TIMELINE = "https://api.twitter.com/1.1/statuses/home_timeline.json";
     public static final String STATUSES_USER_TIMELINE = "https://api.twitter.com/1.1/statuses/user_timeline.json";
@@ -26,7 +26,6 @@ public  class TwitterAPI {
      * POST
      * The follow URLS all require a POST-verb
      */
-
     public static final String STATUSES_UPDATE = "https://api.twitter.com/1.1/statuses/update.json?status=";
 
 
