@@ -59,7 +59,7 @@ public class HomeTimelineFragment extends Fragment {
         mRecyclerView = view.findViewById(R.id.recycler_home_timeline);
         mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);
-        mAdapter = new StatusAdapter(statuses);
+        mAdapter = new StatusAdapter(statuses, this);
         mRecyclerView.setAdapter(mAdapter);
 
         mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.sl_home_timeline);
