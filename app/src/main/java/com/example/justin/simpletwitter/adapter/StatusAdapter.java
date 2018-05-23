@@ -22,9 +22,12 @@ import android.widget.TextView;
 import com.example.justin.simpletwitter.R;
 import com.example.justin.simpletwitter.fragment.DirectMessageFragment;
 import com.example.justin.simpletwitter.fragment.profile.UserProfileFragment;
-import com.example.justin.simpletwitter.model.Entity;
+import com.example.justin.simpletwitter.model.EntitiesHolder;
+import com.example.justin.simpletwitter.model.Hashtag;
 import com.example.justin.simpletwitter.model.Status;
 import com.example.justin.simpletwitter.model.User;
+import com.example.justin.simpletwitter.model.UserMention;
+import com.example.justin.simpletwitter.parser.JSONParser;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -77,7 +80,6 @@ public class StatusAdapter extends RecyclerView.Adapter<StatusAdapter.ViewHolder
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        //Used to match Hashtag Entity for Linkifying
 
         // Get status with the position & get the user of the status too.
         Status status = statuses.get(position);
@@ -95,7 +97,7 @@ public class StatusAdapter extends RecyclerView.Adapter<StatusAdapter.ViewHolder
         String imgUrl= user.getImgUrl();
 
         // Set all the values accordingly
-        holder.tvText.setText(linkifyTweet(status));
+        holder.tvText.setText(linkifyStatus(status));
         holder.tvText.setMovementMethod(LinkMovementMethod.getInstance());
 
         holder.tvScreenname.setText(screenName);
@@ -135,31 +137,53 @@ public class StatusAdapter extends RecyclerView.Adapter<StatusAdapter.ViewHolder
         return statuses.size();
     }
 
-    public SpannableString linkifyTweet(Status status){
-        ArrayList<Entity> entitiesInStatus = status.getstatusEntities();
+    public SpannableString linkifyStatus(Status status){
+        EntitiesHolder entitiesHolder = status.getEntities();
 
         String statusText = status.getText();
 
         SpannableString ss = new SpannableString(statusText);
 
-        for (Entity entity: entitiesInStatus) {
-            ss.setSpan(new MyClickableSpan(), entity.getStartIndex(), entity.getEndIndex(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+        for (Hashtag hashtag: entitiesHolder.getHashtags()) {
+            ss.setSpan(new HashtagClickableSpan(), hashtag.getStartIndex(), hashtag.getEndIndex(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         }
+
+        for (UserMention mention: entitiesHolder.getUserMentions()) {
+            ss.setSpan(new UserMentionClickableSpan(), mention.getStartIndex(), mention.getEndIndex(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        }
+
         return ss;
     }
 
 
-    class MyClickableSpan extends ClickableSpan {
+
+
+    class HashtagClickableSpan extends ClickableSpan {
 
         public void onClick(View textView) {
             TextView newView = (TextView) textView;
             Log.d(TAG, "MyClickableSpan, onClick: " + newView.getText().toString());
-            fragment.getFragmentManager().beginTransaction().replace(R.id.activity_content, new DirectMessageFragment()).addToBackStack(null).commit();
+            //fragment.getFragmentManager().beginTransaction().replace(R.id.activity_content, new DirectMessageFragment()).addToBackStack(null).commit();
 
         }
         @Override
         public void updateDrawState(TextPaint ds) {
             ds.setColor(Color.GREEN);
+            ds.setUnderlineText(false); // remove underline
+        }
+    }
+    class UserMentionClickableSpan extends ClickableSpan {
+
+        public void onClick(View textView) {
+            TextView newView = (TextView) textView;
+            Log.d(TAG, "UsermentionClickable, onClick: " + newView.getText().toString());
+            //fragment.getFragmentManager().beginTransaction().replace(R.id.activity_content, new DirectMessageFragment()).addToBackStack(null).commit();
+
+        }
+        @Override
+        public void updateDrawState(TextPaint ds) {
+            ds.setColor(Color.RED);
             ds.setUnderlineText(false); // remove underline
         }
     }

@@ -19,7 +19,7 @@ public class Status {
 
     private User user = null;
 
-    private ArrayList<Entity> statusEntities = null;
+    private EntitiesHolder entities = null;
 
     public Status(String text, String createdAt,
                   int retweetCount, int favoriteCount,
@@ -65,13 +65,11 @@ public class Status {
         this.user = user;
     }
 
-    public ArrayList<Entity> getstatusEntities() {
-        return statusEntities;
+    public EntitiesHolder getEntities() {
+        return entities;
     }
 
-    public void setHashtagEntities(ArrayList<Entity> statusEntities) {
-        this.statusEntities = statusEntities;
-
-
+    public void setEntities(EntitiesHolder entities) {
+        this.entities = entities;
     }
 }

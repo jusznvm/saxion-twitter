@@ -19,10 +19,11 @@ import com.example.justin.simpletwitter.R;
 import com.example.justin.simpletwitter.fragment.DirectMessageFragment;
 import com.example.justin.simpletwitter.fragment.HomeTimelineFragment;
 import com.example.justin.simpletwitter.model.DirectMessage;
-import com.example.justin.simpletwitter.model.Entity;
+import com.example.justin.simpletwitter.model.EntitiesHolder;
 import com.example.justin.simpletwitter.model.Hashtag;
 import com.example.justin.simpletwitter.model.Status;
 import com.example.justin.simpletwitter.model.User;
+import com.example.justin.simpletwitter.model.UserMention;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -62,7 +63,7 @@ public class DMAdapter extends RecyclerView.Adapter<DMAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         DirectMessage dm = dms.get(position);
-        holder.tvContent.setText(linkifyTweet(dm));
+        holder.tvContent.setText(linkifyDM(dm));
     }
 
     @Override
@@ -74,22 +75,26 @@ public class DMAdapter extends RecyclerView.Adapter<DMAdapter.ViewHolder> {
         return dms.size();
     }
 
-    public SpannableString linkifyTweet(DirectMessage dm){
-        ArrayList<Entity> entitiesInDM = dm.getHashtagEntities();
+    public SpannableString linkifyDM(DirectMessage dm){
+        EntitiesHolder entitiesHolder = dm.getEntitiesHolder();
 
         String statusText = dm.getText();
 
         SpannableString ss = new SpannableString(statusText);
 
-        for (Entity entity: entitiesInDM) {
-            ss.setSpan(new MyClickableSpan(), entity.getStartIndex(), entity.getEndIndex(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        for (Hashtag hashtag: entitiesHolder.getHashtags()) {
+            ss.setSpan(new HashtagClickableSpan(), hashtag.getStartIndex(), hashtag.getEndIndex(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        }
+
+        for (UserMention mention: entitiesHolder.getUserMentions()) {
+            ss.setSpan(new UserMentionClickableSpan(), mention.getStartIndex(), mention.getStartIndex(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         }
 
 
         return ss;
     }
 
-    class MyClickableSpan extends ClickableSpan {
+    class HashtagClickableSpan extends ClickableSpan {
 
 
         public void onClick(View textView) {
@@ -97,7 +102,7 @@ public class DMAdapter extends RecyclerView.Adapter<DMAdapter.ViewHolder> {
 
 
             Log.d(TAG, "MyClickableSpan, onClick: " + newView.getText().toString());
-            fragment.getFragmentManager().beginTransaction().replace(R.id.activity_content, new HomeTimelineFragment()).addToBackStack(null).commit();
+            //fragment.getFragmentManager().beginTransaction().replace(R.id.activity_content, new HomeTimelineFragment()).addToBackStack(null).commit();
 
         }
         @Override
@@ -105,6 +110,23 @@ public class DMAdapter extends RecyclerView.Adapter<DMAdapter.ViewHolder> {
             ds.setColor(Color.GREEN);
             ds.setUnderlineText(false); // remove underline
         }
+    }
+
+    class UserMentionClickableSpan extends ClickableSpan{
+        public void onClick(View textView) {
+            TextView newView = (TextView) textView;
+            Log.d(TAG, "MyClickableSpan, onClick: " + newView.getText().toString());
+            //fragment.getFragmentManager().beginTransaction().replace(R.id.activity_content, new DirectMessageFragment()).addToBackStack(null).commit();
+
+        }
+        @Override
+        public void updateDrawState(TextPaint ds) {
+            ds.setColor(Color.RED);
+            ds.setUnderlineText(false); // remove underline
+        }
+
+
+
     }
 
 

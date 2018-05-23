@@ -93,5 +93,7 @@ public class AuthorizationActivity extends AppCompatActivity {
             Intent intent = new Intent(AuthorizationActivity.this, MainActivity.class);
             startActivity(intent);
         }
+
+
     }
 }

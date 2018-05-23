@@ -1,20 +1,21 @@
 package com.example.justin.simpletwitter.parser;
 
+import android.text.SpannableString;
+import android.text.Spanned;
 import android.util.Log;
 
+import com.example.justin.simpletwitter.adapter.StatusAdapter;
 import com.example.justin.simpletwitter.model.DirectMessage;
-import com.example.justin.simpletwitter.model.Entity;
+import com.example.justin.simpletwitter.model.EntitiesHolder;
 import com.example.justin.simpletwitter.model.Hashtag;
 import com.example.justin.simpletwitter.model.Status;
 import com.example.justin.simpletwitter.model.User;
+import com.example.justin.simpletwitter.model.UserMention;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by Justin on 5/9/2018.
@@ -44,15 +45,18 @@ public class JSONParser {
 
                 /*
                 Parse all entity JSONArrays in the entityObj and link them to a status
-                then set the entity URL location in the status creation
                  */
                 // parse hashtags in tweetObj
-                JSONObject hashtagObj = tweetObj.getJSONObject("entities");
+                JSONObject entitiesObj = tweetObj.getJSONObject("entities");
 
-                JSONArray JSONHashtags = hashtagObj.getJSONArray("hashtags");
 
-                ArrayList<Entity> hashtagsList = parseHashtags(JSONHashtags);
-                // TODO: Make parser work on
+                // ArrayList<Entity> hashtagsList = parseHashtags(JSONHashtags);
+                // TODO: Make parser work Entities instead of subtypes door de entitiesObj mee te geven en een entitiesHolder te returnen;
+
+                EntitiesHolder entitiesHolder = parseEntities(entitiesObj); // general parse method
+
+
+
 
 
 
@@ -73,7 +77,7 @@ public class JSONParser {
 
                 // Set the right user and entities to the tweet
                 status.setUser(user);
-                status.setHashtagEntities(hashtagsList);
+                status.setEntities(entitiesHolder);
 
 
                 statuses.add(status);
@@ -87,15 +91,30 @@ public class JSONParser {
     }
 
 
-    /*
-    TODO: Make parser return a lists for each entity available
-     */
-    private static ArrayList<Entity> parseHashtags(JSONArray entityObj) {
-        ArrayList<Entity> hashtags = new ArrayList<>();
-        Log.d(TAG, "parseHashtags, entityObj: " + entityObj);
+    private static EntitiesHolder parseEntities(JSONObject entitiesObject){
+        EntitiesHolder entitiesHolder = new EntitiesHolder();
+
+        try {
+            entitiesHolder.setHashtags(parseHashtags(entitiesObject.getJSONArray("hashtags")));
+            entitiesHolder.setUserMentions(parseUserMentions(entitiesObject.getJSONArray("user_mentions")));
+
+
+
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+
+        return entitiesHolder;
+    }
+
+    private static ArrayList<Hashtag> parseHashtags(JSONArray hashtagArray) {
+        ArrayList<Hashtag> hashtags = new ArrayList<>();
+        Log.d(TAG, "parseHashtags, hashtagObj: " + hashtagArray);
         try{
-            for (int i = 0; i < entityObj.length(); i++){
-                JSONObject tempObj = entityObj.getJSONObject(i);
+            for (int i = 0; i < hashtagArray.length(); i++){
+                JSONObject tempObj = hashtagArray.getJSONObject(i);
                 JSONArray indicesJSONArray = tempObj.getJSONArray("indices");
 
                 String text = tempObj.getString("text");
@@ -103,7 +122,7 @@ public class JSONParser {
                 int endIndex = indicesJSONArray.getInt(1);
 
                 Hashtag hashtag = new Hashtag(text, startIndex, endIndex);
-                Log.d(TAG, "parseHashtags, Hashtag pre add: " + hashtag);
+                Log.d(TAG, "parseHashtags, Hashtag pre add: " + hashtag + i);
                 hashtags.add(hashtag);
 
             }
@@ -115,6 +134,47 @@ public class JSONParser {
 
         return hashtags;
     }
+
+    private static ArrayList<UserMention> parseUserMentions(JSONArray mentions){
+        ArrayList<UserMention> userMentions = new ArrayList<>();
+        Log.d(TAG, "parseUserMentions, mentionsObj: " + mentions);
+        try{
+            for (int i = 0; i < mentions.length(); i++){
+                JSONObject mentionObject = mentions.getJSONObject(i);
+
+                JSONArray indicesArray = mentionObject.getJSONArray("indices");
+
+
+                String screenName = mentionObject.getString("screen_name");
+                String name = mentionObject.getString("name");
+                int id = mentionObject.getInt("id");
+                String idString = mentionObject.getString("id_str");
+
+                int startIndex = indicesArray.getInt(0);
+                int endIndex = indicesArray.getInt(1);
+
+
+                UserMention userMention = new UserMention(
+                        screenName, name,
+                        idString, id,
+                        startIndex, endIndex);
+
+                Log.d(TAG, "parseUserMentions: userMention: " + userMention);
+
+                userMentions.add(userMention);
+
+
+
+
+            }
+        }catch (JSONException e){
+            e.printStackTrace();
+        }
+
+        return userMentions;
+    }
+
+
 
     public static User parseUser(JSONObject jsonObject) {
         User userModel = null;
@@ -133,6 +193,8 @@ public class JSONParser {
         Log.d(TAG, "parseUser: " + userModel.getDescription());
         return userModel;
     }
+
+
 
     public static ArrayList<DirectMessage> parseDMs(JSONObject jsonObject) {
         ArrayList<DirectMessage> dms = new ArrayList<>();
@@ -156,11 +218,10 @@ public class JSONParser {
 
                 String text = dmContent.getJSONObject("message_data").getString("text");
 
-                JSONObject hashtagObj = dmObj.getJSONObject("entities");
+                JSONObject entitiesObj = dmObj.getJSONObject("entities");
 
-                JSONArray JSONEntities = hashtagObj.getJSONArray("hashtags");
 
-                ArrayList<Entity> hashtagsList = parseHashtags(JSONEntities);
+                EntitiesHolder entitiesHolder = parseEntities(entitiesObj);
 
 
                 DirectMessage dm = new DirectMessage(
@@ -168,7 +229,7 @@ public class JSONParser {
                         dmID, timestamp,
                         text);
                 Log.d("DEBUG", "itemCount : " + i);
-                dm.setHashtagEntities(hashtagsList);
+                dm.setEntitiesHolder(entitiesHolder);
                 dms.add(dm);
             }
         } catch (JSONException e) {
@@ -176,5 +237,6 @@ public class JSONParser {
         }
         return dms;
     }
+
 
 }

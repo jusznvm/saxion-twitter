@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "/Users/justin/Documents/Projects/School/SimpleTwitter/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-lo/values-lo.xml",
+            "outputFile": "C:\\Users\\Yunus\\AndroidStudioProjects\\saxion-twitter\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-lo\\values-lo.xml",
             "map": [
                 {
-                    "source": "/Users/justin/.gradle/caches/transforms-1/files-1.1/appcompat-v7-26.1.0.aar/be6a870ddb88bc4707b34fc4775e3b7f/res/values-lo/values-lo.xml",
+                    "source": "C:\\Users\\Yunus\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-26.1.0.aar\\45376f7e2009927517086e1012bd3ded\\res\\values-lo\\values-lo.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
