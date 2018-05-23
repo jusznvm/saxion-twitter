@@ -1,4 +1,7 @@
 package com.example.justin.simpletwitter.model;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.List;
 /**
  * Created by Justin on 5/9/2018.
  */
@@ -15,6 +18,8 @@ public class Status {
     private boolean retweeted;
 
     private User user = null;
+
+    private ArrayList<Entity> statusEntities = null;
 
     public Status(String text, String createdAt,
                   int retweetCount, int favoriteCount,
@@ -58,5 +63,15 @@ public class Status {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public ArrayList<Entity> getstatusEntities() {
+        return statusEntities;
+    }
+
+    public void setHashtagEntities(ArrayList<Entity> statusEntities) {
+        this.statusEntities = statusEntities;
+
+
     }
 }

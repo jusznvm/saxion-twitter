@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:title="Test Item"
+        android:title="Favorited"
         />
     <item
-        android:title="Test Item"
+        android:title="Retweeted"
         />
     <item
-        android:title="Test Item"
+        android:title="My profile"
         />
     <item
         android:title="Test Item"

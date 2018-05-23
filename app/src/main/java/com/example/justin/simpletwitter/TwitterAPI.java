@@ -11,15 +11,23 @@ public  class TwitterAPI {
      * STATUSES
      */
     public static final String STATUSES_HOME_TIMELINE = "https://api.twitter.com/1.1/statuses/home_timeline.json";
-    public static final String STATUSES_USER_TIMELINE = "https://api.twitter.com/1.1/statuses/user_timeline.json";
+    public static final String STATUSES_USER_TIMELINE = "https://api.twitter.com/1.1/statuses/user_timeline.json?screen_name=";
     public static final String STATUSES_USER_MENTIONS = "https://api.twitter.com/1.1/statuses/mentions_timeline.json";
 
+    /*
+     * FAVORITES
+     */
+    public static final String FAVORITES_LIST = "https://api.twitter.com/1.1/favorites/list.json?screen_name=";
 
     /*
      * DIRECT MESSAGE
      */
     public static final String DMS_EVENTS_LIST = "https://api.twitter.com/1.1/direct_messages/events/list.json";
     public static final String DMS_EVENT_SHOW = "https://api.twitter.com/1.1/direct_messages/events/show.json";
+    /*
+     * USER
+     */
+    public static final String USER_SHOW = "https://api.twitter.com/1.1/users/show.json?screen_name=";
 
 
     /**

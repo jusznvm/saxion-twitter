@@ -1,6 +1,12 @@
 package com.example.justin.simpletwitter.adapter;
 
+import android.graphics.Color;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.TextPaint;
+import android.text.style.ClickableSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,7 +16,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.justin.simpletwitter.R;
+import com.example.justin.simpletwitter.fragment.DirectMessageFragment;
+import com.example.justin.simpletwitter.fragment.HomeTimelineFragment;
 import com.example.justin.simpletwitter.model.DirectMessage;
+import com.example.justin.simpletwitter.model.Entity;
+import com.example.justin.simpletwitter.model.Hashtag;
 import com.example.justin.simpletwitter.model.Status;
 import com.example.justin.simpletwitter.model.User;
 import com.squareup.picasso.Picasso;
@@ -19,6 +29,8 @@ import java.util.ArrayList;
 
 public class DMAdapter extends RecyclerView.Adapter<DMAdapter.ViewHolder> {
 
+    private static final String TAG = "DMAdapted";
+    private Fragment fragment;
     private ArrayList<DirectMessage> dms;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -50,7 +62,7 @@ public class DMAdapter extends RecyclerView.Adapter<DMAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         DirectMessage dm = dms.get(position);
-        holder.tvContent.setText(dm.getText());
+        holder.tvContent.setText(linkifyTweet(dm));
     }
 
     @Override
@@ -60,6 +72,39 @@ public class DMAdapter extends RecyclerView.Adapter<DMAdapter.ViewHolder> {
             Log.d("DEBUG", "Item Text : " + dm.getText());
         }
         return dms.size();
+    }
+
+    public SpannableString linkifyTweet(DirectMessage dm){
+        ArrayList<Entity> entitiesInDM = dm.getHashtagEntities();
+
+        String statusText = dm.getText();
+
+        SpannableString ss = new SpannableString(statusText);
+
+        for (Entity entity: entitiesInDM) {
+            ss.setSpan(new MyClickableSpan(), entity.getStartIndex(), entity.getEndIndex(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        }
+
+
+        return ss;
+    }
+
+    class MyClickableSpan extends ClickableSpan {
+
+
+        public void onClick(View textView) {
+            TextView newView = (TextView) textView;
+
+
+            Log.d(TAG, "MyClickableSpan, onClick: " + newView.getText().toString());
+            fragment.getFragmentManager().beginTransaction().replace(R.id.activity_content, new HomeTimelineFragment()).addToBackStack(null).commit();
+
+        }
+        @Override
+        public void updateDrawState(TextPaint ds) {
+            ds.setColor(Color.GREEN);
+            ds.setUnderlineText(false); // remove underline
+        }
     }
 
 

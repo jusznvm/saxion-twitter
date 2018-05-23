@@ -18,8 +18,6 @@ public class AppInfo {
     private static OAuth1RequestToken reqToken;
     private static OAuth1AccessToken accessToken;
 
-
-
     public static AppInfo getInstance() {
         if(instance == null) {
             instance = new AppInfo();

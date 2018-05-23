@@ -1,5 +1,6 @@
 package com.example.justin.simpletwitter.activity;
 
+import android.content.SharedPreferences;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v4.view.GravityCompat;
@@ -27,14 +28,14 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.io.InputStream;
 
-public class MainActivity extends FragmentActivity
-{
-
+public class MainActivity extends FragmentActivity {
 
     private DrawerLayout mDrawerLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        SharedPreferences settings = getSharedPreferences("prefs", 0);
+        settings.edit().clear().apply();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -56,23 +57,4 @@ public class MainActivity extends FragmentActivity
         TabLayoutFragment firstFragment = new TabLayoutFragment();
         getSupportFragmentManager().beginTransaction().add(R.id.activity_content, firstFragment).commit();
       }
-
-    public JSONObject readFile() {
-
-        InputStream is = getBaseContext().getResources().openRawResource(R.raw.test);
-        JSONObject jsonObject = null;
-
-        try {
-            byte[] b = new byte[is.available()];
-            is.read(b);
-            String fileContent = new String(b);
-            jsonObject = new JSONObject(fileContent);
-            Log.d(" X", "readFile: " + jsonObject);
-        } catch (IOException | JSONException e) {
-            e.printStackTrace();
-        }
-        return jsonObject;
-    }
-
-
 }

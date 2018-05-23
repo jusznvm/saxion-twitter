@@ -49,13 +49,11 @@ public class UserTimelineFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_user_timeline, container, false);
         statuses = new ArrayList<>();
 
-
         mRecyclerView = view.findViewById(R.id.recycler_user_timeline);
         mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);
-        mAdapter = new StatusAdapter(statuses);
+        mAdapter = new StatusAdapter(statuses, this);
         mRecyclerView.setAdapter(mAdapter);
-
 
         GetTimeLineTask task = new GetTimeLineTask();
         task.execute();

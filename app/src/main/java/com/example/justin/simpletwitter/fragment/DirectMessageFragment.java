@@ -3,6 +3,7 @@ package com.example.justin.simpletwitter.fragment;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -72,6 +73,7 @@ public class DirectMessageFragment extends Fragment {
             OAuthRequest request = new OAuthRequest(Verb.GET, TwitterAPI.DMS_EVENTS_LIST);
             OAuth1AccessToken token = appInfo.getAccessToken();
             service.signRequest(token, request);
+
             try {
                 final Response response = service.execute(request);
                 return new JSONObject(response.getBody());
