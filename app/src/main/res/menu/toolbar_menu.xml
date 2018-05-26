@@ -10,6 +10,6 @@
         android:title="My profile"
         />
     <item
-        android:title="Test Item"
+        android:title="Messages"
         />
 </menu>

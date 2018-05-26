@@ -11,7 +11,6 @@ import android.view.ViewGroup;
 
 import com.example.justin.simpletwitter.R;
 import com.example.justin.simpletwitter.adapter.MyPagerAdapter;
-import com.example.justin.simpletwitter.fragment.HomeTimelineFragment;
 
 public class ProfileTabLayoutFragment extends Fragment{
 

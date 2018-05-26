@@ -1,11 +1,13 @@
-package com.example.justin.simpletwitter.fragment;
+package com.example.justin.simpletwitter.fragment.menu;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +15,8 @@ import android.view.ViewGroup;
 import com.example.justin.simpletwitter.AppInfo;
 import com.example.justin.simpletwitter.R;
 import com.example.justin.simpletwitter.TwitterAPI;
-import com.example.justin.simpletwitter.adapter.StatusAdapter;
+import com.example.justin.simpletwitter.adapter.DMAdapter;
+import com.example.justin.simpletwitter.model.DirectMessage;
 import com.example.justin.simpletwitter.model.Status;
 import com.example.justin.simpletwitter.parser.JSONParser;
 import com.github.scribejava.core.model.OAuth1AccessToken;
@@ -24,53 +27,56 @@ import com.github.scribejava.core.oauth.OAuth10aService;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
-public class UserTimelineFragment extends Fragment {
+public class DirectMessageFragment extends Fragment {
 
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     private RecyclerView mRecyclerView;
+
     private static OAuth10aService service = AppInfo.getService();
     private static AppInfo appInfo = AppInfo.getInstance();
 
-    private ArrayList<Status> statuses;
+    private ArrayList<DirectMessage> dms;
 
-    public UserTimelineFragment() {
+    public DirectMessageFragment() {
 
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_user_timeline, container, false);
-        statuses = new ArrayList<>();
+        View view = inflater.inflate(R.layout.fragment_direct_messages, container, false);
+        dms = new ArrayList<>();
 
-        mRecyclerView = view.findViewById(R.id.recycler_user_timeline);
+        mRecyclerView = view.findViewById(R.id.rv_direct_message_list);
         mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);
-        mAdapter = new StatusAdapter(statuses, this);
+        mAdapter = new DMAdapter(dms);
         mRecyclerView.setAdapter(mAdapter);
 
-        GetTimeLineTask task = new GetTimeLineTask();
+        GetDirectMessagesTask task = new GetDirectMessagesTask();
         task.execute();
         return view;
     }
 
-    public class GetTimeLineTask extends AsyncTask<Void, Void, JSONArray> {
+    public class GetDirectMessagesTask extends AsyncTask<Void, Void, JSONObject> {
 
         @Override
-        protected JSONArray doInBackground(Void... voids) {
+        protected JSONObject doInBackground(Void... voids) {
 
-            OAuthRequest request = new OAuthRequest(Verb.GET, TwitterAPI.STATUSES_USER_TIMELINE);
+            OAuthRequest request = new OAuthRequest(Verb.GET, TwitterAPI.DMS_EVENTS_LIST);
             OAuth1AccessToken token = appInfo.getAccessToken();
             service.signRequest(token, request);
+
             try {
                 final Response response = service.execute(request);
-                return new JSONArray(response.getBody());
+                return new JSONObject(response.getBody());
             } catch (InterruptedException | ExecutionException | IOException | JSONException e) {
                 e.printStackTrace();
             }
@@ -78,13 +84,14 @@ public class UserTimelineFragment extends Fragment {
         }
 
         @Override
-        protected void onPostExecute(JSONArray jsonArray) {
-            super.onPostExecute(jsonArray);
-            handleResult(jsonArray);
+        protected void onPostExecute(JSONObject jsonObject) {
+            super.onPostExecute(jsonObject);
+            handleResult(jsonObject);
         }
 
-        public void handleResult(JSONArray json) {
-            statuses.addAll(JSONParser.parseStatus(json));
+        public void handleResult(JSONObject json) {
+            dms.addAll(JSONParser.parseDMs(json));
+            Log.d("DEBUG", "handleResult: dms length = " + dms.size());
             mAdapter.notifyDataSetChanged();
         }
     }

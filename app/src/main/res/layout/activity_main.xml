@@ -28,8 +28,8 @@
         <FrameLayout
             android:id="@+id/activity_content"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
+            android:layout_height="wrap_content" >
+        </FrameLayout>
     </LinearLayout>
 
     <android.support.design.widget.NavigationView
@@ -40,7 +40,7 @@
         android:fitsSystemWindows="true"
         app:headerLayout="@layout/nav_header"
         app:menu="@menu/toolbar_menu">
-
     </android.support.design.widget.NavigationView>
+
 </android.support.v4.widget.DrawerLayout>
 

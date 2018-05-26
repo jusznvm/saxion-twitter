@@ -23,7 +23,8 @@
             <android.support.design.widget.TabItem
                 android:id="@+id/tab1_profile"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"></android.support.design.widget.TabItem>
+                android:layout_height="wrap_content"
+                android:text="Tab3"></android.support.design.widget.TabItem>
 
             <android.support.design.widget.TabItem
                 android:id="@+id/tab2_profile"

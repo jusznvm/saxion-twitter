@@ -1,9 +1,11 @@
-package com.example.justin.simpletwitter.fragment;
+package com.example.justin.simpletwitter.fragment.home;
+
 
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -29,45 +31,70 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
-public class MentionsTimeLine extends Fragment {
-
-    private RecyclerView.Adapter mAdapter;
-    private RecyclerView.LayoutManager mLayoutManager;
-    private RecyclerView mRecyclerView;
-    private static OAuth10aService service = AppInfo.getService();
-    private static AppInfo appInfo = AppInfo.getInstance();
+public class HomeTimelineFragment extends Fragment {
 
     private ArrayList<Status> statuses;
 
-    public MentionsTimeLine() {
+    private RecyclerView mRecyclerView;
+    private RecyclerView.Adapter mAdapter;
+    private RecyclerView.LayoutManager mLayoutManager;
 
+    private SwipeRefreshLayout mSwipeRefreshLayout;
+
+    private static OAuth10aService service = AppInfo.getService();
+
+    private static AppInfo appInfo = AppInfo.getInstance();
+
+
+    public HomeTimelineFragment() {
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_user_timeline, container, false);
+
+
         statuses = new ArrayList<>();
-
-
-        mRecyclerView = view.findViewById(R.id.recycler_user_timeline);
+        View view = inflater.inflate(R.layout.fragment_home_timeline, container, false);
+        mRecyclerView = view.findViewById(R.id.recycler_home_timeline);
         mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);
         mAdapter = new StatusAdapter(statuses, this);
         mRecyclerView.setAdapter(mAdapter);
 
+        mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.sl_home_timeline);
 
-        GetMentionsTask task = new GetMentionsTask();
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+
+                HomeTimeLineTask task = new HomeTimeLineTask();
+                task.execute();
+
+                mSwipeRefreshLayout.setRefreshing(false);
+            }
+        });
+        mSwipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary,
+                android.R.color.holo_green_dark,
+                android.R.color.holo_orange_dark,
+                android.R.color.holo_blue_dark);
+
+        HomeTimeLineTask task = new HomeTimeLineTask();
         task.execute();
+
         return view;
     }
 
-    public class GetMentionsTask extends AsyncTask<Void, Void, JSONArray> {
+    class HomeTimeLineTask extends AsyncTask<Void, Void, JSONArray> {
 
         @Override
-        protected JSONArray doInBackground(Void... voids) {
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
 
-            OAuthRequest request = new OAuthRequest(Verb.GET, TwitterAPI.STATUSES_USER_MENTIONS);
+        @Override
+        protected JSONArray doInBackground(Void... aVoid) {
+            OAuthRequest request = new OAuthRequest(Verb.GET, TwitterAPI.STATUSES_HOME_TIMELINE);
             OAuth1AccessToken token = appInfo.getAccessToken();
             service.signRequest(token, request);
             try {
@@ -86,8 +113,11 @@ public class MentionsTimeLine extends Fragment {
         }
 
         public void handleResult(JSONArray json) {
+            statuses.clear();
             statuses.addAll(JSONParser.parseStatus(json));
             mAdapter.notifyDataSetChanged();
         }
     }
+
+
 }

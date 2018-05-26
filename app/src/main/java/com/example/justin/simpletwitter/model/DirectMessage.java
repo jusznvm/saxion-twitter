@@ -16,7 +16,7 @@ public class DirectMessage {
 
     private String text;
 
-    private ArrayList<Entity> dmEntities = null;
+    private EntitiesHolder entitiesHolder;
 
 
     public DirectMessage(long recipientID, long senderID,
@@ -35,13 +35,11 @@ public class DirectMessage {
         return text;
     }
 
-    public ArrayList<Entity> getHashtagEntities() {
-        return dmEntities;
+    public EntitiesHolder getEntitiesHolder() {
+        return entitiesHolder;
     }
 
-    public void setHashtagEntities(ArrayList<Entity> hashtagEntities) {
-        this.dmEntities = hashtagEntities;
-
-
+    public void setEntitiesHolder(EntitiesHolder entitiesHolder) {
+        this.entitiesHolder = entitiesHolder;
     }
 }

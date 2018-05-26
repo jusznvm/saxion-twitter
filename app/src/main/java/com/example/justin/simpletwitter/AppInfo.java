@@ -8,7 +8,7 @@ import com.github.scribejava.core.oauth.OAuth10aService;
 
 public class AppInfo {
 
-    private static AppInfo instance = new AppInfo();
+    private static AppInfo instance = null;
 
     private static final String API_KEY = "swthavxIcVgN8Eghi5ZtdwVH1";
     private static final String API_SECRET = "ddQLDes9DgGa9gixh4t31h0la3rfSAOKNG1tCfbNWnXw4tLaWh";

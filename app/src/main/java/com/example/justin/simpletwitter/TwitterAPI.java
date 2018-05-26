@@ -24,10 +24,12 @@ public  class TwitterAPI {
      */
     public static final String DMS_EVENTS_LIST = "https://api.twitter.com/1.1/direct_messages/events/list.json";
     public static final String DMS_EVENT_SHOW = "https://api.twitter.com/1.1/direct_messages/events/show.json";
+
     /*
      * USER
      */
     public static final String USER_SHOW = "https://api.twitter.com/1.1/users/show.json?screen_name=";
+    public static final String ACCOUNT_CREDENTIALS = "https://api.twitter.com/1.1/account/verify_credentials.json";
 
 
     /**
@@ -35,6 +37,18 @@ public  class TwitterAPI {
      * The follow URLS all require a POST-verb
      */
     public static final String STATUSES_UPDATE = "https://api.twitter.com/1.1/statuses/update.json?status=";
+
+    /*
+     * FAVORITE
+     */
+    public static final String FAVORITE_STATUS_CREATE = "https://api.twitter.com/1.1/favorites/create.json?id=";
+    public static final String FAVORITE_STATUS_DESTROY = "https://api.twitter.com/1.1/favorites/destroy.json?id=";
+
+    /*
+     * RETWEET
+     */
+    public static final String RETWEET_STATUS = "https://api.twitter.com/1.1/statuses/retweet/"; // Needs ID and '.json'
+    public static final String UNRETWEET_STATUS = "https://api.twitter.com/1.1/statuses/unretweet/"; // Needs ID and '.json'
 
 
 }

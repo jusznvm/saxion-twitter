@@ -1,11 +1,9 @@
-package com.example.justin.simpletwitter.fragment;
-
+package com.example.justin.simpletwitter.fragment.home;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -31,72 +29,47 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
-public class HomeTimelineFragment extends Fragment {
+public class MyMentionsTimeLine extends Fragment {
+
+    private RecyclerView.Adapter mAdapter;
+    private RecyclerView.LayoutManager mLayoutManager;
+    private RecyclerView mRecyclerView;
+    private static OAuth10aService service = AppInfo.getService();
+    private static AppInfo appInfo = AppInfo.getInstance();
 
     private ArrayList<Status> statuses;
 
-    private RecyclerView mRecyclerView;
-    private RecyclerView.Adapter mAdapter;
-    private RecyclerView.LayoutManager mLayoutManager;
+    public MyMentionsTimeLine() {
 
-    private SwipeRefreshLayout mSwipeRefreshLayout;
-
-    private static OAuth10aService service = AppInfo.getService();
-
-    private static AppInfo appInfo = AppInfo.getInstance();
-
-
-    public HomeTimelineFragment() {
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
-
+        View view = inflater.inflate(R.layout.fragment_user_timeline, container, false);
         statuses = new ArrayList<>();
-        View view = inflater.inflate(R.layout.fragment_home_timeline, container, false);
-        mRecyclerView = view.findViewById(R.id.recycler_home_timeline);
+
+        mRecyclerView = view.findViewById(R.id.recycler_user_timeline);
         mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);
         mAdapter = new StatusAdapter(statuses, this);
         mRecyclerView.setAdapter(mAdapter);
 
-        mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.sl_home_timeline);
-
-        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-
-                HomeTimeLineTask task = new HomeTimeLineTask();
-                task.execute();
-
-                mSwipeRefreshLayout.setRefreshing(false);
-            }
-        });
-        mSwipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary,
-                android.R.color.holo_green_dark,
-                android.R.color.holo_orange_dark,
-                android.R.color.holo_blue_dark);
-
-        HomeTimeLineTask task = new HomeTimeLineTask();
+        GetMentionsTask task = new GetMentionsTask();
         task.execute();
 
         return view;
     }
 
-    class HomeTimeLineTask extends AsyncTask<Void, Void, JSONArray> {
+    public class GetMentionsTask extends AsyncTask<Void, Void, JSONArray> {
 
         @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
+        protected JSONArray doInBackground(Void... voids) {
 
-        @Override
-        protected JSONArray doInBackground(Void... aVoid) {
-            OAuthRequest request = new OAuthRequest(Verb.GET, TwitterAPI.STATUSES_HOME_TIMELINE);
+            OAuthRequest request = new OAuthRequest(Verb.GET, TwitterAPI.STATUSES_USER_MENTIONS);
             OAuth1AccessToken token = appInfo.getAccessToken();
             service.signRequest(token, request);
+
             try {
                 final Response response = service.execute(request);
                 return new JSONArray(response.getBody());
@@ -113,11 +86,8 @@ public class HomeTimelineFragment extends Fragment {
         }
 
         public void handleResult(JSONArray json) {
-            statuses.clear();
             statuses.addAll(JSONParser.parseStatus(json));
             mAdapter.notifyDataSetChanged();
         }
     }
-
-
 }

@@ -8,6 +8,8 @@ import java.util.List;
 
 public class Status {
 
+    private int tweetID;
+
     private String text;
     private String createdAt;
 
@@ -19,18 +21,23 @@ public class Status {
 
     private User user = null;
 
-    private ArrayList<Entity> statusEntities = null;
+    private EntitiesHolder entities = null;
 
-    public Status(String text, String createdAt,
+    public Status(int tweetID, String text, String createdAt,
                   int retweetCount, int favoriteCount,
                   boolean favorited, boolean retweeted) {
 
+        this.tweetID = tweetID;
         this.text = text;
         this.createdAt = createdAt;
         this.retweetCount = retweetCount;
         this.favoriteCount = favoriteCount;
         this.favorited = favorited;
         this.retweeted = retweeted;
+    }
+
+    public int getTweetID() {
+        return tweetID;
     }
 
     public String getText() {
@@ -65,13 +72,19 @@ public class Status {
         this.user = user;
     }
 
-    public ArrayList<Entity> getstatusEntities() {
-        return statusEntities;
+    public EntitiesHolder getEntities() {
+        return entities;
     }
 
-    public void setHashtagEntities(ArrayList<Entity> statusEntities) {
-        this.statusEntities = statusEntities;
+    public void setEntities(EntitiesHolder entities) {
+        this.entities = entities;
+    }
 
+    public void setFavorited(boolean favorited) {
+        this.favorited = favorited;
+    }
 
+    public void setRetweeted(boolean retweeted) {
+        this.retweeted = retweeted;
     }
 }

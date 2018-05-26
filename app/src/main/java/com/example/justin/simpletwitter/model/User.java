@@ -14,6 +14,8 @@ public class User {
     private String description;
 
     private int statusCount;
+    private int followingCount;
+    private int followersCount;
 
     private boolean hidden;
 
@@ -30,13 +32,16 @@ public class User {
     }
 
     public User(String username, String name, String imgUrl,
-                String location, String description, int statusCount) {
+                String location, String description, int statusCount,
+                int followersCount, int followingCount) {
         this.userName = username;
         this.name = name;
         this.imgUrl = imgUrl;
         this.location = location;
         this.description = description;
         this.statusCount = statusCount;
+        this.followersCount = followersCount;
+        this.followingCount = followingCount;
     }
 
     public String getName() {
@@ -61,5 +66,13 @@ public class User {
 
     public int getStatusCount() {
         return statusCount;
+    }
+
+    public int getFollowersCount() {
+        return followersCount;
+    }
+
+    public int getFollowingCount() {
+        return followingCount;
     }
 }

@@ -45,12 +45,17 @@ public class AuthorizationActivity extends AppCompatActivity {
                     AuthTask authTask = new AuthTask();
                     authTask.execute();
                 }
+
                 return false;
             }
         });
 
     }
 
+    /**
+     * getAuthorizationUrl netwerkverkeer?
+     * loadUrl netwerkverkeer?
+     */
     public class GetTokenTask extends AsyncTask<Void, Void, Void> {
 
         @Override
@@ -78,9 +83,9 @@ public class AuthorizationActivity extends AppCompatActivity {
         @Override
         protected Void doInBackground(Void... aVoid) {
             try {
-                    OAuth1RequestToken reqToken = appInfo.getToken();
+                OAuth1RequestToken reqToken = appInfo.getToken();
                 OAuth1AccessToken accessToken = appInfo.getService().getAccessToken(reqToken, verifier);
-                    appInfo.setAccessToken(accessToken);
+                appInfo.setAccessToken(accessToken);
             } catch (IOException | InterruptedException | ExecutionException e) {
                 e.printStackTrace();
             }
