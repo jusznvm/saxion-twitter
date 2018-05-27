@@ -10,7 +10,7 @@ public class EntitiesHolder {
 
     private ArrayList<Hashtag> hashtags = new ArrayList<>();
     private ArrayList<UserMention> userMentions = new ArrayList<>();
-
+    private ArrayList<URL> urls = new ArrayList<>();
 
     public EntitiesHolder(){
 
@@ -30,5 +30,13 @@ public class EntitiesHolder {
 
     public void setHashtags(ArrayList<Hashtag> hashtags) {
         this.hashtags = hashtags;
+    }
+
+    public ArrayList<URL> getUrls() {
+        return urls;
+    }
+
+    public void setUrls(ArrayList<URL> urls) {
+        this.urls = urls;
     }
 }

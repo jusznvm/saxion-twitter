@@ -1,19 +1,27 @@
 #Internal package file, do not edit.
-#Thu May 24 04:57:23 CEST 2018
-1.base=/Users/justin/Documents/Projects/School/SimpleTwitter/app/build/intermediates/transforms/dexMerger/debug/12
-2.path=classes.dex
-0.baseType=DIRECTORY
-3.baseType=DIRECTORY
-2.base=/Users/justin/Documents/Projects/School/SimpleTwitter/app/build/intermediates/transforms/dexMerger/debug/13
-3.set=DEX
-2.set=DEX
-1.baseType=DIRECTORY
-3.path=classes.dex
-count=4
-1.set=DEX
+#Sun May 27 21:37:10 CEST 2018
+2.base=C\:\\Users\\yunus\\AndroidStudioProjects\\saxion-twitter\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\11
+5.set=DEX
 0.path=classes.dex
-3.base=/Users/justin/Documents/Projects/School/SimpleTwitter/app/build/intermediates/transforms/dexMerger/debug/11
-0.set=DEX
-0.base=/Users/justin/Documents/Projects/School/SimpleTwitter/app/build/intermediates/transforms/dexMerger/debug/14
 2.baseType=DIRECTORY
+3.base=C\:\\Users\\yunus\\AndroidStudioProjects\\saxion-twitter\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\16
+2.set=DEX
 1.path=classes.dex
+4.base=C\:\\Users\\yunus\\AndroidStudioProjects\\saxion-twitter\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\13
+count=6
+5.baseType=DIRECTORY
+2.path=classes.dex
+5.base=C\:\\Users\\yunus\\AndroidStudioProjects\\saxion-twitter\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\15
+4.set=DEX
+3.path=classes.dex
+3.baseType=DIRECTORY
+1.set=DEX
+4.path=classes.dex
+1.baseType=DIRECTORY
+5.path=classes.dex
+0.base=C\:\\Users\\yunus\\AndroidStudioProjects\\saxion-twitter\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\12
+0.baseType=DIRECTORY
+3.set=DEX
+1.base=C\:\\Users\\yunus\\AndroidStudioProjects\\saxion-twitter\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\14
+4.baseType=DIRECTORY
+0.set=DEX

@@ -9,12 +9,15 @@ import com.example.justin.simpletwitter.model.DirectMessage;
 import com.example.justin.simpletwitter.model.EntitiesHolder;
 import com.example.justin.simpletwitter.model.Hashtag;
 import com.example.justin.simpletwitter.model.Status;
+import com.example.justin.simpletwitter.model.URL;
 import com.example.justin.simpletwitter.model.User;
 import com.example.justin.simpletwitter.model.UserMention;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 /**
@@ -92,6 +95,7 @@ public class JSONParser {
         try {
             entitiesHolder.setHashtags(parseHashtags(entitiesObject.getJSONArray("hashtags")));
             entitiesHolder.setUserMentions(parseUserMentions(entitiesObject.getJSONArray("user_mentions")));
+            entitiesHolder.setUrls(parseURLs(entitiesObject.getJSONArray("urls")));
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -121,6 +125,41 @@ public class JSONParser {
         }
 
         return hashtags;
+    }
+
+    private static ArrayList<URL> parseURLs(JSONArray URLs){
+        Log.d(TAG, "parseURLs: URLs: " + URLs);
+        ArrayList<URL> urls = new ArrayList<>();
+        Log.d(TAG, "parseURLs, URLObj: " + URLs);
+        try{
+            for (int i = 0; i < URLs.length(); i++){
+                JSONObject URLObject = URLs.getJSONObject(i);
+
+                JSONArray indicesArray = URLObject.getJSONArray("indices");
+
+                String link = URLObject.getString("url");
+                String displayUrl = URLObject.getString("display_url");
+                String expandedUrl = URLObject.getString("expanded_url");
+
+                int startIndex = indicesArray.getInt(0);
+                int endIndex = indicesArray.getInt(1);
+
+                URL url = new URL(startIndex, endIndex,
+                        link, displayUrl,
+                        expandedUrl);
+
+                Log.d(TAG, "parseURLs: URL: " + url);
+
+                urls.add(url);
+
+
+
+            }
+        }catch (JSONException e){
+            e.printStackTrace();
+        }
+
+        return urls;
     }
 
     private static ArrayList<UserMention> parseUserMentions(JSONArray mentions){

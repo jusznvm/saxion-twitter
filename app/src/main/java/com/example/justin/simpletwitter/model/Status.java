@@ -1,7 +1,5 @@
 package com.example.justin.simpletwitter.model;
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.List;
+
 /**
  * Created by Justin on 5/9/2018.
  */
@@ -54,6 +52,14 @@ public class Status {
 
     public int getFavoriteCount() {
         return favoriteCount;
+    }
+
+    public void setRetweetCount(int retweetCount){
+        this.retweetCount = retweetCount;
+    }
+
+    public void setFavoriteCount(int favoriteCount){
+        this.favoriteCount = favoriteCount;
     }
 
     public User getUser() {
