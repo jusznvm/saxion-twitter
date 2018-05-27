@@ -75,4 +75,12 @@ public class User {
     public int getFollowingCount() {
         return followingCount;
     }
+
+    public void setBackground_url(String background_url) {
+        this.background_url = background_url;
+    }
+
+    public String getBackground_url() {
+        return background_url;
+    }
 }

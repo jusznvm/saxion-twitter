@@ -1,9 +1,7 @@
 package com.example.justin.simpletwitter.activity;
 
-import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
-import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
@@ -18,10 +16,10 @@ import android.widget.TextView;
 
 import com.example.justin.simpletwitter.AppInfo;
 import com.example.justin.simpletwitter.TwitterAPI;
-import com.example.justin.simpletwitter.fragment.home.MyTimelineFragment;
 import com.example.justin.simpletwitter.fragment.home.TabLayoutFragment;
 import com.example.justin.simpletwitter.R;
 import com.example.justin.simpletwitter.fragment.menu.DirectMessageFragment;
+import com.example.justin.simpletwitter.fragment.profile.UserProfileFragment;
 import com.example.justin.simpletwitter.model.User;
 import com.example.justin.simpletwitter.parser.JSONParser;
 import com.github.scribejava.core.model.OAuth1AccessToken;
@@ -42,6 +40,8 @@ public class MainActivity extends FragmentActivity {
     private DrawerLayout mDrawerLayout;
 
     public static final String TAG = "MainActivity";
+
+    private String name;
 
     private static OAuth10aService service = AppInfo.getService();
     private static AppInfo appInfo = AppInfo.getInstance();
@@ -78,10 +78,20 @@ public class MainActivity extends FragmentActivity {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch(item.getItemId()) {
+
                     case R.id.menu_dms: {
                         Log.d(TAG, "onNavigationItemSelected: clicked");
                         DirectMessageFragment dmFragment = new DirectMessageFragment();
-                        getSupportFragmentManager().beginTransaction().add(R.id.activity_content, dmFragment).addToBackStack(null).commit();
+                        getSupportFragmentManager().beginTransaction().replace(R.id.activity_content, dmFragment).addToBackStack(null).commit();
+                        mDrawerLayout.closeDrawer(GravityCompat.START);
+                        break;
+                    }
+                    case R.id.menu_profile: {
+                        UserProfileFragment userProfileFragment = new UserProfileFragment();
+                        Bundle bundle = new Bundle();
+                        bundle.putString("name", user.getUserName());
+                        userProfileFragment.setArguments(bundle);
+                        getSupportFragmentManager().beginTransaction().replace(R.id.activity_content, userProfileFragment).addToBackStack(null).commit();
                         mDrawerLayout.closeDrawer(GravityCompat.START);
                         break;
                     }
@@ -128,6 +138,7 @@ public class MainActivity extends FragmentActivity {
               user = JSONParser.parseUser(jsonObject);
 
               String userName = "@" + user.getUserName();
+              name = userName;
               String following = user.getFollowingCount() + " following";
               String followers = user.getFollowersCount() + " followers";
 

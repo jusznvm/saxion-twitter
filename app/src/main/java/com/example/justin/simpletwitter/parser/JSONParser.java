@@ -215,6 +215,8 @@ public class JSONParser {
                             location, description, statusCount,
                             followersCount, followingCount);
 
+            userModel.setBackground_url(jsonObject.getString("profile_background_image_url_https"));
+
         } catch (JSONException e) {
             e.printStackTrace();
         }

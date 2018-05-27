@@ -35,7 +35,7 @@ public class ProfileFragment extends Fragment {
 
     private User user = null;
 
-    private ImageView ivAvatar;
+    private ImageView ivAvatar, ivBackground;
     private TextView tvDesc;
 
     private static OAuth10aService service = AppInfo.getService();
@@ -49,6 +49,7 @@ public class ProfileFragment extends Fragment {
 
         ivAvatar = view.findViewById(R.id.profile_image);
         tvDesc = view.findViewById(R.id.tv_user_profile_description);
+        ivBackground = view.findViewById(R.id.iv_profile_background);
 
         GetProfileDetails task = new GetProfileDetails();
         task.execute();
@@ -81,9 +82,11 @@ public class ProfileFragment extends Fragment {
 
         public void handleResult(User user) {
             String imgUrl = user.getImgUrl();
+            String backgroundUrl = user.getBackground_url();
 
             tvDesc.setText(user.getDescription());
             Picasso.get().load(imgUrl).into(ivAvatar);
+            Picasso.get().load(backgroundUrl).into(ivBackground);
         }
     }
 }

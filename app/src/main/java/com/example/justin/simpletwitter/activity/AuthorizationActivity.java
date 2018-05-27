@@ -45,11 +45,9 @@ public class AuthorizationActivity extends AppCompatActivity {
                     AuthTask authTask = new AuthTask();
                     authTask.execute();
                 }
-
                 return false;
             }
         });
-
     }
 
     /**
@@ -72,8 +70,7 @@ public class AuthorizationActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
-            String ting = appInfo.getService().getAuthorizationUrl(appInfo.getToken());
-            webView.loadUrl(ting);
+            webView.loadUrl(appInfo.getService().getAuthorizationUrl(appInfo.getToken()));
         }
 
     }
