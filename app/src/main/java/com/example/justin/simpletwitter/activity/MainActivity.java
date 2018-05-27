@@ -2,6 +2,7 @@ package com.example.justin.simpletwitter.activity;
 
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
+import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentActivity;
@@ -9,6 +10,7 @@ import android.os.Bundle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -18,6 +20,7 @@ import com.example.justin.simpletwitter.AppInfo;
 import com.example.justin.simpletwitter.TwitterAPI;
 import com.example.justin.simpletwitter.fragment.home.TabLayoutFragment;
 import com.example.justin.simpletwitter.R;
+import com.example.justin.simpletwitter.fragment.menu.DirectMessageFragment;
 import com.example.justin.simpletwitter.model.User;
 import com.example.justin.simpletwitter.parser.JSONParser;
 import com.github.scribejava.core.model.OAuth1AccessToken;
@@ -69,6 +72,22 @@ public class MainActivity extends FragmentActivity {
 
         NavigationView navigationView = findViewById(R.id.nav_view);
         View hView =  navigationView.getHeaderView(0);
+
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch(item.getItemId()) {
+                    case R.id.menu_dms: {
+                        Log.d(TAG, "onNavigationItemSelected: clicked");
+                        DirectMessageFragment dmFragment = new DirectMessageFragment();
+                        getSupportFragmentManager().beginTransaction().add(R.id.activity_content, dmFragment).addToBackStack(null).commit();
+                        mDrawerLayout.closeDrawer(GravityCompat.START);
+                        break;
+                    }
+                }
+                return false;
+            }
+        });
 
         tvName = hView.findViewById(R.id.tv_my_profile_name);
         tvScreenName = hView.findViewById(R.id.tv_my_profile_screen_name);

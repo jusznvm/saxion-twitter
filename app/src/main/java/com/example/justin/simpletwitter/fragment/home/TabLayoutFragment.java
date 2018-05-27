@@ -78,7 +78,7 @@ public class TabLayoutFragment extends Fragment {
         adapter = new MyPagerAdapter(getActivity().getSupportFragmentManager());
         adapter.addFrag(new HomeTimelineFragment(), "HOME");
         adapter.addFrag(new MyMentionsTimeLine(), "@");
-        adapter.addFrag(new MyTimelineFragment(), "USER");
+        adapter.addFrag(new SearchFragment(), "SEARCH");
         viewPager.setAdapter(adapter);
     }
 

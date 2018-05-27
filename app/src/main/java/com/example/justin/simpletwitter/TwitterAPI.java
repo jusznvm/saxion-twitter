@@ -13,6 +13,7 @@ public  class TwitterAPI {
     public static final String STATUSES_HOME_TIMELINE = "https://api.twitter.com/1.1/statuses/home_timeline.json";
     public static final String STATUSES_USER_TIMELINE = "https://api.twitter.com/1.1/statuses/user_timeline.json?screen_name=";
     public static final String STATUSES_USER_MENTIONS = "https://api.twitter.com/1.1/statuses/mentions_timeline.json";
+    public static final String STATUSES_SEARCH = "https://api.twitter.com/1.1/search/tweets.json?q="; // requires query
 
     /*
      * FAVORITES

@@ -2032,12 +2032,12 @@
         "source": "/Users/justin/.gradle/caches/transforms-1/files-1.1/appcompat-v7-26.1.0.aar/be6a870ddb88bc4707b34fc4775e3b7f/res/drawable-xxhdpi-v4/abc_scrubber_control_off_mtrl_alpha.png"
     },
     {
-        "merged": "/Users/justin/Documents/Projects/School/SimpleTwitter/app/build/intermediates/res/merged/debug/drawable_hourglass_1.xml.flat",
-        "source": "/Users/justin/Documents/Projects/School/SimpleTwitter/app/src/main/res/drawable/hourglass_1.xml"
-    },
-    {
         "merged": "/Users/justin/Documents/Projects/School/SimpleTwitter/app/build/intermediates/res/merged/debug/drawable-xhdpi-v4_abc_textfield_default_mtrl_alpha.9.png.flat",
         "source": "/Users/justin/.gradle/caches/transforms-1/files-1.1/appcompat-v7-26.1.0.aar/be6a870ddb88bc4707b34fc4775e3b7f/res/drawable-xhdpi-v4/abc_textfield_default_mtrl_alpha.9.png"
+    },
+    {
+        "merged": "/Users/justin/Documents/Projects/School/SimpleTwitter/app/build/intermediates/res/merged/debug/drawable_hourglass_1.xml.flat",
+        "source": "/Users/justin/Documents/Projects/School/SimpleTwitter/app/src/main/res/drawable/hourglass_1.xml"
     },
     {
         "merged": "/Users/justin/Documents/Projects/School/SimpleTwitter/app/build/intermediates/res/merged/debug/drawable_search_1.xml.flat",
@@ -3154,6 +3154,10 @@
     {
         "merged": "/Users/justin/Documents/Projects/School/SimpleTwitter/app/build/intermediates/res/merged/debug/drawable_lock_1.xml.flat",
         "source": "/Users/justin/Documents/Projects/School/SimpleTwitter/app/src/main/res/drawable/lock_1.xml"
+    },
+    {
+        "merged": "/Users/justin/Documents/Projects/School/SimpleTwitter/app/build/intermediates/res/merged/debug/layout_fragment_search.xml.flat",
+        "source": "/Users/justin/Documents/Projects/School/SimpleTwitter/app/src/main/res/layout/fragment_search.xml"
     },
     {
         "merged": "/Users/justin/Documents/Projects/School/SimpleTwitter/app/build/intermediates/res/merged/debug/drawable_music_player.xml.flat",

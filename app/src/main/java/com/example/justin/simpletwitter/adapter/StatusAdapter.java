@@ -125,7 +125,7 @@ public class StatusAdapter extends RecyclerView.Adapter<StatusAdapter.ViewHolder
             @Override
             public void onClick(View view) {
                 FavoriteTask task = new FavoriteTask();
-                task.execute(status);
+                task.execute(holder.getAdapterPosition());
             }
         });
 
@@ -142,7 +142,7 @@ public class StatusAdapter extends RecyclerView.Adapter<StatusAdapter.ViewHolder
             @Override
             public void onClick(View view) {
                 RetweetTask task = new RetweetTask();
-                task.execute(position);
+                task.execute(holder.getAdapterPosition());
             }
         });
 
@@ -183,26 +183,22 @@ public class StatusAdapter extends RecyclerView.Adapter<StatusAdapter.ViewHolder
     AsyncTasks
     */
 
-   class FavoriteTask extends AsyncTask<Status, Void, Void> {
+   class FavoriteTask extends AsyncTask<Integer, Void, Void> {
 
        @Override
-       protected Void doInBackground(com.example.justin.simpletwitter.model.Status... s) {
+       protected Void doInBackground(Integer... s) {
            // Clashes with AsyncTask Status ......
-           com.example.justin.simpletwitter.model.Status status = s[0];
+           com.example.justin.simpletwitter.model.Status status = statuses.get(s[0]);
            // ^ Fk u.
 
            int tweetID = status.getTweetID();
            String url = "";
            Log.d(TAG, "doInBackground: favorited = " + status.isFavorited());
            if(status.isFavorited()) {
-               Log.d(TAG, "doInBackground: in IF");
                url += TwitterAPI.FAVORITE_STATUS_DESTROY + tweetID;
-               Log.d(TAG, "doInBackground: url = " + url);
                status.setFavorited(false);
            } else {
-               Log.d(TAG, "doInBackground: in ELSE");
                url += TwitterAPI.FAVORITE_STATUS_CREATE + tweetID;
-               Log.d(TAG, "doInBackground: status = " + url);
                status.setFavorited(true);
            }
            Log.d(TAG, "doInBackground: url = " + url);
@@ -236,10 +232,8 @@ public class StatusAdapter extends RecyclerView.Adapter<StatusAdapter.ViewHolder
 
             if(status.isRetweeted()) {
                 url = TwitterAPI.UNRETWEET_STATUS + tweetID + ".json";
-                Log.d(TAG, "doInBackground: status = " + status.isRetweeted());
             } else {
                 url = TwitterAPI.RETWEET_STATUS + tweetID + ".json";
-                Log.d(TAG, "doInBackground: status = " + status.isRetweeted());
             }
             try {
                 OAuthRequest request = new OAuthRequest(Verb.POST, url);

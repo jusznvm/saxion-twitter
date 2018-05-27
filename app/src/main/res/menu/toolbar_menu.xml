@@ -1,15 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
+        android:id="@+id/menu_favorited"
         android:title="Favorited"
         />
     <item
+        android:id="@+id/menu_retweeted"
         android:title="Retweeted"
         />
     <item
+        android:id="@+id/menu_profile"
         android:title="My profile"
         />
     <item
+        android:id="@+id/menu_dms"
         android:title="Messages"
         />
 </menu>

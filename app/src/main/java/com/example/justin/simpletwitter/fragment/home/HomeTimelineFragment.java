@@ -18,6 +18,7 @@ import com.example.justin.simpletwitter.TwitterAPI;
 import com.example.justin.simpletwitter.adapter.StatusAdapter;
 import com.example.justin.simpletwitter.model.Status;
 import com.example.justin.simpletwitter.parser.JSONParser;
+
 import com.github.scribejava.core.model.OAuth1AccessToken;
 import com.github.scribejava.core.model.OAuthRequest;
 import com.github.scribejava.core.model.Response;
