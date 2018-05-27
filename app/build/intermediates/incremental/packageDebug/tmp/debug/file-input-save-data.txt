@@ -1,10 +1,10 @@
 #Internal package file, do not edit.
-#Sun May 27 23:12:05 CEST 2018
-1.base=/Users/justin/Documents/Projects/School/SimpleTwitter/app/build/intermediates/transforms/dexMerger/debug/12
+#Sun May 27 23:50:21 CEST 2018
+1.base=/Users/justin/Documents/Projects/School/SimpleTwitter/app/build/intermediates/transforms/dexMerger/debug/20
 2.path=classes.dex
 0.baseType=DIRECTORY
 3.baseType=DIRECTORY
-2.base=/Users/justin/Documents/Projects/School/SimpleTwitter/app/build/intermediates/transforms/dexMerger/debug/13
+2.base=/Users/justin/Documents/Projects/School/SimpleTwitter/app/build/intermediates/transforms/dexMerger/debug/18
 3.set=DEX
 2.set=DEX
 1.baseType=DIRECTORY
@@ -12,8 +12,8 @@
 count=4
 1.set=DEX
 0.path=classes.dex
-3.base=/Users/justin/Documents/Projects/School/SimpleTwitter/app/build/intermediates/transforms/dexMerger/debug/11
+3.base=/Users/justin/Documents/Projects/School/SimpleTwitter/app/build/intermediates/transforms/dexMerger/debug/19
 0.set=DEX
-0.base=/Users/justin/Documents/Projects/School/SimpleTwitter/app/build/intermediates/transforms/dexMerger/debug/14
+0.base=/Users/justin/Documents/Projects/School/SimpleTwitter/app/build/intermediates/transforms/dexMerger/debug/21
 2.baseType=DIRECTORY
 1.path=classes.dex

@@ -18,6 +18,7 @@ import android.widget.TextView;
 
 import com.example.justin.simpletwitter.AppInfo;
 import com.example.justin.simpletwitter.TwitterAPI;
+import com.example.justin.simpletwitter.fragment.home.MyTimelineFragment;
 import com.example.justin.simpletwitter.fragment.home.TabLayoutFragment;
 import com.example.justin.simpletwitter.R;
 import com.example.justin.simpletwitter.fragment.menu.DirectMessageFragment;
