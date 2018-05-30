@@ -13,11 +13,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 
-import com.example.justin.simpletwitter.AppInfo;
+import com.example.justin.simpletwitter.utils.AppInfo;
 import com.example.justin.simpletwitter.R;
 import com.example.justin.simpletwitter.adapter.StatusAdapter;
 import com.example.justin.simpletwitter.model.Status;
-import com.example.justin.simpletwitter.parser.JSONParser;
+import com.example.justin.simpletwitter.utils.JSONParser;
 import com.github.scribejava.core.model.OAuth1AccessToken;
 import com.github.scribejava.core.model.OAuthRequest;
 import com.github.scribejava.core.model.Response;

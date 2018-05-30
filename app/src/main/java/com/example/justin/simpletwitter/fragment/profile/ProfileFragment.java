@@ -1,24 +1,23 @@
 package com.example.justin.simpletwitter.fragment.profile;
 
 
-import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.justin.simpletwitter.AppInfo;
+import com.example.justin.simpletwitter.utils.AppInfo;
 import com.example.justin.simpletwitter.R;
-import com.example.justin.simpletwitter.TwitterAPI;
+import com.example.justin.simpletwitter.utils.TwitterAPI;
 import com.example.justin.simpletwitter.model.User;
-import com.example.justin.simpletwitter.parser.JSONParser;
+import com.example.justin.simpletwitter.utils.JSONParser;
 import com.github.scribejava.core.model.OAuth1AccessToken;
-import com.github.scribejava.core.model.OAuth1Token;
 import com.github.scribejava.core.model.OAuthRequest;
 import com.github.scribejava.core.model.Response;
 import com.github.scribejava.core.model.Verb;
@@ -33,9 +32,11 @@ import java.util.concurrent.ExecutionException;
 
 public class ProfileFragment extends Fragment {
 
+    public static final String TAG = "ProfileFragment";
+
     private User user = null;
 
-    private ImageView ivAvatar, ivBackground;
+    private ImageView ivAvatar, ivBanner;
     private TextView tvDesc;
 
     private static OAuth10aService service = AppInfo.getService();
@@ -49,10 +50,11 @@ public class ProfileFragment extends Fragment {
 
         ivAvatar = view.findViewById(R.id.profile_image);
         tvDesc = view.findViewById(R.id.tv_user_profile_description);
-        ivBackground = view.findViewById(R.id.iv_profile_background);
+        ivBanner = view.findViewById(R.id.iv_profile_banner);
 
         GetProfileDetails task = new GetProfileDetails();
         task.execute();
+
         return view;
     }
 
@@ -66,6 +68,7 @@ public class ProfileFragment extends Fragment {
             service.signRequest(token, request);
             try {
                 Response response = service.execute(request);
+                Log.d(TAG, "doInBackground: " + response.getBody());
                 return new JSONObject(response.getBody());
             } catch (InterruptedException | IOException | ExecutionException | JSONException e) {
                 e.printStackTrace();
@@ -82,11 +85,11 @@ public class ProfileFragment extends Fragment {
 
         public void handleResult(User user) {
             String imgUrl = user.getImgUrl();
-            String backgroundUrl = user.getBackground_url();
+            String bannerUrl = user.getBannerUrl();
 
             tvDesc.setText(user.getDescription());
             Picasso.get().load(imgUrl).into(ivAvatar);
-            Picasso.get().load(backgroundUrl).into(ivBackground);
+            Picasso.get().load(bannerUrl).into(ivBanner);
         }
     }
 }

@@ -14,14 +14,14 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.justin.simpletwitter.AppInfo;
-import com.example.justin.simpletwitter.TwitterAPI;
+import com.example.justin.simpletwitter.utils.AppInfo;
+import com.example.justin.simpletwitter.utils.TwitterAPI;
 import com.example.justin.simpletwitter.fragment.home.TabLayoutFragment;
 import com.example.justin.simpletwitter.R;
 import com.example.justin.simpletwitter.fragment.menu.DirectMessageFragment;
 import com.example.justin.simpletwitter.fragment.profile.UserProfileFragment;
 import com.example.justin.simpletwitter.model.User;
-import com.example.justin.simpletwitter.parser.JSONParser;
+import com.example.justin.simpletwitter.utils.JSONParser;
 import com.github.scribejava.core.model.OAuth1AccessToken;
 import com.github.scribejava.core.model.OAuthRequest;
 import com.github.scribejava.core.model.Response;

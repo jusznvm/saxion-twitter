@@ -10,9 +10,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.justin.simpletwitter.AppInfo;
+import com.example.justin.simpletwitter.utils.AppInfo;
 import com.example.justin.simpletwitter.R;
-import com.example.justin.simpletwitter.TwitterAPI;
+import com.example.justin.simpletwitter.utils.TwitterAPI;
 import com.example.justin.simpletwitter.adapter.MyPagerAdapter;
 import com.github.scribejava.core.model.OAuthRequest;
 import com.github.scribejava.core.model.Verb;

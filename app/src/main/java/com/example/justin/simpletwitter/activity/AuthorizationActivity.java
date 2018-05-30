@@ -1,15 +1,15 @@
 package com.example.justin.simpletwitter.activity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
-import com.example.justin.simpletwitter.AppInfo;
+import com.example.justin.simpletwitter.utils.AppInfo;
 import com.example.justin.simpletwitter.R;
 import com.github.scribejava.core.model.OAuth1AccessToken;
 import com.github.scribejava.core.model.OAuth1RequestToken;
@@ -24,43 +24,51 @@ public class AuthorizationActivity extends AppCompatActivity {
 
     private String verifier;
 
+    private SharedPreferences sharedPreferences;
+    private SharedPreferences.Editor editor;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_authorization);
+        sharedPreferences = getApplicationContext().getSharedPreferences("pref", 0);
+        //if(sharedPreferences.getString("access_token", null) == null) {
 
-        webView = findViewById(R.id.webView);
+            webView = findViewById(R.id.webView);
 
+            GetTokenTask task = new GetTokenTask();
+            task.execute();
 
-        GetTokenTask task = new GetTokenTask();
-        task.execute();
+            webView.setWebViewClient(new WebViewClient() {
+                @Override
+                public boolean shouldOverrideUrlLoading(WebView view, String url) {
 
-        webView.setWebViewClient(new WebViewClient() {
-            @Override
-            public boolean shouldOverrideUrlLoading(WebView view, String url) {
-
-                if(url.startsWith("https://www.google.com")) {
-                    Uri uri = Uri.parse(url);
-                    verifier = uri.toString().substring(79, uri.toString().length());
-                    AuthTask authTask = new AuthTask();
-                    authTask.execute();
+                    if (url.startsWith("https://www.google.com")) {
+                        Uri uri = Uri.parse(url);
+                        verifier = uri.toString().substring(79, uri.toString().length());
+                        AuthTask authTask = new AuthTask();
+                        authTask.execute();
+                        return true;
+                    }
+                    return false;
                 }
-                return false;
-            }
-        });
+            });
+//        } else {
+//            Intent intent = new Intent(AuthorizationActivity.this, MainActivity.class);
+//            startActivity(intent);
+//        }
+
+
     }
 
-    /**
-     * getAuthorizationUrl netwerkverkeer?
-     * loadUrl netwerkverkeer?
-     */
-    public class GetTokenTask extends AsyncTask<Void, Void, Void> {
+    public class GetTokenTask extends AsyncTask<Void, Void, String> {
 
         @Override
-        protected Void doInBackground(Void... voids) {
+        protected String doInBackground(Void... voids) {
             try {
                 OAuth1RequestToken token = appInfo.getService().getRequestToken();
                 appInfo.setToken(token);
+                return appInfo.getService().getAuthorizationUrl(appInfo.getToken());
             } catch (IOException | ExecutionException | InterruptedException e) {
                 e.printStackTrace();
             }
@@ -68,11 +76,10 @@ public class AuthorizationActivity extends AppCompatActivity {
         }
 
         @Override
-        protected void onPostExecute(Void aVoid) {
-            super.onPostExecute(aVoid);
-            webView.loadUrl(appInfo.getService().getAuthorizationUrl(appInfo.getToken()));
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            webView.loadUrl(s);
         }
-
     }
 
     public class AuthTask extends AsyncTask<Void, Void, Void> {
@@ -83,6 +90,11 @@ public class AuthorizationActivity extends AppCompatActivity {
                 OAuth1RequestToken reqToken = appInfo.getToken();
                 OAuth1AccessToken accessToken = appInfo.getService().getAccessToken(reqToken, verifier);
                 appInfo.setAccessToken(accessToken);
+
+                editor = sharedPreferences.edit();
+                editor.putString("access_token", accessToken.toString());
+                editor.apply();
+
             } catch (IOException | InterruptedException | ExecutionException e) {
                 e.printStackTrace();
             }

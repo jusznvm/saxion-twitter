@@ -31,7 +31,7 @@
                 style="@style/Base.Widget.AppCompat.Button.Borderless"
                 android:layout_width="wrap_content"
                 android:layout_height="35dp"
-                android:layout_marginStart="36dp"
+                android:layout_marginStart="16dp"
                 android:layout_marginTop="88dp"
                 android:drawableLeft="@drawable/like_1"
                 android:elevation="4dp"
@@ -57,7 +57,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="35dp"
                 android:layout_marginTop="88dp"
-                android:text="REPLY"
+                android:drawableLeft="@drawable/reply_tweet"
                 card_view:layout_constraintStart_toEndOf="@+id/btn_retweet"
                 card_view:layout_constraintTop_toBottomOf="@+id/tv_user_name"></Button>
 

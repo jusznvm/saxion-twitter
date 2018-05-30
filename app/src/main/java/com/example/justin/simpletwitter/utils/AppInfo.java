@@ -1,4 +1,4 @@
-package com.example.justin.simpletwitter;
+package com.example.justin.simpletwitter.utils;
 
 import com.github.scribejava.apis.TwitterApi;
 import com.github.scribejava.core.builder.ServiceBuilder;
@@ -44,4 +44,5 @@ public class AppInfo {
     public static void setAccessToken(OAuth1AccessToken newAccessToken) {
         accessToken = newAccessToken;
     }
+
 }

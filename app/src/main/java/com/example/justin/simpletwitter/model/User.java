@@ -20,7 +20,8 @@ public class User {
     private boolean hidden;
 
     // Profile aesthetics
-    private String background_url;
+    private String backgroundUrl;
+    private String bannerUrl;
 
     private boolean following;
     private boolean requestedFollow;
@@ -76,11 +77,19 @@ public class User {
         return followingCount;
     }
 
-    public void setBackground_url(String background_url) {
-        this.background_url = background_url;
+    public String getBackgroundUrl() {
+        return backgroundUrl;
     }
 
-    public String getBackground_url() {
-        return background_url;
+    public String getBannerUrl() {
+        return bannerUrl;
+    }
+
+    public void setBackgroundUrl(String backgroundUrl) {
+        this.backgroundUrl = backgroundUrl;
+    }
+
+    public void setBannerUrl(String bannerUrl) {
+        this.bannerUrl = bannerUrl;
     }
 }

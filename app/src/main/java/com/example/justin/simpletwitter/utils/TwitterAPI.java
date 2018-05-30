@@ -1,4 +1,4 @@
-package com.example.justin.simpletwitter;
+package com.example.justin.simpletwitter.utils;
 
 public  class TwitterAPI {
 

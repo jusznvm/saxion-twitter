@@ -33,7 +33,6 @@ public class DMAdapter extends RecyclerView.Adapter<DMAdapter.ViewHolder> {
         private TextView tvUsername, tvName, tvContent, tvDate;
         private ImageView ivAvatar;
 
-
         public ViewHolder(View itemView) {
             super(itemView);
             tvUsername = itemView.findViewById(R.id.tv_dm_list_username);
@@ -94,7 +93,6 @@ public class DMAdapter extends RecyclerView.Adapter<DMAdapter.ViewHolder> {
         public void onClick(View textView) {
             TextView newView = (TextView) textView;
 
-
             Log.d(TAG, "MyClickableSpan, onClick: " + newView.getText().toString());
             //fragment.getFragmentManager().beginTransaction().replace(R.id.activity_content, new HomeTimelineFragment()).addToBackStack(null).commit();
 
@@ -119,9 +117,5 @@ public class DMAdapter extends RecyclerView.Adapter<DMAdapter.ViewHolder> {
             ds.setUnderlineText(false); // remove underline
         }
 
-
-
     }
-
-
 }

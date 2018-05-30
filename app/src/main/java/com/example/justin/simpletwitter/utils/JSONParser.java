@@ -1,10 +1,7 @@
-package com.example.justin.simpletwitter.parser;
+package com.example.justin.simpletwitter.utils;
 
-import android.text.SpannableString;
-import android.text.Spanned;
 import android.util.Log;
 
-import com.example.justin.simpletwitter.adapter.StatusAdapter;
 import com.example.justin.simpletwitter.model.DirectMessage;
 import com.example.justin.simpletwitter.model.EntitiesHolder;
 import com.example.justin.simpletwitter.model.Hashtag;
@@ -17,7 +14,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 /**
@@ -215,7 +211,8 @@ public class JSONParser {
                             location, description, statusCount,
                             followersCount, followingCount);
 
-            userModel.setBackground_url(jsonObject.getString("profile_background_image_url_https"));
+            userModel.setBackgroundUrl(jsonObject.getString("profile_background_image_url_https"));
+            userModel.setBannerUrl(jsonObject.getString("profile_banner_url"));
 
         } catch (JSONException e) {
             e.printStackTrace();

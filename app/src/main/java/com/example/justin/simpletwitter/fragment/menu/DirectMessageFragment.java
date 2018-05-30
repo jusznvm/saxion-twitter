@@ -12,20 +12,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.justin.simpletwitter.AppInfo;
+import com.example.justin.simpletwitter.utils.AppInfo;
 import com.example.justin.simpletwitter.R;
-import com.example.justin.simpletwitter.TwitterAPI;
+import com.example.justin.simpletwitter.utils.TwitterAPI;
 import com.example.justin.simpletwitter.adapter.DMAdapter;
 import com.example.justin.simpletwitter.model.DirectMessage;
-import com.example.justin.simpletwitter.model.Status;
-import com.example.justin.simpletwitter.parser.JSONParser;
+import com.example.justin.simpletwitter.utils.JSONParser;
 import com.github.scribejava.core.model.OAuth1AccessToken;
 import com.github.scribejava.core.model.OAuthRequest;
 import com.github.scribejava.core.model.Response;
 import com.github.scribejava.core.model.Verb;
 import com.github.scribejava.core.oauth.OAuth10aService;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 

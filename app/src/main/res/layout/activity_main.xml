@@ -11,9 +11,9 @@
         android:orientation="vertical">
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
+            android:background="@color/blackish"
             android:layout_width="match_parent"
-            android:layout_height="70dp"
-            android:background="@color/colorAccent">
+            android:layout_height="70dp">
 
             <Button
                 android:id="@+id/btn_test"
