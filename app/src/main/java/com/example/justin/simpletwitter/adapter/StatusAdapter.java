@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.justin.simpletwitter.fragment.ComposeFragment;
 import com.example.justin.simpletwitter.utils.AppInfo;
 import com.example.justin.simpletwitter.utils.EntitiesHelper;
 import com.example.justin.simpletwitter.R;
@@ -142,7 +143,19 @@ public class StatusAdapter extends RecyclerView.Adapter<StatusAdapter.ViewHolder
             public void onClick(View view) {
                 RetweetTask task = new RetweetTask();
                 task.execute(status);
-                }
+            }
+        });
+
+        // Listener for reply button
+        holder.btnReply.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Bundle b = new Bundle();
+                b.putString("user_name", user.getUserName());
+                ComposeFragment f = new ComposeFragment();
+                f.setArguments(b);
+                fragment.getFragmentManager().beginTransaction().replace(R.id.activity_content, f).addToBackStack(null).commit();
+            }
         });
 
         // Crop and set profile avatar

@@ -28,7 +28,6 @@ public class TabLayoutFragment extends Fragment {
     private static OAuth10aService service = AppInfo.getService();
 
     private MyPagerAdapter adapter = null;
-    private TabLayout tabLayout = null;
 
     final private int[] tabIcons = {
             R.drawable.house,

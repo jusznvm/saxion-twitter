@@ -25,7 +25,6 @@
             android:layout_width="match_parent"
             android:layout_height="175dp">
 
-
             <Button
                 android:id="@+id/btn_fav_tweet"
                 style="@style/Base.Widget.AppCompat.Button.Borderless"

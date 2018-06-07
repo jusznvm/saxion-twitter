@@ -32,7 +32,6 @@ public class ComposeFragment extends Fragment {
 
     private EditText etContent;
 
-
     public ComposeFragment() {
 
     }
@@ -43,6 +42,10 @@ public class ComposeFragment extends Fragment {
         View view = inflater.inflate(R.layout.compose_tweet, container, false);
 
         etContent = view.findViewById(R.id.et_compose_tweet);
+        if(getArguments() != null) {
+            String s = "@" + getArguments().getString("user_name");
+            etContent.setText(s);
+        }
 
         btnPost = view.findViewById(R.id.btn_post_tweet);
 

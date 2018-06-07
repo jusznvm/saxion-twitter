@@ -86,6 +86,13 @@ public class HomeTimelineFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        HomeTimeLineTask task = new HomeTimeLineTask();
+        task.execute();
+    }
+
     class HomeTimeLineTask extends AsyncTask<Void, Void, JSONArray> {
 
         @Override
