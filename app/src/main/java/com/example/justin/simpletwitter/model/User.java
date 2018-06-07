@@ -34,7 +34,8 @@ public class User {
 
     public User(String username, String name, String imgUrl,
                 String location, String description, int statusCount,
-                int followersCount, int followingCount) {
+                int followersCount, int followingCount,
+                boolean following) {
         this.userName = username;
         this.name = name;
         this.imgUrl = imgUrl;
@@ -91,5 +92,9 @@ public class User {
 
     public void setBannerUrl(String bannerUrl) {
         this.bannerUrl = bannerUrl;
+    }
+
+    public boolean isFollowing() {
+        return following;
     }
 }

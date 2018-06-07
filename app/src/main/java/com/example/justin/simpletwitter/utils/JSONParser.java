@@ -217,7 +217,8 @@ public class JSONParser {
 
             userModel = new User(username, name, imgUrl,
                             location, description, statusCount,
-                            followersCount, followingCount);
+                            followersCount, followingCount,
+                            following);
 
             userModel.setBackgroundUrl(jsonObject.getString("profile_background_image_url_https"));
             userModel.setBannerUrl(jsonObject.getString("profile_banner_url"));

@@ -51,5 +51,12 @@ public  class TwitterAPI {
     public static final String RETWEET_STATUS = "https://api.twitter.com/1.1/statuses/retweet/"; // Needs ID and '.json'
     public static final String UNRETWEET_STATUS = "https://api.twitter.com/1.1/statuses/unretweet/"; // Needs ID and '.json'
 
+    /*
+     * FOLLOW
+     */
+
+    public static final String UNFOLLOW_USER = "https://api.twitter.com/1.1/friendships/destroy.json?screen_name="; // Needs screenName;
+    public static final String FOLLOW_USER = "https://api.twitter.com/1.1/friendships/create.json?screen_name="; // Needs screenName;
+
 
 }

@@ -61,6 +61,14 @@ public class ProfileFragment extends Fragment {
         GetProfileDetails task = new GetProfileDetails();
         task.execute();
 
+        btnFollow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FollowTask task = new FollowTask();
+                task.execute();
+            }
+        });
+
         return view;
     }
 
@@ -105,6 +113,15 @@ public class ProfileFragment extends Fragment {
 
         @Override
         protected Void doInBackground(Void... voids) {
+            String url;
+            if(user.isFollowing()) {
+                url = TwitterAPI.FOLLOW_USER + user.getUserName();
+            } else {
+                url = TwitterAPI.UNFOLLOW_USER + user.getUserName();
+            }
+            OAuthRequest request = new OAuthRequest(Verb.POST, url);
+            OAuth1AccessToken token = appInfo.getAccessToken();
+            service.signRequest(token, request);
             return null;
         }
     }

@@ -25,7 +25,6 @@
         android:layout_marginEnd="8dp"
         android:layout_marginStart="5dp"
         android:layout_marginTop="6dp"
-        android:text="TextView"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/profile_image"
@@ -36,7 +35,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="5dp"
-        android:text="TextView"
         android:textSize="16sp"
         app:layout_constraintStart_toEndOf="@+id/profile_image"
         app:layout_constraintTop_toBottomOf="@+id/tv_user_name" />
@@ -47,7 +45,6 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="5dp"
         android:layout_marginTop="16dp"
-        android:text="TextView"
         android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintStart_toEndOf="@+id/profile_image"
@@ -55,12 +52,13 @@
 
     <Button
         android:id="@+id/btn_follow"
-        android:layout_width="34dp"
-        android:layout_height="31dp"
+        android:layout_width="60dp"
+        android:layout_height="30dp"
         android:layout_marginBottom="20dp"
         android:layout_marginEnd="24dp"
         android:layout_marginTop="16dp"
-        android:text="Button"
+        style="@style/Base.Widget.AppCompat.Button.Borderless.Colored"
+        android:drawableStart="@drawable/add_2"
         app:layout_constraintBottom_toTopOf="@+id/tv_user_profile_description"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
