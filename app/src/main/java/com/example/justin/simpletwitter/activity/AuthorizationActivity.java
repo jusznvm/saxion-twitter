@@ -32,7 +32,7 @@ public class AuthorizationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_authorization);
         sharedPreferences = getApplicationContext().getSharedPreferences("pref", 0);
-        //if(sharedPreferences.getString("access_token", null) == null) {
+        if(sharedPreferences.getString("token_key", null) == null) {
 
             webView = findViewById(R.id.webView);
 
@@ -53,10 +53,14 @@ public class AuthorizationActivity extends AppCompatActivity {
                     return false;
                 }
             });
-//        } else {
-//            Intent intent = new Intent(AuthorizationActivity.this, MainActivity.class);
-//            startActivity(intent);
-//        }
+        } else {
+            String key = sharedPreferences.getString("token_key", null);
+            String secret = sharedPreferences.getString("token_secret", null);
+            OAuth1AccessToken accessToken1 = new OAuth1AccessToken(key, secret);
+            appInfo.setAccessToken(accessToken1);
+            Intent intent = new Intent(AuthorizationActivity.this, MainActivity.class);
+           startActivity(intent);
+        }
 
 
     }
@@ -88,11 +92,18 @@ public class AuthorizationActivity extends AppCompatActivity {
         protected Void doInBackground(Void... aVoid) {
             try {
                 OAuth1RequestToken reqToken = appInfo.getToken();
+
                 OAuth1AccessToken accessToken = appInfo.getService().getAccessToken(reqToken, verifier);
+
+                String tokenString = accessToken.getToken();
+                String secretString = accessToken.getTokenSecret();
+
                 appInfo.setAccessToken(accessToken);
 
                 editor = sharedPreferences.edit();
-                editor.putString("access_token", accessToken.toString());
+                editor.putString("token_key", tokenString);
+                editor.putString("token_secret", secretString);
+
                 editor.apply();
 
             } catch (IOException | InterruptedException | ExecutionException e) {
