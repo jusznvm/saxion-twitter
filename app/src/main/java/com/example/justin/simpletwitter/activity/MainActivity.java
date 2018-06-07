@@ -3,6 +3,7 @@ package com.example.justin.simpletwitter.activity;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v4.view.GravityCompat;
@@ -92,7 +93,7 @@ public class MainActivity extends FragmentActivity {
                 switch(item.getItemId()) {
 
                     case R.id.menu_home: {
-                        HomeTimelineFragment homeFragment = new HomeTimelineFragment();
+                        TabLayoutFragment homeFragment = new TabLayoutFragment();
                         getSupportFragmentManager().beginTransaction().replace(R.id.activity_content, homeFragment).addToBackStack(null).commit();
                         mDrawerLayout.closeDrawer(GravityCompat.START);
                         break;
@@ -169,27 +170,4 @@ public class MainActivity extends FragmentActivity {
               Picasso.get().load(imgUrl).into(ivProfileImg);
           }
       }
-
-    public class PostTweet extends AsyncTask<String, Void, Void> {
-
-        @Override
-        protected Void doInBackground(String... strings) {
-            try {
-                String encoded = URLEncoder.encode(strings[0], "UTF-8");
-                String url = TwitterAPI.STATUSES_UPDATE + encoded;
-                OAuthRequest request = new OAuthRequest(Verb.POST, url);
-                service.signRequest(AppInfo.getAccessToken(), request);
-                service.execute(request);
-            } catch (InterruptedException | IOException | ExecutionException e) {
-                e.printStackTrace();
-            }
-
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            super.onPostExecute(aVoid);
-        }
-    }
 }

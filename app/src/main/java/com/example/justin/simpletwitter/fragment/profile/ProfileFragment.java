@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -37,7 +38,8 @@ public class ProfileFragment extends Fragment {
     private User user = null;
 
     private ImageView ivAvatar, ivBanner;
-    private TextView tvDesc;
+    private TextView tvDesc, tvUserName, tvScreenName;
+    private Button btnFollow;
 
     private static OAuth10aService service = AppInfo.getService();
 
@@ -49,8 +51,12 @@ public class ProfileFragment extends Fragment {
         View view = inflater.inflate(R.layout.user_profile_profile, container, false);
 
         ivAvatar = view.findViewById(R.id.profile_image);
+
         tvDesc = view.findViewById(R.id.tv_user_profile_description);
-        ivBanner = view.findViewById(R.id.iv_profile_banner);
+        tvScreenName = view.findViewById(R.id.tv_screen_name);
+        tvUserName = view.findViewById(R.id.tv_user_name);
+
+        btnFollow = view.findViewById(R.id.btn_follow);
 
         GetProfileDetails task = new GetProfileDetails();
         task.execute();
@@ -85,11 +91,21 @@ public class ProfileFragment extends Fragment {
 
         public void handleResult(User user) {
             String imgUrl = user.getImgUrl();
-            String bannerUrl = user.getBannerUrl();
+            String screenName = "@" + user.getUserName();
+            String userName = user.getName();
 
             tvDesc.setText(user.getDescription());
+            tvScreenName.setText(screenName);
+            tvUserName.setText(userName);
             Picasso.get().load(imgUrl).into(ivAvatar);
-            Picasso.get().load(bannerUrl).into(ivBanner);
+        }
+    }
+
+    class FollowTask extends AsyncTask<Void, Void, Void> {
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            return null;
         }
     }
 }
