@@ -14,6 +14,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.justin.simpletwitter.fragment.ComposeFragment;
+import com.example.justin.simpletwitter.fragment.home.HomeTimelineFragment;
 import com.example.justin.simpletwitter.utils.AppInfo;
 import com.example.justin.simpletwitter.utils.TwitterAPI;
 import com.example.justin.simpletwitter.fragment.home.TabLayoutFragment;
@@ -33,6 +35,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.net.URLEncoder;
 import java.util.concurrent.ExecutionException;
 
 public class MainActivity extends FragmentActivity {
@@ -57,7 +60,16 @@ public class MainActivity extends FragmentActivity {
         setContentView(R.layout.activity_main);
 
         mDrawerLayout = findViewById(R.id.activity_container);
-        Button btnTest = findViewById(R.id.btn_test);
+        Button btnTest = findViewById(R.id.btn_drawer_layout);
+
+        Button btnCompose = findViewById(R.id.btn_tweet);
+        btnCompose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ComposeFragment fragment = new ComposeFragment();
+                getSupportFragmentManager().beginTransaction().replace(R.id.activity_content, fragment).addToBackStack(null).commit();
+            }
+        });
 
         btnTest.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -78,6 +90,13 @@ public class MainActivity extends FragmentActivity {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch(item.getItemId()) {
+
+                    case R.id.menu_home: {
+                        HomeTimelineFragment homeFragment = new HomeTimelineFragment();
+                        getSupportFragmentManager().beginTransaction().replace(R.id.activity_content, homeFragment).addToBackStack(null).commit();
+                        mDrawerLayout.closeDrawer(GravityCompat.START);
+                        break;
+                    }
 
                     case R.id.menu_dms: {
                         Log.d(TAG, "onNavigationItemSelected: clicked");
@@ -105,7 +124,6 @@ public class MainActivity extends FragmentActivity {
         tvFollowerCount = hView.findViewById(R.id.tv_my_profile_followers);
         tvFollowingCount = hView.findViewById(R.id.tv_my_profile_following);
         ivProfileImg = hView.findViewById(R.id.my_profile_image);
-
 
         CredentialsTask task = new CredentialsTask();
         task.execute();
@@ -151,4 +169,27 @@ public class MainActivity extends FragmentActivity {
               Picasso.get().load(imgUrl).into(ivProfileImg);
           }
       }
+
+    public class PostTweet extends AsyncTask<String, Void, Void> {
+
+        @Override
+        protected Void doInBackground(String... strings) {
+            try {
+                String encoded = URLEncoder.encode(strings[0], "UTF-8");
+                String url = TwitterAPI.STATUSES_UPDATE + encoded;
+                OAuthRequest request = new OAuthRequest(Verb.POST, url);
+                service.signRequest(AppInfo.getAccessToken(), request);
+                service.execute(request);
+            } catch (InterruptedException | IOException | ExecutionException e) {
+                e.printStackTrace();
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+        }
+    }
 }

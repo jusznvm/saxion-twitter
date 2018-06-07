@@ -197,15 +197,23 @@ public class JSONParser {
     public static User parseUser(JSONObject jsonObject) {
         User userModel = null;
         try {
+
             String username = jsonObject.getString("screen_name");
             String name = jsonObject.getString("name");
             String imgUrl = jsonObject.getString("profile_image_url");
             String location = jsonObject.getString("location");
             String description = jsonObject.getString("description");
 
+            if(!jsonObject.isNull("profile_location")) {
+                String profileLocation = jsonObject.getString("profile_location");
+            }
+
             int statusCount = jsonObject.getInt("statuses_count");
             int followersCount = jsonObject.getInt("followers_count");
             int followingCount = jsonObject.getInt("friends_count");
+
+            boolean isProtected = jsonObject.getBoolean("protected");
+            boolean following = jsonObject.getBoolean("following");
 
             userModel = new User(username, name, imgUrl,
                             location, description, statusCount,

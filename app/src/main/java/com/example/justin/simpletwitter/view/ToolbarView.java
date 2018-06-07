@@ -5,7 +5,6 @@ import android.content.Context;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.util.AttributeSet;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -35,7 +34,7 @@ public class ToolbarView extends DrawerLayout {
         inflater = (LayoutInflater) this.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflater.inflate(R.layout.toolbar, this);
 
-        Button btnTest = findViewById(R.id.btn_test);
+        Button btnTest = findViewById(R.id.btn_drawer_layout);
 
         DrawerLayout drawerLayout = findViewById(R.id.activity_container);
 

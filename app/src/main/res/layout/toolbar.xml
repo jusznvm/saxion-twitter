@@ -16,7 +16,7 @@
                 android:background="@color/colorAccent">
 
                 <Button
-                    android:id="@+id/btn_test"
+                    android:id="@+id/btn_drawer_layout"
                     style="@style/Base.Widget.AppCompat.Button.Borderless"
                     android:layout_width="60dp"
                     android:drawableStart="@drawable/ic_menu_black_24dp"

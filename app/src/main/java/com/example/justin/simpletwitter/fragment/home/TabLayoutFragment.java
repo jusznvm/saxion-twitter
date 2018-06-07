@@ -48,18 +48,7 @@ public class TabLayoutFragment extends Fragment {
         setupViewPager(vp);
         TabLayout tabLayout = view.findViewById(R.id.tab_layout);
         tabLayout.setupWithViewPager(vp);
-
-        //FloatingActionButton fab = view.findViewById(R.id.fab_compose);
-        //fab.setImageDrawable(getResources().getDrawable(R.drawable.add));
         setupTabIcons(tabLayout);
-
-//        //fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                PostTweet post = new PostTweet();
-//                post.execute("xxxx");
-//            }
-//        });
         return view;
     }
 
@@ -82,25 +71,4 @@ public class TabLayoutFragment extends Fragment {
         viewPager.setAdapter(adapter);
     }
 
-    public class PostTweet extends AsyncTask<String, Void, Void> {
-
-        @Override
-        protected Void doInBackground(String... strings) {
-            try {
-                String encoded = URLEncoder.encode(strings[0], "UTF-8");
-                String url = TwitterAPI.STATUSES_UPDATE + encoded;
-                OAuthRequest request = new OAuthRequest(Verb.POST, url);
-                service.signRequest(AppInfo.getAccessToken(), request);
-                service.execute(request);
-            } catch (InterruptedException | IOException | ExecutionException e) {
-                e.printStackTrace();
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            super.onPostExecute(aVoid);
-        }
-    }
 }
