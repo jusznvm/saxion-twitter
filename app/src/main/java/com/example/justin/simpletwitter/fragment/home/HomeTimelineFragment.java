@@ -54,7 +54,6 @@ public class HomeTimelineFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-
         statuses = new ArrayList<>();
         View view = inflater.inflate(R.layout.fragment_home_timeline, container, false);
         mRecyclerView = view.findViewById(R.id.recycler_home_timeline);
@@ -89,8 +88,7 @@ public class HomeTimelineFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        HomeTimeLineTask task = new HomeTimeLineTask();
-        task.execute();
+        mAdapter.notifyDataSetChanged();
     }
 
     class HomeTimeLineTask extends AsyncTask<Void, Void, JSONArray> {

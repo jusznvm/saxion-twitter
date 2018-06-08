@@ -29,7 +29,6 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder>{
             super(itemView);
            // ivAvatar = itemView.findViewById(R.id.iv_avatar_user_search_result);
            // tvName = itemView.findViewById(R.id.tv_name_user_search_result);
-            tvScreenName = itemView.findViewById(R.id.list_item_user_name);
         }
     }
 
@@ -39,7 +38,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder>{
 
     @Override
     public UserAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_search_result_user, parent);
+        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.user, parent);
         return new ViewHolder(itemView);
     }
 
@@ -48,8 +47,8 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder>{
         User user = users.get(holder.getAdapterPosition());
 
         //String name = user.getName();
-        String screenName = "@" + user.getUserName();
-        holder.tvScreenName.setText(screenName);
+        //String screenName = "@" + user.getUserName();
+        //holder.tvScreenName.setText(screenName);
         //holder.tvName.setText(name);
 
         //Picasso.get().load(user.getImgUrl()).into(holder.ivAvatar);

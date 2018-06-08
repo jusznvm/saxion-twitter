@@ -78,17 +78,17 @@ public class SearchFragment extends Fragment{
             }
         });
 
-        userRecyclerView = view.findViewById(R.id.rv_search_fragment);
-        userAdapter = new UserAdapter(users);
-        userLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
-        userRecyclerView.setLayoutManager(userLayoutManager);
-        userRecyclerView.setAdapter(userAdapter);
-
         statusRecyclerView = view.findViewById(R.id.rv_search_tweets);
         statusAdapter = new StatusAdapter(statuses, this);
         statusLayoutManager = new LinearLayoutManager(getActivity());
         statusRecyclerView.setLayoutManager(statusLayoutManager);
         statusRecyclerView.setAdapter(statusAdapter);
+
+        userRecyclerView = view.findViewById(R.id.rv_search_user);
+        userAdapter = new UserAdapter(users);
+        userLayoutManager = new LinearLayoutManager(getActivity());
+        userRecyclerView.setLayoutManager(userLayoutManager);
+        userRecyclerView.setAdapter(userAdapter);
 
         return view;
     }

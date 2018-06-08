@@ -30,8 +30,10 @@ public class AuthorizationActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_authorization);
         sharedPreferences = getApplicationContext().getSharedPreferences("pref", 0);
+
         if(sharedPreferences.getString("token_key", null) == null) {
 
             webView = findViewById(R.id.webView);

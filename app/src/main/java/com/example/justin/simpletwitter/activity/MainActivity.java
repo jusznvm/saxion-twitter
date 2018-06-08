@@ -1,5 +1,6 @@
 package com.example.justin.simpletwitter.activity;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
@@ -18,6 +19,7 @@ import android.widget.TextView;
 
 import com.example.justin.simpletwitter.fragment.ComposeFragment;
 import com.example.justin.simpletwitter.fragment.home.HomeTimelineFragment;
+import com.example.justin.simpletwitter.fragment.menu.TrendingFragment;
 import com.example.justin.simpletwitter.utils.AppInfo;
 import com.example.justin.simpletwitter.utils.TwitterAPI;
 import com.example.justin.simpletwitter.fragment.home.TabLayoutFragment;
@@ -105,13 +107,6 @@ public class MainActivity extends FragmentActivity {
                         break;
                     }
 
-                    case R.id.menu_dms: {
-                        Log.d(TAG, "onNavigationItemSelected: clicked");
-                        DirectMessageFragment dmFragment = new DirectMessageFragment();
-                        getSupportFragmentManager().beginTransaction().replace(R.id.activity_content, dmFragment).addToBackStack(null).commit();
-                        mDrawerLayout.closeDrawer(GravityCompat.START);
-                        break;
-                    }
                     case R.id.menu_profile: {
                         UserProfileFragment userProfileFragment = new UserProfileFragment();
                         Bundle bundle = new Bundle();
@@ -121,6 +116,34 @@ public class MainActivity extends FragmentActivity {
                         mDrawerLayout.closeDrawer(GravityCompat.START);
                         break;
                     }
+
+                    case R.id.menu_dms: {
+                        DirectMessageFragment dmFragment = new DirectMessageFragment();
+                        getSupportFragmentManager().beginTransaction().replace(R.id.activity_content, dmFragment).addToBackStack(null).commit();
+                        mDrawerLayout.closeDrawer(GravityCompat.START);
+                        break;
+                    }
+
+                    case R.id.menu_trending: {
+                        TrendingFragment trendingFragment = new TrendingFragment();
+                        getSupportFragmentManager().beginTransaction().replace(R.id.activity_content, trendingFragment).addToBackStack(null).commit();
+                        mDrawerLayout.closeDrawer(GravityCompat.START);
+                        break;
+                    }
+
+                    case R.id.menu_settings: {
+                        break;
+                    }
+
+                    case R.id.menu_log_out: {
+                        editor.clear();
+                        editor.commit();
+                        Intent intent = new Intent(MainActivity.this, AuthorizationActivity.class);
+                        startActivity(intent);
+                        break;
+
+                    }
+
                 }
                 return false;
             }
