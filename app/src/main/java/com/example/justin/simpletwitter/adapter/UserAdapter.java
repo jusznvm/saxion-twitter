@@ -27,8 +27,9 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder>{
 
         public ViewHolder(View itemView) {
             super(itemView);
-           // ivAvatar = itemView.findViewById(R.id.iv_avatar_user_search_result);
-           // tvName = itemView.findViewById(R.id.tv_name_user_search_result);
+            tvScreenName = itemView.findViewById(R.id.tv_search_result_user_name);
+            tvName = itemView.findViewById(R.id.tv_search_result_name);
+            ivAvatar = itemView.findViewById(R.id.iv_search_result_avatar);
         }
     }
 
@@ -38,7 +39,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder>{
 
     @Override
     public UserAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.user, parent);
+        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.user, parent, false);
         return new ViewHolder(itemView);
     }
 
@@ -46,12 +47,12 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder>{
     public void onBindViewHolder(UserAdapter.ViewHolder holder, int position) {
         User user = users.get(holder.getAdapterPosition());
 
-        //String name = user.getName();
-        //String screenName = "@" + user.getUserName();
-        //holder.tvScreenName.setText(screenName);
-        //holder.tvName.setText(name);
+        String name = user.getName();
+        String screenName = "@" + user.getUserName();
+        holder.tvScreenName.setText(screenName);
+        holder.tvName.setText(name);
 
-        //Picasso.get().load(user.getImgUrl()).into(holder.ivAvatar);
+        Picasso.get().load(user.getImgUrl()).into(holder.ivAvatar);
     }
 
     @Override

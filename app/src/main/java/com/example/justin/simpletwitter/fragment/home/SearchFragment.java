@@ -86,7 +86,7 @@ public class SearchFragment extends Fragment{
 
         userRecyclerView = view.findViewById(R.id.rv_search_user);
         userAdapter = new UserAdapter(users);
-        userLayoutManager = new LinearLayoutManager(getActivity());
+        userLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
         userRecyclerView.setLayoutManager(userLayoutManager);
         userRecyclerView.setAdapter(userAdapter);
 
