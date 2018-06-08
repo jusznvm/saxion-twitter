@@ -13,7 +13,6 @@ public  class TwitterAPI {
     public static final String STATUSES_HOME_TIMELINE = "https://api.twitter.com/1.1/statuses/home_timeline.json";
     public static final String STATUSES_USER_TIMELINE = "https://api.twitter.com/1.1/statuses/user_timeline.json?screen_name=";
     public static final String STATUSES_USER_MENTIONS = "https://api.twitter.com/1.1/statuses/mentions_timeline.json";
-    public static final String STATUSES_SEARCH = "https://api.twitter.com/1.1/search/tweets.json?q="; // requires query
 
     /*
      * FAVORITES
@@ -32,6 +31,11 @@ public  class TwitterAPI {
     public static final String USER_SHOW = "https://api.twitter.com/1.1/users/show.json?screen_name=";
     public static final String ACCOUNT_CREDENTIALS = "https://api.twitter.com/1.1/account/verify_credentials.json";
 
+    /*
+     * SEARCH
+     */
+    public static final String SEARCH_USER = "https://api.twitter.com/1.1/users/search.json?q="; // requires query
+    public static final String SEARCH_TWEET = "https://api.twitter.com/1.1/search/tweets.json?q="; // requires query
 
     /**
      * POST

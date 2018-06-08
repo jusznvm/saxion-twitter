@@ -7,13 +7,13 @@
     android:layout_height="match_parent">
 
     <android.support.design.widget.TextInputLayout
-        android:id="@+id/textInputLayout"
+        android:id="@+id/til_search"
         style="@style/Widget.Design.TextInputLayout"
         android:layout_width="342dp"
-        android:layout_height="162dp"
+        android:layout_height="294dp"
         android:layout_marginEnd="16dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="28dp"
         app:counterEnabled="true"
         app:counterMaxLength="280"
         app:counterOverflowTextAppearance="@style/counterOverride"
@@ -27,11 +27,11 @@
             android:id="@+id/et_compose_tweet"
             style="@style/Widget.AppCompat.EditText"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="240dp"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
             android:ems="10"
-            android:gravity="top|left"
+            android:gravity="top|start"
             android:hint="Flame away.. don't hold back."
             android:inputType="textPersonName" />
 
@@ -48,5 +48,5 @@
         android:layout_marginTop="23dp"
         android:text="Flame"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textInputLayout" />
+        app:layout_constraintTop_toBottomOf="@+id/til_search" />
 </android.support.constraint.ConstraintLayout>

@@ -1,5 +1,5 @@
 #Internal package file, do not edit.
-#Thu Jun 07 01:20:09 CEST 2018
+#Fri Jun 08 14:04:35 CEST 2018
 1.base=/Users/justin/Documents/Projects/School/SimpleTwitter/app/build/intermediates/transforms/dexMerger/debug/12
 2.path=classes.dex
 0.baseType=DIRECTORY

@@ -42,8 +42,6 @@ public class StatusAdapter extends RecyclerView.Adapter<StatusAdapter.ViewHolder
 
     private static AppInfo appInfo = AppInfo.getInstance();
 
-    private Context context;
-
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
         private TextView tvText;
@@ -85,6 +83,9 @@ public class StatusAdapter extends RecyclerView.Adapter<StatusAdapter.ViewHolder
         // Get status with the position & get the user of the status too.
 
         Status status = statuses.get(holder.getAdapterPosition());
+        Log.d(TAG, "onBindViewHolder: " + status.getTweetID());
+        Log.d(TAG, "onBindViewHolder: " + status.getText());
+
         User user = status.getUser();
 
         // Declare and init all the UI Components
@@ -105,7 +106,7 @@ public class StatusAdapter extends RecyclerView.Adapter<StatusAdapter.ViewHolder
         holder.tvScreenname.setText(screenName);
         holder.tvUsername.setText(user.getName());
 
-
+        Log.d(TAG, "onBindViewHolder: " + status.getTweetID());
         /**
          * Basically handles everything
          * for the button and the icon
@@ -202,9 +203,9 @@ public class StatusAdapter extends RecyclerView.Adapter<StatusAdapter.ViewHolder
             com.example.justin.simpletwitter.model.Status status = s[0];
             // ^ Fk u.
 
-            int tweetID = status.getTweetID();
+            String tweetID = status.getTweetIDString();
             String url;
-            int newCount = 0;
+            int newCount;
             Log.d(TAG, "doInBackground: favorited = " + status.isFavorited());
 
             if(status.isFavorited()) {
@@ -279,7 +280,8 @@ public class StatusAdapter extends RecyclerView.Adapter<StatusAdapter.ViewHolder
             com.example.justin.simpletwitter.model.Status status = statuses[0];
             // ^ Fk u.
 
-            int tweetID = status.getTweetID();
+            String tweetID = status.getTweetIDString();
+            Log.d(TAG, "doInBackground: " + tweetID);
             String url = "";
             int newCount;
             Log.d(TAG, "doInBackground: retweeted = " + status.isRetweeted());

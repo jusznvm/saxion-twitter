@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +25,8 @@ import java.net.URLEncoder;
 import java.util.concurrent.ExecutionException;
 
 public class ComposeFragment extends Fragment {
+
+    public static final String TAG = "ComposeFragment";
 
     private static OAuth10aService service = AppInfo.getService();
     private static AppInfo appInfo = AppInfo.getInstance();
@@ -70,6 +73,7 @@ public class ComposeFragment extends Fragment {
         protected Void doInBackground(String... strings) {
             try {
                 String encoded = URLEncoder.encode(strings[0], "UTF-8");
+                Log.d(TAG, "doInBackground: " + encoded);
                 String url = TwitterAPI.STATUSES_UPDATE + encoded;
                 OAuthRequest request = new OAuthRequest(Verb.POST, url);
                 service.signRequest(AppInfo.getAccessToken(), request);

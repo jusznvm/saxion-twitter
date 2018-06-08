@@ -39,7 +39,6 @@ public class EntitiesHelper {
         for (URL url: entitiesHolder.getUrls()) {
             ss.setSpan(new EntitiesHelper.URLClickableSpan(), url.getStartIndex(), url.getEndIndex(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         }
-
         return ss;
     }
 

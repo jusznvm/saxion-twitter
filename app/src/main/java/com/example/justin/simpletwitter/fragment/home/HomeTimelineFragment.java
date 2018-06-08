@@ -98,6 +98,7 @@ public class HomeTimelineFragment extends Fragment {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+            statuses.clear();
         }
 
         @Override
@@ -121,7 +122,6 @@ public class HomeTimelineFragment extends Fragment {
         }
 
         public void handleResult(JSONArray json) {
-            statuses.clear();
             statuses.addAll(JSONParser.parseStatus(json));
             mAdapter.notifyDataSetChanged();
         }

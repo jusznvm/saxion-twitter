@@ -8,6 +8,7 @@ public class Status {
 
     private int tweetID;
 
+    private String tweetIDString;
     private String text;
     private String createdAt;
 
@@ -21,17 +22,21 @@ public class Status {
 
     private EntitiesHolder entities = null;
 
-    public Status(int tweetID, String text, String createdAt,
+    public Status(String tweetIDString, String text, String createdAt,
                   int retweetCount, int favoriteCount,
                   boolean favorited, boolean retweeted) {
 
-        this.tweetID = tweetID;
+        this.tweetIDString = tweetIDString;
         this.text = text;
         this.createdAt = createdAt;
         this.retweetCount = retweetCount;
         this.favoriteCount = favoriteCount;
         this.favorited = favorited;
         this.retweeted = retweeted;
+    }
+
+    public String getTweetIDString() {
+        return tweetIDString;
     }
 
     public int getTweetID() {

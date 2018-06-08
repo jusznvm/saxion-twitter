@@ -6,18 +6,22 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.Editable;
-import android.text.TextWatcher;
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.TextView;
 
+import com.example.justin.simpletwitter.adapter.StatusAdapter;
+import com.example.justin.simpletwitter.adapter.UserAdapter;
+import com.example.justin.simpletwitter.model.User;
 import com.example.justin.simpletwitter.utils.AppInfo;
 import com.example.justin.simpletwitter.R;
-import com.example.justin.simpletwitter.adapter.StatusAdapter;
 import com.example.justin.simpletwitter.model.Status;
 import com.example.justin.simpletwitter.utils.JSONParser;
+import com.example.justin.simpletwitter.utils.TwitterAPI;
 import com.github.scribejava.core.model.OAuth1AccessToken;
 import com.github.scribejava.core.model.OAuthRequest;
 import com.github.scribejava.core.model.Response;
@@ -29,19 +33,23 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
 
 public class SearchFragment extends Fragment{
 
+    public static final String TAG = "Dodging yunus' shit";
+
     private ArrayList<Status> statuses;
+    private ArrayList<User> users;
 
     private EditText etSearch;
 
-    private RecyclerView.LayoutManager mLayoutManager;
-    private RecyclerView.Adapter mAdapter;
-    private RecyclerView mRecyclerView;
+    private RecyclerView.LayoutManager userLayoutManager, statusLayoutManager;
+    private RecyclerView.Adapter userAdapter, statusAdapter;
+    private RecyclerView userRecyclerView, statusRecyclerView;
 
     private static OAuth10aService service = AppInfo.getService();
 
@@ -52,52 +60,63 @@ public class SearchFragment extends Fragment{
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_search, container, false);
         statuses = new ArrayList<>();
+        users = new ArrayList<>();
 
         etSearch = view.findViewById(R.id.et_search);
-
-        mRecyclerView = view.findViewById(R.id.rv_search_fragment);
-        mAdapter = new StatusAdapter(statuses, this);
-        mLayoutManager = new LinearLayoutManager(getActivity());
-        mRecyclerView.setLayoutManager(mLayoutManager);
-        mRecyclerView.setAdapter(mAdapter);
-
-        etSearch.addTextChangedListener(new TextWatcher() {
+        etSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-
+            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+                Log.d(TAG, "onEditorAction: Return button was pressed");
+                String s = etSearch.getText().toString();
+                Log.d(TAG, "Query = " + s);
+                SearchTweetTask task = new SearchTweetTask();
+                task.execute(s);
+                SearchUserTask task1 = new SearchUserTask();
+                task1.execute(s);
+                Log.d(TAG, "onEditorAction: Task is Executed");
+                return false;
             }
         });
 
+        userRecyclerView = view.findViewById(R.id.rv_search_fragment);
+        userAdapter = new UserAdapter(users);
+        userLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
+        userRecyclerView.setLayoutManager(userLayoutManager);
+        userRecyclerView.setAdapter(userAdapter);
+
+        statusRecyclerView = view.findViewById(R.id.rv_search_tweets);
+        statusAdapter = new StatusAdapter(statuses, this);
+        statusLayoutManager = new LinearLayoutManager(getActivity());
+        statusRecyclerView.setLayoutManager(statusLayoutManager);
+        statusRecyclerView.setAdapter(statusAdapter);
 
         return view;
     }
 
-    class SearchTask extends AsyncTask<Void, Void, JSONArray> {
+    class SearchTweetTask extends AsyncTask<String, Void, JSONArray> {
 
         @Override
-        protected JSONArray doInBackground(Void... voids) {
+        protected void onPreExecute() {
+            super.onPreExecute();
+            statuses.clear();
+        }
 
-            String url = "";
-
-            OAuthRequest request = new OAuthRequest(Verb.GET, url);
-
-            OAuth1AccessToken token = appInfo.getAccessToken();
-            service.signRequest(token, request);
+        @Override
+        protected JSONArray doInBackground(String... strings) {
 
             try {
+                String encoded = URLEncoder.encode(strings[0], "UTF-8");
+
+                String url = TwitterAPI.SEARCH_TWEET + encoded;
+
+                OAuthRequest request = new OAuthRequest(Verb.GET, url);
+
+                OAuth1AccessToken token = appInfo.getAccessToken();
+                service.signRequest(token, request);
+
                 Response response = service.execute(request);
                 JSONObject jsonObject = new JSONObject(response.getBody());
-                return new JSONArray(jsonObject.getJSONArray("statuses"));
+                return jsonObject.getJSONArray("statuses");
             } catch (InterruptedException | ExecutionException | IOException | JSONException e) {
                 e.printStackTrace();
             }
@@ -109,7 +128,43 @@ public class SearchFragment extends Fragment{
         protected void onPostExecute(JSONArray jsonArray) {
             super.onPostExecute(jsonArray);
             statuses.addAll(JSONParser.parseStatus(jsonArray));
-            mAdapter.notifyDataSetChanged();
+            statusAdapter.notifyDataSetChanged();
+        }
+    }
+
+    class SearchUserTask extends AsyncTask<String, Void, JSONArray> {
+
+        @Override
+        protected JSONArray doInBackground(String... strings) {
+
+            try {
+                String encoded = URLEncoder.encode(strings[0], "UTF-8");
+
+                String url = TwitterAPI.SEARCH_USER + encoded;
+
+                OAuthRequest request = new OAuthRequest(Verb.GET, url);
+
+                OAuth1AccessToken token = appInfo.getAccessToken();
+                service.signRequest(token, request);
+
+                Response response = service.execute(request);
+                Log.d(TAG, "Response = " + response.getBody());
+                return new JSONArray(response.getBody());
+            } catch (InterruptedException | ExecutionException | IOException | JSONException e) {
+                e.printStackTrace();
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(JSONArray jsonArray) {
+            super.onPostExecute(jsonArray);
+            Log.d(TAG, "onPostExecute: Reached onPostExecute");
+            users.addAll(JSONParser.parseUserList(jsonArray));
+            Log.d(TAG, "onPostExecute: Calling notifyDataSetChanged");
+            userAdapter.notifyDataSetChanged();
+            Log.d(TAG, "onPostExecute: Called notifyDataSetChanged");
         }
     }
 }

@@ -34,6 +34,7 @@ public class JSONParser {
                 // Parse tweet stuff
                 int tweetID = tweetObj.getInt("id");
 
+                String tweetIDString = tweetObj.getString("id_str");
                 String tweetText = tweetObj.getString("text");
                 String createdAt = tweetObj.getString("created_at");
 
@@ -57,7 +58,7 @@ public class JSONParser {
 
                 // Create a status object
                 Status status = new Status(
-                        tweetID, tweetText, createdAt,
+                        tweetIDString, tweetText, createdAt,
                         retweetCount, favoriteCount,
                         favorited, retweeted);
 
@@ -101,7 +102,6 @@ public class JSONParser {
 
     private static ArrayList<Hashtag> parseHashtags(JSONArray hashtagArray) {
         ArrayList<Hashtag> hashtags = new ArrayList<>();
-        Log.d(TAG, "parseHashtags, hashtagObj: " + hashtagArray);
         try{
             for (int i = 0; i < hashtagArray.length(); i++){
                 JSONObject tempObj = hashtagArray.getJSONObject(i);
@@ -112,7 +112,6 @@ public class JSONParser {
                 int endIndex = indicesJSONArray.getInt(1);
 
                 Hashtag hashtag = new Hashtag(text, startIndex, endIndex);
-                Log.d(TAG, "parseHashtags, Hashtag pre add: " + hashtag + i);
                 hashtags.add(hashtag);
 
             }
@@ -124,9 +123,7 @@ public class JSONParser {
     }
 
     private static ArrayList<URL> parseURLs(JSONArray URLs){
-        Log.d(TAG, "parseURLs: URLs: " + URLs);
         ArrayList<URL> urls = new ArrayList<>();
-        Log.d(TAG, "parseURLs, URLObj: " + URLs);
         try{
             for (int i = 0; i < URLs.length(); i++){
                 JSONObject URLObject = URLs.getJSONObject(i);
@@ -144,7 +141,6 @@ public class JSONParser {
                         link, displayUrl,
                         expandedUrl);
 
-                Log.d(TAG, "parseURLs: URL: " + url);
 
                 urls.add(url);
 
@@ -160,7 +156,6 @@ public class JSONParser {
 
     private static ArrayList<UserMention> parseUserMentions(JSONArray mentions){
         ArrayList<UserMention> userMentions = new ArrayList<>();
-        Log.d(TAG, "parseUserMentions, mentionsObj: " + mentions);
         try{
             for (int i = 0; i < mentions.length(); i++){
                 JSONObject mentionObject = mentions.getJSONObject(i);
@@ -182,7 +177,6 @@ public class JSONParser {
                         idString, id,
                         startIndex, endIndex);
 
-                Log.d(TAG, "parseUserMentions: userMention: " + userMention);
 
                 userMentions.add(userMention);
 
@@ -231,7 +225,6 @@ public class JSONParser {
 
     public static ArrayList<DirectMessage> parseDMs(JSONObject jsonObject) {
         ArrayList<DirectMessage> dms = new ArrayList<>();
-        Log.d(TAG, "parseDMs, jsonObject: " + jsonObject);
         try {
             JSONArray jsonArray = jsonObject.getJSONArray("events");
             for(int i = 0; i < jsonArray.length(); i++) {
@@ -261,7 +254,6 @@ public class JSONParser {
                         recipientID, senderID,
                         dmID, timestamp,
                         text);
-                Log.d("DEBUG", "itemCount : " + i);
                 dm.setEntitiesHolder(entitiesHolder);
                 dms.add(dm);
             }
@@ -269,6 +261,20 @@ public class JSONParser {
             e.printStackTrace();
         }
         return dms;
+    }
+
+    public static ArrayList<User> parseUserList(JSONArray jsonArray) {
+        ArrayList<User> users = new ArrayList<>();
+        for (int i = 0; i < jsonArray.length(); i++) {
+            try {
+                JSONObject userObj = jsonArray.getJSONObject(i);
+                User user = parseUser(userObj);
+                users.add(user);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        return users;
     }
 
 

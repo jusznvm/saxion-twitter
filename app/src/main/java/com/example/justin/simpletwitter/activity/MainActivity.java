@@ -1,5 +1,6 @@
 package com.example.justin.simpletwitter.activity;
 
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -53,12 +54,17 @@ public class MainActivity extends FragmentActivity {
     private TextView tvName, tvScreenName, tvFollowerCount, tvFollowingCount;
     private ImageView ivProfileImg;
 
+    private SharedPreferences sharedPreferences;
+    private SharedPreferences.Editor editor;
+
     private User user = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        sharedPreferences = getApplicationContext().getSharedPreferences("pref", 0);
 
         mDrawerLayout = findViewById(R.id.activity_container);
         Button btnTest = findViewById(R.id.btn_drawer_layout);
@@ -157,6 +163,12 @@ public class MainActivity extends FragmentActivity {
               user = JSONParser.parseUser(jsonObject);
 
               String userName = "@" + user.getUserName();
+
+              editor = sharedPreferences.edit();
+              editor.putString("user_name", user.getUserName());
+              Log.d(TAG, "onPostExecute: " + user.getUserName());
+              editor.apply();
+
               name = userName;
               String following = user.getFollowingCount() + " following";
               String followers = user.getFollowersCount() + " followers";
