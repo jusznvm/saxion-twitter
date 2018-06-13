@@ -62,6 +62,7 @@ public class LikesFragment extends Fragment {
 
         @Override
         protected JSONArray doInBackground(Void... voids) {
+            //TODO: Not sure if show onProgressUpdated or handle non successfull response code
             String url = TwitterAPI.FAVORITES_LIST + UserProfileFragment.SCREENNAME;
             OAuthRequest request = new OAuthRequest(Verb.GET, url);
             OAuth1AccessToken token = appInfo.getAccessToken();

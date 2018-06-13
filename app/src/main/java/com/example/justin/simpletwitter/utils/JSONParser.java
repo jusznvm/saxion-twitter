@@ -244,7 +244,7 @@ public class JSONParser {
 
                 String text = dmContent.getJSONObject("message_data").getString("text");
 
-                JSONObject entitiesObj = dmObj.getJSONObject("entities");
+                JSONObject entitiesObj = dmContent.getJSONObject("message_data").getJSONObject("entities");
 
 
                 EntitiesHolder entitiesHolder = parseEntities(entitiesObj);
@@ -276,6 +276,5 @@ public class JSONParser {
         }
         return users;
     }
-
 
 }

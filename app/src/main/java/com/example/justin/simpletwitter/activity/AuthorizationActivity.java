@@ -13,6 +13,7 @@ import com.example.justin.simpletwitter.utils.AppInfo;
 import com.example.justin.simpletwitter.R;
 import com.github.scribejava.core.model.OAuth1AccessToken;
 import com.github.scribejava.core.model.OAuth1RequestToken;
+import com.github.scribejava.core.model.Response;
 
 import java.io.IOException;
 import java.util.concurrent.ExecutionException;
@@ -63,7 +64,6 @@ public class AuthorizationActivity extends AppCompatActivity {
             Intent intent = new Intent(AuthorizationActivity.this, MainActivity.class);
            startActivity(intent);
         }
-
 
     }
 

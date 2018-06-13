@@ -172,7 +172,12 @@ public class MainActivity extends FragmentActivity {
               try {
                   Response response = service.execute(request);
                   Log.d(TAG, "doInBackground: jsonObject" + response.getBody());
-                  return new JSONObject(response.getBody());
+                  if(response.isSuccessful())
+                    return new JSONObject(response.getBody());
+                  else {
+                      Intent i = new Intent(MainActivity.this, ErrorActivity.class);
+                      startActivity(i);
+                  }
               } catch (InterruptedException | IOException | ExecutionException | JSONException e) {
                   e.printStackTrace();
               }

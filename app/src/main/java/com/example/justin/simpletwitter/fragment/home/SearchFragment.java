@@ -85,7 +85,7 @@ public class SearchFragment extends Fragment{
         statusRecyclerView.setAdapter(statusAdapter);
 
         userRecyclerView = view.findViewById(R.id.rv_search_user);
-        userAdapter = new UserAdapter(users);
+        userAdapter = new UserAdapter(users, this);
         userLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
         userRecyclerView.setLayoutManager(userLayoutManager);
         userRecyclerView.setAdapter(userAdapter);
@@ -115,8 +115,12 @@ public class SearchFragment extends Fragment{
                 service.signRequest(token, request);
 
                 Response response = service.execute(request);
-                JSONObject jsonObject = new JSONObject(response.getBody());
-                return jsonObject.getJSONArray("statuses");
+                if(response.isSuccessful()) {
+                    JSONObject jsonObject = new JSONObject(response.getBody());
+                    return jsonObject.getJSONArray("statuses");
+                } else {
+                    // TODO: nice way to show no results
+                }
             } catch (InterruptedException | ExecutionException | IOException | JSONException e) {
                 e.printStackTrace();
             }
@@ -149,7 +153,11 @@ public class SearchFragment extends Fragment{
 
                 Response response = service.execute(request);
                 Log.d(TAG, "Response = " + response.getBody());
-                return new JSONArray(response.getBody());
+                if(response.isSuccessful())
+                    return new JSONArray(response.getBody());
+                else {
+                    // TODO: SOMETHING PRETTY FOR NO RESULTS
+                }
             } catch (InterruptedException | ExecutionException | IOException | JSONException e) {
                 e.printStackTrace();
             }

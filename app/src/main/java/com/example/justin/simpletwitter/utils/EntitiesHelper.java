@@ -1,6 +1,8 @@
 package com.example.justin.simpletwitter.utils;
-
+import android.content.Context;
 import android.graphics.Color;
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextPaint;
@@ -9,6 +11,9 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
+import com.example.justin.simpletwitter.R;
+import com.example.justin.simpletwitter.fragment.menu.DirectMessageFragment;
+import com.example.justin.simpletwitter.fragment.profile.UserProfileFragment;
 import com.example.justin.simpletwitter.model.EntitiesHolder;
 import com.example.justin.simpletwitter.model.Hashtag;
 import com.example.justin.simpletwitter.model.Status;
@@ -19,6 +24,11 @@ public class EntitiesHelper {
 
 
     public static final String TAG = "EntitiesHelper";
+    private Fragment fragment;
+
+    public EntitiesHelper(Fragment fragment) {
+        this.fragment = fragment;
+    }
 
     public SpannableString linkifyStatus(Status status){
         EntitiesHolder entitiesHolder = status.getEntities();
@@ -77,8 +87,11 @@ public class EntitiesHelper {
         public void onClick(View textView) {
             TextView newView = (TextView) textView;
             Log.d(TAG, "UsermentionClickable, onClick: " + newView.getText().toString());
-            //fragment.getFragmentManager().beginTransaction().replace(R.id.activity_content, new DirectMessageFragment()).addToBackStack(null).commit();
-
+//            Bundle b = new Bundle();
+//            b.putString("name", username);
+//            UserProfileFragment f = new UserProfileFragment();
+//            f.setArguments(b);
+//            fragment.getFragmentManager().beginTransaction().replace(R.id.activity_content, f).addToBackStack(null).commit();
         }
         @Override
         public void updateDrawState(TextPaint ds) {

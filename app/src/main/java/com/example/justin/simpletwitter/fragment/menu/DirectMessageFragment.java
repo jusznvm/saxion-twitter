@@ -33,6 +33,8 @@ import java.util.concurrent.ExecutionException;
 
 public class DirectMessageFragment extends Fragment {
 
+    public static final String TAG = "DirectMessageFragment";
+
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     private RecyclerView mRecyclerView;
@@ -67,13 +69,14 @@ public class DirectMessageFragment extends Fragment {
 
         @Override
         protected JSONObject doInBackground(Void... voids) {
-
+            //TODO: Not sure if show onProgressUpdated or handle non successfull response code
             OAuthRequest request = new OAuthRequest(Verb.GET, TwitterAPI.DMS_EVENTS_LIST);
             OAuth1AccessToken token = appInfo.getAccessToken();
             service.signRequest(token, request);
 
             try {
                 final Response response = service.execute(request);
+                Log.d(TAG, "doInBackground: " + response.getBody());
                 return new JSONObject(response.getBody());
             } catch (InterruptedException | ExecutionException | IOException | JSONException e) {
                 e.printStackTrace();

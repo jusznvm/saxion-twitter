@@ -1,5 +1,6 @@
 package com.example.justin.simpletwitter.fragment.home;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -10,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.justin.simpletwitter.activity.ErrorActivity;
 import com.example.justin.simpletwitter.utils.AppInfo;
 import com.example.justin.simpletwitter.R;
 import com.example.justin.simpletwitter.utils.TwitterAPI;
@@ -21,6 +23,7 @@ import com.github.scribejava.core.model.OAuthRequest;
 import com.github.scribejava.core.model.Response;
 import com.github.scribejava.core.model.Verb;
 import com.github.scribejava.core.oauth.OAuth10aService;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -69,7 +72,12 @@ public class MyTimelineFragment extends Fragment {
             service.signRequest(token, request);
             try {
                 final Response response = service.execute(request);
-                return new JSONArray(response.getBody());
+                if(response.isSuccessful())
+                    return new JSONArray(response.getBody());
+                else {
+                    Intent i = new Intent(getActivity(), ErrorActivity.class);
+                    startActivity(i);
+                }
             } catch (InterruptedException | ExecutionException | IOException | JSONException e) {
                 e.printStackTrace();
             }

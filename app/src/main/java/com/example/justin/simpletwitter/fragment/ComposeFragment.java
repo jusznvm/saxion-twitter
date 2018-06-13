@@ -17,6 +17,7 @@ import com.example.justin.simpletwitter.fragment.home.TabLayoutFragment;
 import com.example.justin.simpletwitter.utils.AppInfo;
 import com.example.justin.simpletwitter.utils.TwitterAPI;
 import com.github.scribejava.core.model.OAuthRequest;
+import com.github.scribejava.core.model.Response;
 import com.github.scribejava.core.model.Verb;
 import com.github.scribejava.core.oauth.OAuth10aService;
 
@@ -45,7 +46,7 @@ public class ComposeFragment extends Fragment {
         View view = inflater.inflate(R.layout.compose_tweet, container, false);
 
         etContent = view.findViewById(R.id.et_compose_tweet);
-        if(getArguments() != null) {
+        if (getArguments() != null) {
             String s = "@" + getArguments().getString("user_name");
             etContent.setText(s);
         }
@@ -77,13 +78,17 @@ public class ComposeFragment extends Fragment {
                 String url = TwitterAPI.STATUSES_UPDATE + encoded;
                 OAuthRequest request = new OAuthRequest(Verb.POST, url);
                 service.signRequest(AppInfo.getAccessToken(), request);
-                service.execute(request);
+                Response r = service.execute(request);
+                if(!r.isSuccessful())
+                    //TODO: implement tweeting failed lil toast or something :*
+                    return null;
             } catch (InterruptedException | IOException | ExecutionException e) {
                 e.printStackTrace();
             }
 
             return null;
         }
+
 
         @Override
         protected void onPostExecute(Void aVoid) {
