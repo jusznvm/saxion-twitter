@@ -1,5 +1,9 @@
 package com.example.justin.simpletwitter.model;
 
+import com.example.justin.simpletwitter.model.entity.Entity;
+
+import java.util.ArrayList;
+
 /**
  * Created by Justin on 5/9/2018.
  */
@@ -20,7 +24,7 @@ public class Status {
 
     private User user = null;
 
-    private EntitiesHolder entities = null;
+    private ArrayList<Entity> entitiesList = null;
 
     public Status(String tweetIDString, String text, String createdAt,
                   int retweetCount, int favoriteCount,
@@ -83,12 +87,12 @@ public class Status {
         this.user = user;
     }
 
-    public EntitiesHolder getEntities() {
-        return entities;
+    public ArrayList<Entity> getEntitiesList() {
+        return entitiesList;
     }
 
-    public void setEntities(EntitiesHolder entities) {
-        this.entities = entities;
+    public void setEntitiesList(ArrayList<Entity> entitiesList) {
+        this.entitiesList = entitiesList;
     }
 
     public void setFavorited(boolean favorited) {

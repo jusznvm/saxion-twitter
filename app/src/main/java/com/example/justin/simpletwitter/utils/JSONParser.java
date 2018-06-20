@@ -1,14 +1,12 @@
 package com.example.justin.simpletwitter.utils;
 
-import android.util.Log;
-
 import com.example.justin.simpletwitter.model.DirectMessage;
-import com.example.justin.simpletwitter.model.EntitiesHolder;
-import com.example.justin.simpletwitter.model.Hashtag;
+import com.example.justin.simpletwitter.model.entity.Entity;
+import com.example.justin.simpletwitter.model.entity.Hashtag;
 import com.example.justin.simpletwitter.model.Status;
-import com.example.justin.simpletwitter.model.URL;
+import com.example.justin.simpletwitter.model.entity.URL;
 import com.example.justin.simpletwitter.model.User;
-import com.example.justin.simpletwitter.model.UserMention;
+import com.example.justin.simpletwitter.model.entity.UserMention;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -28,7 +26,7 @@ public class JSONParser {
         ArrayList<Status> statuses = new ArrayList<>();
         try {
 //            JSONArray jsonArray = jsonObject.getJSONArray("statuses");
-            for(int i = 0; i < jsonArray.length(); i++) {
+            for (int i = 0; i < jsonArray.length(); i++) {
                 JSONObject tweetObj = jsonArray.getJSONObject(i);
 
                 // Parse tweet stuff
@@ -54,7 +52,8 @@ public class JSONParser {
                 // ArrayList<Entity> hashtagsList = parseHashtags(JSONHashtags);
                 // TODO: Make parser work Entities instead of subtypes door de entitiesObj mee te geven en een entitiesHolder te returnen;
 
-                EntitiesHolder entitiesHolder = parseEntities(entitiesObj); // general parse method
+//                EntitiesHolder entitiesHolder = parseEntities(entitiesObj); // general parse method
+                ArrayList<Entity> entitiesList = parseEntities(entitiesObj);
 
                 // Create a status object
                 Status status = new Status(
@@ -74,7 +73,7 @@ public class JSONParser {
 
                 // Set the right user and entities to the tweet
                 status.setUser(user);
-                status.setEntities(entitiesHolder);
+                status.setEntitiesList(entitiesList);
 
                 statuses.add(status);
 
@@ -86,24 +85,26 @@ public class JSONParser {
         return statuses;
     }
 
-    private static EntitiesHolder parseEntities(JSONObject entitiesObject){
-        EntitiesHolder entitiesHolder = new EntitiesHolder();
+    private static ArrayList<Entity> parseEntities(JSONObject entitiesObject) {
+        ArrayList<Entity> entitiesList = new ArrayList<>();
 
         try {
-            entitiesHolder.setHashtags(parseHashtags(entitiesObject.getJSONArray("hashtags")));
-            entitiesHolder.setUserMentions(parseUserMentions(entitiesObject.getJSONArray("user_mentions")));
-            entitiesHolder.setUrls(parseURLs(entitiesObject.getJSONArray("urls")));
+            entitiesList.addAll(parseHashtags(entitiesObject.getJSONArray("hashtags")));
+            entitiesList.addAll(parseUserMentions(entitiesObject.getJSONArray("user_mentions")));
+            entitiesList.addAll(parseURLs(entitiesObject.getJSONArray("urls")));
+
+
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
-        return entitiesHolder;
+        return entitiesList;
     }
 
     private static ArrayList<Hashtag> parseHashtags(JSONArray hashtagArray) {
         ArrayList<Hashtag> hashtags = new ArrayList<>();
-        try{
-            for (int i = 0; i < hashtagArray.length(); i++){
+        try {
+            for (int i = 0; i < hashtagArray.length(); i++) {
                 JSONObject tempObj = hashtagArray.getJSONObject(i);
                 JSONArray indicesJSONArray = tempObj.getJSONArray("indices");
 
@@ -115,17 +116,17 @@ public class JSONParser {
                 hashtags.add(hashtag);
 
             }
-        }catch (JSONException e){
+        } catch (JSONException e) {
             e.printStackTrace();
         }
 
         return hashtags;
     }
 
-    private static ArrayList<URL> parseURLs(JSONArray URLs){
+    private static ArrayList<URL> parseURLs(JSONArray URLs) {
         ArrayList<URL> urls = new ArrayList<>();
-        try{
-            for (int i = 0; i < URLs.length(); i++){
+        try {
+            for (int i = 0; i < URLs.length(); i++) {
                 JSONObject URLObject = URLs.getJSONObject(i);
 
                 JSONArray indicesArray = URLObject.getJSONArray("indices");
@@ -137,27 +138,25 @@ public class JSONParser {
                 int startIndex = indicesArray.getInt(0);
                 int endIndex = indicesArray.getInt(1);
 
-                URL url = new URL(startIndex, endIndex,
-                        link, displayUrl,
-                        expandedUrl);
-
+                URL url = new URL(
+                        link, startIndex, endIndex, displayUrl, expandedUrl
+                );
 
                 urls.add(url);
 
 
-
             }
-        }catch (JSONException e){
+        } catch (JSONException e) {
             e.printStackTrace();
         }
 
         return urls;
     }
 
-    private static ArrayList<UserMention> parseUserMentions(JSONArray mentions){
+    private static ArrayList<UserMention> parseUserMentions(JSONArray mentions) {
         ArrayList<UserMention> userMentions = new ArrayList<>();
-        try{
-            for (int i = 0; i < mentions.length(); i++){
+        try {
+            for (int i = 0; i < mentions.length(); i++) {
                 JSONObject mentionObject = mentions.getJSONObject(i);
 
                 JSONArray indicesArray = mentionObject.getJSONArray("indices");
@@ -171,17 +170,14 @@ public class JSONParser {
                 int startIndex = indicesArray.getInt(0);
                 int endIndex = indicesArray.getInt(1);
 
-
                 UserMention userMention = new UserMention(
-                        screenName, name,
-                        idString, id,
-                        startIndex, endIndex);
-
+                        screenName, startIndex, endIndex, name, idString, id
+                );
 
                 userMentions.add(userMention);
 
             }
-        }catch (JSONException e){
+        } catch (JSONException e) {
             e.printStackTrace();
         }
 
@@ -198,7 +194,7 @@ public class JSONParser {
             String location = jsonObject.getString("location");
             String description = jsonObject.getString("description");
 
-            if(!jsonObject.isNull("profile_location")) {
+            if (!jsonObject.isNull("profile_location")) {
                 String profileLocation = jsonObject.getString("profile_location");
             }
 
@@ -210,9 +206,9 @@ public class JSONParser {
             boolean following = jsonObject.getBoolean("following");
 
             userModel = new User(username, name, imgUrl,
-                            location, description, statusCount,
-                            followersCount, followingCount,
-                            following);
+                    location, description, statusCount,
+                    followersCount, followingCount,
+                    following);
 
             userModel.setBackgroundUrl(jsonObject.getString("profile_background_image_url_https"));
             userModel.setBannerUrl(jsonObject.getString("profile_banner_url"));
@@ -227,7 +223,7 @@ public class JSONParser {
         ArrayList<DirectMessage> dms = new ArrayList<>();
         try {
             JSONArray jsonArray = jsonObject.getJSONArray("events");
-            for(int i = 0; i < jsonArray.length(); i++) {
+            for (int i = 0; i < jsonArray.length(); i++) {
                 // Get a DMObject
                 JSONObject dmObj = jsonArray.getJSONObject(i);
 
@@ -247,14 +243,14 @@ public class JSONParser {
                 JSONObject entitiesObj = dmContent.getJSONObject("message_data").getJSONObject("entities");
 
 
-                EntitiesHolder entitiesHolder = parseEntities(entitiesObj);
-
+//                EntitiesHolder entitiesHolder = parseEntities(entitiesObj);
+                ArrayList<Entity> entities = parseEntities(entitiesObj);
 
                 DirectMessage dm = new DirectMessage(
                         recipientID, senderID,
                         dmID, timestamp,
                         text);
-                dm.setEntitiesHolder(entitiesHolder);
+                dm.setEntities(entities);
                 dms.add(dm);
             }
         } catch (JSONException e) {

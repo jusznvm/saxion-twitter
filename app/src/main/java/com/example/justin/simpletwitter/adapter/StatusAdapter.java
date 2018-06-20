@@ -101,12 +101,12 @@ public class StatusAdapter extends RecyclerView.Adapter<StatusAdapter.ViewHolder
         String imgUrl = user.getImgUrl();
 
         // Set all the values accordingly
-        EntitiesHelper entitiesHelper = new EntitiesHelper(fragment);
-        holder.tvText.setText(entitiesHelper.linkifyStatus(status));
+        holder.tvText.setText(EntitiesHelper.linkifyStatus(status, fragment));
         holder.tvText.setMovementMethod(LinkMovementMethod.getInstance());
 
         holder.tvScreenname.setText(screenName);
         holder.tvUsername.setText(user.getName());
+        Log.d(TAG, "onBindViewHolder: favoriteCount: " + favoriteCount + "\n of user : " + screenName);
 
         Log.d(TAG, "onBindViewHolder: " + status.getTweetID());
         /**
@@ -206,7 +206,6 @@ public class StatusAdapter extends RecyclerView.Adapter<StatusAdapter.ViewHolder
 
             String tweetID = status.getTweetIDString();
             String url;
-            int newCount;
             Log.d(TAG, "doInBackground: favorited = " + status.isFavorited());
 
             if (status.isFavorited()) {
@@ -214,18 +213,16 @@ public class StatusAdapter extends RecyclerView.Adapter<StatusAdapter.ViewHolder
                 url = TwitterAPI.FAVORITE_STATUS_DESTROY + tweetID;
                 Log.d(TAG, "doInBackground: url = " + url);
 
-                newCount = status.getFavoriteCount() - 1;
-                if (newCount < 0) {
-                    newCount = 0;
-                }
-                status.setFavoriteCount(newCount);
+
+                status.setFavoriteCount(status.getFavoriteCount()-1 < 0 ? 0 : status.getFavoriteCount()-1);
+
                 status.setFavorited(false);
             } else {
                 Log.d(TAG, "doInBackground: in ELSE");
                 url = TwitterAPI.FAVORITE_STATUS_CREATE + tweetID;
                 Log.d(TAG, "doInBackground: status = " + url);
-                newCount = status.getFavoriteCount() + 1;
-                status.setFavoriteCount(newCount);
+
+                status.setFavoriteCount(status.getFavoriteCount() + 1);
                 status.setFavorited(true);
             }
             Log.d(TAG, "doInBackground FavTask: url = " + url);

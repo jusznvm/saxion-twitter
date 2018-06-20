@@ -16,9 +16,10 @@ import android.widget.TextView;
 
 import com.example.justin.simpletwitter.R;
 import com.example.justin.simpletwitter.model.DirectMessage;
-import com.example.justin.simpletwitter.model.EntitiesHolder;
-import com.example.justin.simpletwitter.model.Hashtag;
-import com.example.justin.simpletwitter.model.UserMention;
+import com.example.justin.simpletwitter.model.entity.Entity;
+import com.example.justin.simpletwitter.model.entity.Hashtag;
+import com.example.justin.simpletwitter.model.entity.UserMention;
+import com.example.justin.simpletwitter.utils.EntitiesHelper;
 
 import java.util.ArrayList;
 
@@ -56,7 +57,7 @@ public class DMAdapter extends RecyclerView.Adapter<DMAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         DirectMessage dm = dms.get(position);
-        holder.tvContent.setText(linkifyDM(dm));
+        holder.tvContent.setText(EntitiesHelper.linkifyDM(dm));
     }
 
     @Override
@@ -68,27 +69,13 @@ public class DMAdapter extends RecyclerView.Adapter<DMAdapter.ViewHolder> {
         return dms.size();
     }
 
-    public SpannableString linkifyDM(DirectMessage dm){
-        EntitiesHolder entitiesHolder = dm.getEntitiesHolder();
+    class MyClickableSpan extends ClickableSpan {
 
-        String statusText = dm.getText();
+        Entity entity = null;
 
-        SpannableString ss = new SpannableString(statusText);
-
-        for (Hashtag hashtag: entitiesHolder.getHashtags()) {
-            ss.setSpan(new HashtagClickableSpan(), hashtag.getStartIndex(), hashtag.getEndIndex(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        public MyClickableSpan(Entity entity) {
+            this.entity = entity;
         }
-
-        for (UserMention mention: entitiesHolder.getUserMentions()) {
-            ss.setSpan(new UserMentionClickableSpan(), mention.getStartIndex(), mention.getStartIndex(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        }
-
-
-        return ss;
-    }
-
-    class HashtagClickableSpan extends ClickableSpan {
-
 
         public void onClick(View textView) {
             TextView newView = (TextView) textView;
@@ -99,7 +86,7 @@ public class DMAdapter extends RecyclerView.Adapter<DMAdapter.ViewHolder> {
         }
         @Override
         public void updateDrawState(TextPaint ds) {
-            ds.setColor(Color.GREEN);
+            ds.setColor(Color.BLUE);
             ds.setUnderlineText(false); // remove underline
         }
     }

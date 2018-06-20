@@ -1,13 +1,19 @@
-#Fri Jun 08 14:04:35 CEST 2018
-path.3=classes.dex
-path.2=classes.dex
+#Wed Jun 20 16:39:50 CEST 2018
 path.1=classes.dex
 path.0=classes.dex
+renamed.5=classes6.dex
+renamed.4=classes5.dex
 renamed.3=classes4.dex
 renamed.2=classes3.dex
 renamed.1=classes2.dex
 renamed.0=classes.dex
-base.3=/Users/justin/Documents/Projects/School/SimpleTwitter/app/build/intermediates/transforms/dexMerger/debug/14
-base.2=/Users/justin/Documents/Projects/School/SimpleTwitter/app/build/intermediates/transforms/dexMerger/debug/12
-base.1=/Users/justin/Documents/Projects/School/SimpleTwitter/app/build/intermediates/transforms/dexMerger/debug/15
-base.0=/Users/justin/Documents/Projects/School/SimpleTwitter/app/build/intermediates/transforms/dexMerger/debug/13
+base.5=C\:\\Users\\yunus\\AndroidStudioProjects\\saxion-twitter\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\19
+base.4=C\:\\Users\\yunus\\AndroidStudioProjects\\saxion-twitter\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\22
+base.3=C\:\\Users\\yunus\\AndroidStudioProjects\\saxion-twitter\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\21
+base.2=C\:\\Users\\yunus\\AndroidStudioProjects\\saxion-twitter\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\18
+base.1=C\:\\Users\\yunus\\AndroidStudioProjects\\saxion-twitter\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\20
+base.0=C\:\\Users\\yunus\\AndroidStudioProjects\\saxion-twitter\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\17
+path.5=classes.dex
+path.4=classes.dex
+path.3=classes.dex
+path.2=classes.dex

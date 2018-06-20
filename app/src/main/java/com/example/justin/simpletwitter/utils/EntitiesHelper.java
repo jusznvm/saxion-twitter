@@ -1,8 +1,9 @@
 package com.example.justin.simpletwitter.utils;
-import android.content.Context;
+
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.RecyclerView;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextPaint;
@@ -12,52 +13,122 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.example.justin.simpletwitter.R;
-import com.example.justin.simpletwitter.fragment.menu.DirectMessageFragment;
+import com.example.justin.simpletwitter.adapter.DMAdapter;
 import com.example.justin.simpletwitter.fragment.profile.UserProfileFragment;
-import com.example.justin.simpletwitter.model.EntitiesHolder;
-import com.example.justin.simpletwitter.model.Hashtag;
+import com.example.justin.simpletwitter.model.DirectMessage;
+import com.example.justin.simpletwitter.model.User;
+import com.example.justin.simpletwitter.model.entity.Entity;
+import com.example.justin.simpletwitter.model.entity.Hashtag;
 import com.example.justin.simpletwitter.model.Status;
-import com.example.justin.simpletwitter.model.URL;
-import com.example.justin.simpletwitter.model.UserMention;
+import com.example.justin.simpletwitter.model.entity.URL;
+import com.example.justin.simpletwitter.model.entity.UserMention;
+
+import java.util.ArrayList;
 
 public class EntitiesHelper {
 
 
     public static final String TAG = "EntitiesHelper";
-    private Fragment fragment;
 
-    public EntitiesHelper(Fragment fragment) {
-        this.fragment = fragment;
-    }
 
-    public SpannableString linkifyStatus(Status status){
-        EntitiesHolder entitiesHolder = status.getEntities();
+    public static SpannableString linkifyStatus(Status status, Fragment fragment) {
 
+        ArrayList<Entity> entitiesList = status.getEntitiesList();
         String statusText = status.getText();
 
         SpannableString ss = new SpannableString(statusText);
 
-
-        for (Hashtag hashtag: entitiesHolder.getHashtags()) {
-            ss.setSpan(new EntitiesHelper.HashtagClickableSpan(), hashtag.getStartIndex(), hashtag.getEndIndex(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        if (!(entitiesList.size() > 0)){
+            return ss;
         }
 
-        for (UserMention mention: entitiesHolder.getUserMentions()) {
-            ss.setSpan(new EntitiesHelper.UserMentionClickableSpan(), mention.getStartIndex(), mention.getEndIndex(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        }
+        for (Entity entity : entitiesList) {
+            if (entity instanceof UserMention){
+                ss.setSpan(new EntitiesHelper.MyClickableSpan((UserMention)entity, fragment), entity.getStartIndex(), entity.getEndIndex(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            }
 
-        for (URL url: entitiesHolder.getUrls()) {
-            ss.setSpan(new EntitiesHelper.URLClickableSpan(), url.getStartIndex(), url.getEndIndex(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            if (entity instanceof Hashtag){
+                ss.setSpan(new EntitiesHelper.MyClickableSpan((Hashtag)entity, fragment), entity.getStartIndex(), entity.getEndIndex(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            }
+
+            if (entity instanceof URL){
+                ss.setSpan(new EntitiesHelper.MyClickableSpan((URL)entity, fragment), entity.getStartIndex(), entity.getEndIndex(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            }
         }
         return ss;
     }
 
-    class URLClickableSpan extends ClickableSpan {
+    public static SpannableString linkifyDM(DirectMessage dm) {
+
+
+
+
+        ArrayList<Entity> entitiesList = dm.getEntities();
+        String statusText = dm.getText();
+
+        SpannableString ss = new SpannableString(statusText);
+
+        if (!(entitiesList.size() > 0)){
+            return ss;
+        }
+
+        for (Entity entity : entitiesList) {
+            if (entity instanceof UserMention){
+                ss.setSpan(new EntitiesHelper.MyClickableSpan((UserMention)entity, null), entity.getStartIndex(), entity.getEndIndex(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            }
+
+            if (entity instanceof Hashtag){
+                ss.setSpan(new EntitiesHelper.MyClickableSpan((Hashtag)entity, null), entity.getStartIndex(), entity.getEndIndex(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            }
+
+            if (entity instanceof URL){
+                ss.setSpan(new EntitiesHelper.MyClickableSpan((URL)entity, null), entity.getStartIndex(), entity.getEndIndex(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            }
+        }
+
+
+        return ss;
+    }
+
+
+    /**
+     * Inner classes
+     */
+    static class MyClickableSpan extends ClickableSpan {
+        Entity entity = null;
+        Fragment fragment = null;
+
+
+        public MyClickableSpan(UserMention userMentionEntity, Fragment fragment) {
+
+            this.entity = userMentionEntity;
+            if (fragment != null){
+                this.fragment = fragment;
+            }
+            this.fragment = fragment;
+        }
+
+        public MyClickableSpan(Hashtag hashtagEntity, Fragment fragment) {
+
+            this.entity = hashtagEntity;
+            if (fragment != null){
+                this.fragment = fragment;
+            }
+        }
+
+        public MyClickableSpan(URL urlEntity, Fragment fragment) {
+
+            this.entity = urlEntity;
+            if (fragment != null){
+                this.fragment = fragment;
+            }
+        }
 
         @Override
         public void onClick(View textView) {
             TextView newView = (TextView) textView;
-            Log.d(TAG, "URLClickableSpan, onClick: " + newView.getText().toString());
+            doAction();
+            Log.d(TAG, "Entity clicked, ClickableSpan, onClick(View content): " + newView.getText().toString());
         }
 
         @Override
@@ -65,38 +136,14 @@ public class EntitiesHelper {
             ds.setColor(Color.BLUE);
             ds.setUnderlineText(false);
         }
-    }
 
-    class HashtagClickableSpan extends ClickableSpan {
-
-        public void onClick(View textView) {
-            TextView newView = (TextView) textView;
-            Log.d(TAG, "URLClickable, onClick: " + newView.getText().toString());
-            //fragment.getFragmentManager().beginTransaction().replace(R.id.activity_content, new DirectMessageFragment()).addToBackStack(null).commit();
-        }
-
-        @Override
-        public void updateDrawState(TextPaint ds) {
-            ds.setColor(Color.GREEN);
-            ds.setUnderlineText(false); // remove underline
-        }
-    }
-
-    class UserMentionClickableSpan extends ClickableSpan {
-
-        public void onClick(View textView) {
-            TextView newView = (TextView) textView;
-            Log.d(TAG, "UsermentionClickable, onClick: " + newView.getText().toString());
-//            Bundle b = new Bundle();
-//            b.putString("name", username);
-//            UserProfileFragment f = new UserProfileFragment();
-//            f.setArguments(b);
-//            fragment.getFragmentManager().beginTransaction().replace(R.id.activity_content, f).addToBackStack(null).commit();
-        }
-        @Override
-        public void updateDrawState(TextPaint ds) {
-            ds.setColor(Color.RED);
-            ds.setUnderlineText(false); // remove underline
+        public void doAction(){
+            Log.d(TAG, "onClick: tvScreenName called");
+            Bundle bundle = new Bundle();
+            bundle.putString("name", entity.getText());
+            UserProfileFragment f = new UserProfileFragment();
+            f.setArguments(bundle);
+            fragment.getFragmentManager().beginTransaction().replace(R.id.activity_content, f).addToBackStack(null).commit();
         }
     }
 }

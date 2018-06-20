@@ -1,2 +1,2 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merger version="3"><dataSet config="main"><source path="/Users/justin/Documents/Projects/School/SimpleTwitter/app/src/main/shaders"/></dataSet><dataSet config="debug"><source path="/Users/justin/Documents/Projects/School/SimpleTwitter/app/src/debug/shaders"/></dataSet></merger>
+<merger version="3"><dataSet config="main"><source path="C:\Users\yunus\AndroidStudioProjects\saxion-twitter\app\src\main\shaders"/></dataSet><dataSet config="debug"><source path="C:\Users\yunus\AndroidStudioProjects\saxion-twitter\app\src\debug\shaders"/></dataSet></merger>

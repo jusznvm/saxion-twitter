@@ -1,5 +1,7 @@
 package com.example.justin.simpletwitter.model;
 
+import com.example.justin.simpletwitter.model.entity.Entity;
+
 import java.util.ArrayList;
 
 /**
@@ -16,7 +18,7 @@ public class DirectMessage {
 
     private String text;
 
-    private EntitiesHolder entitiesHolder;
+    private ArrayList<Entity> entities;
 
 
     public DirectMessage(long recipientID, long senderID,
@@ -35,11 +37,11 @@ public class DirectMessage {
         return text;
     }
 
-    public EntitiesHolder getEntitiesHolder() {
-        return entitiesHolder;
+    public ArrayList<Entity> getEntities() {
+        return entities;
     }
 
-    public void setEntitiesHolder(EntitiesHolder entitiesHolder) {
-        this.entitiesHolder = entitiesHolder;
+    public void setEntities(ArrayList<Entity> entities) {
+        this.entities = entities;
     }
 }
