@@ -93,12 +93,12 @@ public class MainActivity extends FragmentActivity {
         });
 
         NavigationView navigationView = findViewById(R.id.nav_view);
-        View hView =  navigationView.getHeaderView(0);
+        View hView = navigationView.getHeaderView(0);
 
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                switch(item.getItemId()) {
+                switch (item.getItemId()) {
 
                     case R.id.menu_home: {
                         TabLayoutFragment homeFragment = new TabLayoutFragment();
@@ -160,54 +160,54 @@ public class MainActivity extends FragmentActivity {
 
         TabLayoutFragment firstFragment = new TabLayoutFragment();
         getSupportFragmentManager().beginTransaction().add(R.id.activity_content, firstFragment).commit();
-      }
+    }
 
-      class CredentialsTask extends AsyncTask<Void, Void, JSONObject> {
+    class CredentialsTask extends AsyncTask<Void, Void, JSONObject> {
 
-          @Override
-          protected JSONObject doInBackground(Void... voids) {
-              OAuthRequest request = new OAuthRequest(Verb.GET, TwitterAPI.ACCOUNT_CREDENTIALS);
-              OAuth1AccessToken token = appInfo.getAccessToken();
-              service.signRequest(token, request);
-              try {
-                  Response response = service.execute(request);
-                  Log.d(TAG, "doInBackground: jsonObject" + response.getBody());
-                  if(response.isSuccessful())
+        @Override
+        protected JSONObject doInBackground(Void... voids) {
+            OAuthRequest request = new OAuthRequest(Verb.GET, TwitterAPI.ACCOUNT_CREDENTIALS);
+            OAuth1AccessToken token = appInfo.getAccessToken();
+            service.signRequest(token, request);
+            try {
+                Response response = service.execute(request);
+                Log.d(TAG, "doInBackground: jsonObject" + response.getBody());
+                if (response.isSuccessful())
                     return new JSONObject(response.getBody());
-                  else {
-                      Intent i = new Intent(MainActivity.this, ErrorActivity.class);
-                      startActivity(i);
-                  }
-              } catch (InterruptedException | IOException | ExecutionException | JSONException e) {
-                  e.printStackTrace();
-              }
-              return null;
-          }
+                else {
+                    Intent i = new Intent(MainActivity.this, ErrorActivity.class);
+                    startActivity(i);
+                }
+            } catch (InterruptedException | IOException | ExecutionException | JSONException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
 
-          @Override
-          protected void onPostExecute(JSONObject jsonObject) {
-              super.onPostExecute(jsonObject);
+        @Override
+        protected void onPostExecute(JSONObject jsonObject) {
+            super.onPostExecute(jsonObject);
 
-              user = JSONParser.parseUser(jsonObject);
+            user = JSONParser.parseUser(jsonObject);
 
-              String userName = "@" + user.getUserName();
+            String userName = "@" + user.getUserName();
 
-              editor = sharedPreferences.edit();
-              editor.putString("user_name", user.getUserName());
-              Log.d(TAG, "onPostExecute: " + user.getUserName());
-              editor.apply();
+            editor = sharedPreferences.edit();
+            editor.putString("user_name", user.getUserName());
+            Log.d(TAG, "onPostExecute: " + user.getUserName());
+            editor.apply();
 
-              name = userName;
-              String following = user.getFollowingCount() + " following";
-              String followers = user.getFollowersCount() + " followers";
+            name = userName;
+            String following = user.getFollowingCount() + " following";
+            String followers = user.getFollowersCount() + " followers";
 
-              tvName.setText(user.getName());
-              tvScreenName.setText(userName);
-              tvFollowingCount.setText(following);
-              tvFollowerCount.setText(followers);
+            tvName.setText(user.getName());
+            tvScreenName.setText(userName);
+            tvFollowingCount.setText(following);
+            tvFollowerCount.setText(followers);
 
-              String imgUrl = user.getImgUrl();
-              Picasso.get().load(imgUrl).into(ivProfileImg);
-          }
-      }
+            String imgUrl = user.getImgUrl();
+            Picasso.get().load(imgUrl).into(ivProfileImg);
+        }
+    }
 }

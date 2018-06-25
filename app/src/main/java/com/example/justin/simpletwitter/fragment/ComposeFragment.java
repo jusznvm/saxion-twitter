@@ -1,10 +1,15 @@
 package com.example.justin.simpletwitter.fragment;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.FileProvider;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,24 +26,34 @@ import com.github.scribejava.core.model.Response;
 import com.github.scribejava.core.model.Verb;
 import com.github.scribejava.core.oauth.OAuth10aService;
 
+import org.json.JSONObject;
+
+import java.io.File;
 import java.io.IOException;
 import java.net.URLEncoder;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 import java.util.concurrent.ExecutionException;
+
+import static android.app.Activity.RESULT_OK;
 
 public class ComposeFragment extends Fragment {
 
     public static final String TAG = "ComposeFragment";
 
+    static final int REQUEST_IMAGE_CAPTURE = 1;
+
     private static OAuth10aService service = AppInfo.getService();
     private static AppInfo appInfo = AppInfo.getInstance();
 
-    private Button btnPost;
+    private Button btnPost, btnAddPhoto;
 
     private EditText etContent;
 
-    public ComposeFragment() {
+    private String mCurrentPhotoPath;
 
-    }
+    public ComposeFragment() {}
 
     @Nullable
     @Override
@@ -64,11 +79,79 @@ public class ComposeFragment extends Fragment {
             }
         });
 
+        btnAddPhoto = view.findViewById(R.id.btn_add_photo);
+        btnAddPhoto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                if (i.resolveActivity(getActivity().getPackageManager()) != null) {
+                    File f = getImage();
+                    if(f != null) {
+                        Uri photoURI = FileProvider.getUriForFile(getActivity(),
+                                "com.example.android.fileprovider",
+                                f);
+                        i.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+                        startActivityForResult(i, REQUEST_IMAGE_CAPTURE);
+                    }
+                }
+
+            }
+        });
+
         return view;
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-    public class PostTweet extends AsyncTask<String, Void, Void> {
+        if(requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+            Bundle b = data.getExtras();
+            if(b != null) {
+                Bitmap img = (Bitmap) b.get("data");
+                Log.d(TAG, "onActivityResult: " + img.getByteCount());
+            } else {
+                Log.d(TAG, "data: " + b.get("data"));
+                Log.d(TAG, "bundle: " + b);
+
+            }
+        }
+    }
+
+    private File getImage() {
+
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US).format(new Date());
+        String imageFileName = "PNG_" + timeStamp + "_";
+        File storageDir = getActivity().getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        File image = null;
+        try {
+            image = File.createTempFile(imageFileName, ".png", storageDir);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        // Save a file: path for use with ACTION_VIEW intents
+        mCurrentPhotoPath = image.getAbsolutePath();
+        Log.d(TAG, "getImage: " + mCurrentPhotoPath);
+        return image;
+    }
+
+
+
+    private class AddMedia extends AsyncTask<Bitmap, Void, JSONObject> {
+
+        @Override
+        protected JSONObject doInBackground(Bitmap... bitmaps) {
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(JSONObject jsonObject) {
+            super.onPostExecute(jsonObject);
+        }
+    }
+
+    class PostTweet extends AsyncTask<String, Void, Void> {
 
         @Override
         protected Void doInBackground(String... strings) {
@@ -85,7 +168,6 @@ public class ComposeFragment extends Fragment {
             } catch (InterruptedException | IOException | ExecutionException e) {
                 e.printStackTrace();
             }
-
             return null;
         }
 
