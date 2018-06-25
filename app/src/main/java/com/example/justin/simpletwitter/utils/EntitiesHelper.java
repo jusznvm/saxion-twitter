@@ -14,6 +14,8 @@ import android.widget.TextView;
 
 import com.example.justin.simpletwitter.R;
 import com.example.justin.simpletwitter.adapter.DMAdapter;
+import com.example.justin.simpletwitter.fragment.home.HashtagSearchFragment;
+import com.example.justin.simpletwitter.fragment.home.SearchFragment;
 import com.example.justin.simpletwitter.fragment.profile.UserProfileFragment;
 import com.example.justin.simpletwitter.model.DirectMessage;
 import com.example.justin.simpletwitter.model.User;
@@ -44,15 +46,15 @@ public class EntitiesHelper {
 
         for (Entity entity : entitiesList) {
             if (entity instanceof UserMention){
-                ss.setSpan(new EntitiesHelper.MyClickableSpan((UserMention)entity, fragment), entity.getStartIndex(), entity.getEndIndex(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                ss.setSpan(new EntitiesHelper.MyClickableSpan((UserMention)entity, fragment), entity.getStartIndex(), entity.getEndIndex(), Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
             }
 
             if (entity instanceof Hashtag){
-                ss.setSpan(new EntitiesHelper.MyClickableSpan((Hashtag)entity, fragment), entity.getStartIndex(), entity.getEndIndex(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                ss.setSpan(new EntitiesHelper.MyClickableSpan((Hashtag)entity, fragment), entity.getStartIndex(), entity.getEndIndex(), Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
             }
 
             if (entity instanceof URL){
-                ss.setSpan(new EntitiesHelper.MyClickableSpan((URL)entity, fragment), entity.getStartIndex(), entity.getEndIndex(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                ss.setSpan(new EntitiesHelper.MyClickableSpan((URL)entity, fragment), entity.getStartIndex(), entity.getEndIndex(), Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
             }
         }
         return ss;
@@ -138,12 +140,29 @@ public class EntitiesHelper {
         }
 
         public void doAction(){
+            Fragment frag = null;
             Log.d(TAG, "onClick: tvScreenName called");
             Bundle bundle = new Bundle();
-            bundle.putString("name", entity.getText());
-            UserProfileFragment f = new UserProfileFragment();
-            f.setArguments(bundle);
-            fragment.getFragmentManager().beginTransaction().replace(R.id.activity_content, f).addToBackStack(null).commit();
+
+            Log.d(TAG, "doAction: entity type: " + entity.getType());
+            if (entity.getType().equals("UserMention")){
+                frag = new UserProfileFragment();
+                bundle.putString("name", entity.getText());
+                frag.setArguments(bundle);
+            }
+            else if (entity.getType().equals("Hashtag")){
+                frag = new HashtagSearchFragment();
+                bundle.putString("text", entity.getText());
+                frag.setArguments(bundle);
+            }
+
+            else if (entity.getType().equals("URL")){
+
+            }
+            else{
+                return;
+            }
+            fragment.getFragmentManager().beginTransaction().replace(R.id.activity_content, frag).addToBackStack(null).commit();
         }
     }
 }

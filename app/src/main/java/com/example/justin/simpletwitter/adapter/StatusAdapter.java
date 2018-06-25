@@ -258,7 +258,6 @@ public class StatusAdapter extends RecyclerView.Adapter<StatusAdapter.ViewHolder
             String tweetID = status.getTweetIDString();
             Log.d(TAG, "doInBackground: " + tweetID);
             String url = "";
-            int newCount;
             Log.d(TAG, "doInBackground: retweeted = " + status.isRetweeted());
 
 
@@ -267,19 +266,13 @@ public class StatusAdapter extends RecyclerView.Adapter<StatusAdapter.ViewHolder
                 url = TwitterAPI.UNRETWEET_STATUS + tweetID + ".json";
                 Log.d(TAG, "doInBackground: status = " + status.isRetweeted());
 
-                newCount = status.getRetweetCount() - 1;
-                if (newCount < 0) {
-                    newCount = 0;
-                }
-
-                status.setRetweetCount(newCount);
+                status.setRetweetCount(status.getRetweetCount()-1 < 0 ? 0 : status.getRetweetCount()-1);
                 status.setRetweeted(false);
             } else {
                 url = TwitterAPI.RETWEET_STATUS + tweetID + ".json";
                 Log.d(TAG, "doInBackground: status = " + status.isRetweeted());
 
-                newCount = status.getRetweetCount() + 1;
-                status.setRetweetCount(newCount);
+                status.setRetweetCount(status.getRetweetCount()+1);
                 status.setRetweeted(true);
             }
 

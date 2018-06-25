@@ -7,7 +7,7 @@
     android:layout_height="match_parent">
 
     <android.support.design.widget.TextInputLayout
-        android:id="@+id/til_search"
+        android:id="@+id/hashtag_til_search"
         style="@style/Widget.Design.TextInputLayout"
         android:layout_width="match_parent"
         android:layout_height="50dp"
@@ -20,7 +20,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <android.support.design.widget.TextInputEditText
-            android:id="@+id/et_search"
+            android:id="@+id/hashtag_et_search"
             style="@style/Widget.AppCompat.EditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -33,31 +33,18 @@
 
     </android.support.design.widget.TextInputLayout>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rv_search_user"
-        android:layout_marginStart="5dp"
-        android:layout_marginEnd="5dp"
-        android:layout_marginBottom="10dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/til_search"
-        >
-
-    </android.support.v7.widget.RecyclerView>
-
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/rv_search_tweets"
+        android:id="@+id/hashtag_rv_search_tweets"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="459dp"
         android:layout_marginBottom="24dp"
         android:layout_marginEnd="16dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/rv_search_user" />
+        app:layout_constraintTop_toBottomOf="@+id/hashtag_til_search" />
 
 
 

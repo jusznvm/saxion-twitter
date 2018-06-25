@@ -41,4 +41,6 @@ public abstract class Entity {
         this.endIndex = endIndex;
     }
 
+    public abstract String getType();
+
 }

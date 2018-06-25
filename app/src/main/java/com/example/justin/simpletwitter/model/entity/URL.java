@@ -32,4 +32,9 @@ public class URL extends Entity {
     public void setExpandedUrl(String expandedUrl) {
         this.expandedUrl = expandedUrl;
     }
+
+    @Override
+    public String getType() {
+        return "URL";
+    }
 }

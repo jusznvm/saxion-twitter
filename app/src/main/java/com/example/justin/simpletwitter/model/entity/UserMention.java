@@ -36,6 +36,11 @@ public class UserMention extends Entity{
     }
 
     @Override
+    public String getType() {
+        return "UserMention";
+    }
+
+    @Override
     public String toString() {
         return "UserMention{" +
                 "name='" + name + '\'' +

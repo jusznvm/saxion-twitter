@@ -160,6 +160,10 @@
         "source": "C:\\Users\\yunus\\AndroidStudioProjects\\saxion-twitter\\app\\src\\main\\res\\drawable\\database_3.xml"
     },
     {
+        "merged": "C:\\Users\\yunus\\AndroidStudioProjects\\saxion-twitter\\app\\build\\intermediates\\res\\merged\\debug\\layout_hashtag_search.xml.flat",
+        "source": "C:\\Users\\yunus\\AndroidStudioProjects\\saxion-twitter\\app\\src\\main\\res\\layout\\hashtag_search.xml"
+    },
+    {
         "merged": "C:\\Users\\yunus\\AndroidStudioProjects\\saxion-twitter\\app\\build\\intermediates\\res\\merged\\debug\\layout_abc_alert_dialog_title_material.xml.flat",
         "source": "C:\\Users\\yunus\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-26.1.0.aar\\88d9bd82e3de3b6a85c5467ecc5c6e28\\res\\layout\\abc_alert_dialog_title_material.xml"
     },

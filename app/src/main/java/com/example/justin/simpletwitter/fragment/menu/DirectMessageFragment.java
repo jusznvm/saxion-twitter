@@ -57,7 +57,7 @@ public class DirectMessageFragment extends Fragment {
         mRecyclerView = view.findViewById(R.id.rv_direct_message_list);
         mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);
-        mAdapter = new DMAdapter(dms);
+        mAdapter = new DMAdapter(dms, this);
         mRecyclerView.setAdapter(mAdapter);
 
         GetDirectMessagesTask task = new GetDirectMessagesTask();

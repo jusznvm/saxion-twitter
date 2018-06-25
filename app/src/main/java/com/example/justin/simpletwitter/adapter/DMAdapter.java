@@ -44,8 +44,9 @@ public class DMAdapter extends RecyclerView.Adapter<DMAdapter.ViewHolder> {
         }
     }
 
-    public DMAdapter(ArrayList<DirectMessage> dms) {
+    public DMAdapter(ArrayList<DirectMessage> dms, Fragment fragment) {
         this.dms = dms;
+        this.fragment = fragment;
     }
 
     @Override
@@ -67,42 +68,5 @@ public class DMAdapter extends RecyclerView.Adapter<DMAdapter.ViewHolder> {
             Log.d("DEBUG", "Item Text : " + dm.getText());
         }
         return dms.size();
-    }
-
-    class MyClickableSpan extends ClickableSpan {
-
-        Entity entity = null;
-
-        public MyClickableSpan(Entity entity) {
-            this.entity = entity;
-        }
-
-        public void onClick(View textView) {
-            TextView newView = (TextView) textView;
-
-            Log.d(TAG, "MyClickableSpan, onClick: " + newView.getText().toString());
-            //fragment.getFragmentManager().beginTransaction().replace(R.id.activity_content, new HomeTimelineFragment()).addToBackStack(null).commit();
-
-        }
-        @Override
-        public void updateDrawState(TextPaint ds) {
-            ds.setColor(Color.BLUE);
-            ds.setUnderlineText(false); // remove underline
-        }
-    }
-
-    class UserMentionClickableSpan extends ClickableSpan{
-        public void onClick(View textView) {
-            TextView newView = (TextView) textView;
-            Log.d(TAG, "MyClickableSpan, onClick: " + newView.getText().toString());
-            //fragment.getFragmentManager().beginTransaction().replace(R.id.activity_content, new DirectMessageFragment()).addToBackStack(null).commit();
-
-        }
-        @Override
-        public void updateDrawState(TextPaint ds) {
-            ds.setColor(Color.RED);
-            ds.setUnderlineText(false); // remove underline
-        }
-
     }
 }
