@@ -23,6 +23,8 @@ local.properties
 # Signing files
 .signing/
 
+app/build/
+
 # User-specific configurations
 .idea/libraries/
 .idea/workspace.xml
