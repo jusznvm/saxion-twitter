@@ -148,33 +148,28 @@ public class EntitiesHelper {
             Log.d(TAG, "onClick: tvScreenName called");
             Bundle bundle = new Bundle();
 
-
-            switch (entity.getType()){
-                case "Hashtag":
-                    frag = new HashtagSearchFragment();
-                    bundle.putString("text", "#" + entity.getText());
-                    frag.setArguments(bundle);
-                    break;
-
-                case "UserMention":
-                    frag = new UserProfileFragment();
-                    bundle.putString("name", entity.getText());
-                    frag.setArguments(bundle);
-                    break;
-
-                case "URL":
-                    frag = new URLFragment();
-                    bundle.putString("url", entity.getText());
-                    frag.setArguments(bundle);
-                    fragment.getFragmentManager().beginTransaction().add(R.id.activity_content, frag).addToBackStack(null).commit();
-                    break;
-
-                default:
-                    frag = new HomeTimelineFragment();
-                    break;
-
-            }
             Log.d(TAG, "doAction: entity type: " + entity.getType());
+            if (entity.getType().equals("UserMention")){
+                frag = new UserProfileFragment();
+                bundle.putString("name", entity.getText());
+                frag.setArguments(bundle);
+            }
+            else if (entity.getType().equals("Hashtag")){
+                frag = new HashtagSearchFragment();
+                bundle.putString("text", "#" + entity.getText());
+                frag.setArguments(bundle);
+            }
+
+            else if (entity.getType().equals("URL")){
+                frag = new URLFragment();
+                bundle.putString("url", entity.getText());
+                frag.setArguments(bundle);
+                fragment.getFragmentManager().beginTransaction().add(R.id.activity_content, frag).addToBackStack(null).commit();
+                return;
+            }
+            else{
+                return;
+            }
             fragment.getFragmentManager().beginTransaction().replace(R.id.activity_content, frag).addToBackStack(null).commit();
         }
     }
