@@ -84,7 +84,7 @@ public class HashtagSearchFragment extends Fragment {
             public void afterTextChanged(Editable editable) {
                 if (editable.length() > 0){
                     SearchTweetTask task = new SearchTweetTask();
-                    task.execute(editable.toString());
+                    task.execute("#"+ editable.toString());
                 }
             }
         });

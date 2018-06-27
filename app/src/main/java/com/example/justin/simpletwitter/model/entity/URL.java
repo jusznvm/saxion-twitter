@@ -11,7 +11,7 @@ public class URL extends Entity {
 
 
     public URL(String text, int startIndex, int endIndex, String displayUrl, String expandedUrl) {
-        super(text, startIndex, endIndex);
+        super(expandedUrl, startIndex, endIndex);
         this.displayUrl = displayUrl;
         this.expandedUrl = expandedUrl;
     }

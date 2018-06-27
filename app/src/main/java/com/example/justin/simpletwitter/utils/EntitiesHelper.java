@@ -1,6 +1,9 @@
 package com.example.justin.simpletwitter.utils;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
@@ -10,10 +13,14 @@ import android.text.TextPaint;
 import android.text.style.ClickableSpan;
 import android.util.Log;
 import android.view.View;
+import android.webkit.WebView;
 import android.widget.TextView;
 
 import com.example.justin.simpletwitter.R;
+import com.example.justin.simpletwitter.activity.ErrorActivity;
+import com.example.justin.simpletwitter.activity.MainActivity;
 import com.example.justin.simpletwitter.adapter.DMAdapter;
+import com.example.justin.simpletwitter.fragment.URLFragment;
 import com.example.justin.simpletwitter.fragment.home.HashtagSearchFragment;
 import com.example.justin.simpletwitter.fragment.home.SearchFragment;
 import com.example.justin.simpletwitter.fragment.profile.UserProfileFragment;
@@ -31,7 +38,6 @@ public class EntitiesHelper {
 
 
     public static final String TAG = "EntitiesHelper";
-
 
     public static SpannableString linkifyStatus(Status status, Fragment fragment) {
 
@@ -140,7 +146,8 @@ public class EntitiesHelper {
         }
 
         public void doAction(){
-            Fragment frag = null;
+            Fragment frag;
+
             Log.d(TAG, "onClick: tvScreenName called");
             Bundle bundle = new Bundle();
 
@@ -152,12 +159,14 @@ public class EntitiesHelper {
             }
             else if (entity.getType().equals("Hashtag")){
                 frag = new HashtagSearchFragment();
-                bundle.putString("text", entity.getText());
+                bundle.putString("text", "#" + entity.getText());
                 frag.setArguments(bundle);
             }
 
             else if (entity.getType().equals("URL")){
-
+                frag = new URLFragment();
+                bundle.putString("url", entity.getText());
+                frag.setArguments(bundle);
             }
             else{
                 return;
