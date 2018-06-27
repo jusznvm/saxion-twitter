@@ -1,5 +1,6 @@
 package com.example.justin.simpletwitter.fragment.home;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -16,6 +17,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.justin.simpletwitter.R;
+import com.example.justin.simpletwitter.activity.ErrorActivity;
 import com.example.justin.simpletwitter.adapter.StatusAdapter;
 import com.example.justin.simpletwitter.model.Status;
 import com.example.justin.simpletwitter.utils.AppInfo;
@@ -46,8 +48,6 @@ public class HashtagSearchFragment extends Fragment {
 
     private ArrayList<Status> statuses;
 
-    private EditText etSearch;
-
     private static OAuth10aService service = AppInfo.getService();
 
     private static AppInfo appInfo = AppInfo.getInstance();
@@ -64,30 +64,8 @@ public class HashtagSearchFragment extends Fragment {
 
         statuses = new ArrayList<>();
 
-        etSearch = view.findViewById(R.id.hashtag_et_search);
-
         SearchTweetTask task = new SearchTweetTask();
         task.execute(getArguments().getString("text"));
-
-        etSearch.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-                if (editable.length() > 0){
-                    SearchTweetTask task = new SearchTweetTask();
-                    task.execute("#"+ editable.toString());
-                }
-            }
-        });
 
         statusRecyclerView = view.findViewById(R.id.hashtag_rv_search_tweets);
         statusAdapter = new StatusAdapter(statuses, this);
@@ -126,11 +104,10 @@ public class HashtagSearchFragment extends Fragment {
                 if(response.isSuccessful()) {
                     JSONObject jsonObject = new JSONObject(response.getBody());
                     return jsonObject.getJSONArray("statuses");
-                } else {
-                    // TODO: nice way to show no results
                 }
             } catch (InterruptedException | ExecutionException | IOException | JSONException e) {
                 e.printStackTrace();
+                startActivity(new Intent(getActivity(), ErrorActivity.class));
             }
 
             return null;

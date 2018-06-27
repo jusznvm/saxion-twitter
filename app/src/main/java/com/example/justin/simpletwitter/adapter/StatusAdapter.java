@@ -101,7 +101,7 @@ public class StatusAdapter extends RecyclerView.Adapter<StatusAdapter.ViewHolder
         String imgUrl = user.getImgUrl();
 
         // Set all the values accordingly
-        holder.tvText.setText(EntitiesHelper.linkifyStatus(status, fragment));
+        holder.tvText.setText(new EntitiesHelper().linkifyStatus(status, fragment));
         holder.tvText.setMovementMethod(LinkMovementMethod.getInstance());
 
         holder.tvScreenname.setText(screenName);

@@ -55,7 +55,6 @@ public class URLFragment extends Fragment {
     private WebView webView;
 
 
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -66,13 +65,9 @@ public class URLFragment extends Fragment {
         Log.d(TAG, "onCreateView: url: " + getArguments().getString("url"));
         webView.loadUrl(getArguments().getString("url"));
 
-
-        // Enable Javascript
-        WebSettings webSettings = webView.getSettings();
-        webSettings.setJavaScriptEnabled(true);
-
         webView.setWebViewClient(new WebViewClient());
 
         return view;
     }
+
 }

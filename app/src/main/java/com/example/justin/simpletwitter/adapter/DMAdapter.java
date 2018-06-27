@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextPaint;
+import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -58,7 +59,8 @@ public class DMAdapter extends RecyclerView.Adapter<DMAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         DirectMessage dm = dms.get(position);
-        holder.tvContent.setText(EntitiesHelper.linkifyDM(dm));
+        holder.tvContent.setText(new EntitiesHelper().linkifyDM(dm, fragment));
+        holder.tvContent.setMovementMethod(LinkMovementMethod.getInstance());
     }
 
     @Override

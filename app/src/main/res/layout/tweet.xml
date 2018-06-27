@@ -15,8 +15,8 @@
         android:layout_marginStart="2dp"
         android:layout_marginTop="2dp"
         card_view:cardCornerRadius="@dimen/cardview_default_radius"
-        card_view:layout_constraintBottom_toBottomOf="parent"
         card_view:cardElevation="@dimen/cardview_default_elevation"
+        card_view:layout_constraintBottom_toBottomOf="parent"
         card_view:layout_constraintEnd_toEndOf="parent"
         card_view:layout_constraintStart_toStartOf="parent"
         card_view:layout_constraintTop_toTopOf="parent">
@@ -31,12 +31,16 @@
                 style="@style/Base.Widget.AppCompat.Button.Borderless"
                 android:layout_width="wrap_content"
                 android:layout_height="35dp"
+                android:layout_marginBottom="8dp"
+                android:layout_marginLeft="16dp"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="88dp"
+                android:layout_marginTop="8dp"
                 android:drawableLeft="@drawable/like_1"
                 android:elevation="4dp"
+                card_view:layout_constraintBottom_toBottomOf="parent"
+                card_view:layout_constraintLeft_toLeftOf="parent"
                 card_view:layout_constraintStart_toStartOf="parent"
-                card_view:layout_constraintTop_toBottomOf="@+id/tv_user_name"></Button>
+                card_view:layout_constraintTop_toBottomOf="@+id/tv_tweet_text"></Button>
 
 
             <Button
@@ -44,11 +48,14 @@
                 style="@style/Base.Widget.AppCompat.Button.Borderless"
                 android:layout_width="wrap_content"
                 android:layout_height="35dp"
-                android:layout_marginTop="88dp"
+                android:layout_marginTop="8dp"
                 android:drawableStart="@drawable/ic_retweet"
                 android:elevation="4dp"
+                card_view:layout_constraintEnd_toStartOf="@+id/btn_reply"
+                card_view:layout_constraintLeft_toLeftOf="parent"
+                card_view:layout_constraintRight_toRightOf="parent"
                 card_view:layout_constraintStart_toEndOf="@+id/btn_fav_tweet"
-                card_view:layout_constraintTop_toBottomOf="@+id/tv_user_name"></Button>
+                card_view:layout_constraintTop_toBottomOf="@+id/tv_tweet_text"></Button>
 
 
             <Button
@@ -56,20 +63,22 @@
                 style="@style/Base.Widget.AppCompat.Button.Borderless"
                 android:layout_width="wrap_content"
                 android:layout_height="35dp"
-                android:layout_marginTop="88dp"
+                android:layout_marginBottom="8dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginTop="8dp"
                 android:drawableLeft="@drawable/reply_tweet"
-                card_view:layout_constraintStart_toEndOf="@+id/btn_retweet"
-                card_view:layout_constraintTop_toBottomOf="@+id/tv_user_name"></Button>
+                android:elevation="4dp"
+                card_view:layout_constraintBottom_toBottomOf="parent"
+                card_view:layout_constraintRight_toRightOf="parent"
+                card_view:layout_constraintTop_toBottomOf="@+id/tv_tweet_text"></Button>
 
             <TextView
                 android:id="@+id/tv_tweet_text"
                 android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_marginBottom="8dp"
+                android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
-                card_view:layout_constraintBottom_toTopOf="@+id/btn_retweet"
                 card_view:layout_constraintEnd_toEndOf="parent"
                 card_view:layout_constraintHorizontal_bias="0.422"
                 card_view:layout_constraintStart_toStartOf="parent"
@@ -79,32 +88,38 @@
 
             <ImageView
                 android:id="@+id/iv_user_avatar"
-                android:layout_width="52dp"
+                android:layout_width="50dp"
                 android:layout_height="45dp"
+                android:layout_marginLeft="16dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="4dp"
+                card_view:layout_constraintLeft_toLeftOf="parent"
                 card_view:layout_constraintStart_toStartOf="parent"
                 card_view:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/tv_user_screen_name"
                 android:layout_width="263dp"
-                android:layout_height="24dp"
+                android:layout_height="21dp"
+                android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="4dp"
                 android:text="TextView"
                 android:textSize="18sp"
                 android:textStyle="bold"
+                card_view:layout_constraintEnd_toEndOf="parent"
                 card_view:layout_constraintStart_toEndOf="@+id/iv_user_avatar"
                 card_view:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/tv_user_name"
                 android:layout_width="265dp"
-                android:layout_height="22dp"
+                android:layout_height="21dp"
+                android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="3dp"
                 android:text="TextView"
+                card_view:layout_constraintEnd_toEndOf="parent"
                 card_view:layout_constraintStart_toEndOf="@+id/iv_user_avatar"
                 card_view:layout_constraintTop_toBottomOf="@+id/tv_user_screen_name" />
 

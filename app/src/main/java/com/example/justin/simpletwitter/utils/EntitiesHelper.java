@@ -22,6 +22,7 @@ import com.example.justin.simpletwitter.activity.MainActivity;
 import com.example.justin.simpletwitter.adapter.DMAdapter;
 import com.example.justin.simpletwitter.fragment.URLFragment;
 import com.example.justin.simpletwitter.fragment.home.HashtagSearchFragment;
+import com.example.justin.simpletwitter.fragment.home.HomeTimelineFragment;
 import com.example.justin.simpletwitter.fragment.home.SearchFragment;
 import com.example.justin.simpletwitter.fragment.profile.UserProfileFragment;
 import com.example.justin.simpletwitter.model.DirectMessage;
@@ -39,7 +40,7 @@ public class EntitiesHelper {
 
     public static final String TAG = "EntitiesHelper";
 
-    public static SpannableString linkifyStatus(Status status, Fragment fragment) {
+    public SpannableString linkifyStatus(Status status, Fragment fragment) {
 
         ArrayList<Entity> entitiesList = status.getEntitiesList();
         String statusText = status.getText();
@@ -52,24 +53,21 @@ public class EntitiesHelper {
 
         for (Entity entity : entitiesList) {
             if (entity instanceof UserMention){
-                ss.setSpan(new EntitiesHelper.MyClickableSpan((UserMention)entity, fragment), entity.getStartIndex(), entity.getEndIndex(), Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
+                ss.setSpan(new MyClickableSpan((UserMention)entity, fragment), entity.getStartIndex(), entity.getEndIndex(), Spanned.SPAN_INCLUSIVE_INCLUSIVE);
             }
 
             if (entity instanceof Hashtag){
-                ss.setSpan(new EntitiesHelper.MyClickableSpan((Hashtag)entity, fragment), entity.getStartIndex(), entity.getEndIndex(), Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
+                ss.setSpan(new MyClickableSpan((Hashtag)entity, fragment), entity.getStartIndex(), entity.getEndIndex(), Spanned.SPAN_INCLUSIVE_INCLUSIVE);
             }
 
             if (entity instanceof URL){
-                ss.setSpan(new EntitiesHelper.MyClickableSpan((URL)entity, fragment), entity.getStartIndex(), entity.getEndIndex(), Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
+                ss.setSpan(new MyClickableSpan((URL)entity, fragment), entity.getStartIndex(), entity.getEndIndex(), Spanned.SPAN_INCLUSIVE_INCLUSIVE);
             }
         }
         return ss;
     }
 
-    public static SpannableString linkifyDM(DirectMessage dm) {
-
-
-
+    public SpannableString linkifyDM(DirectMessage dm, Fragment fragment) {
 
         ArrayList<Entity> entitiesList = dm.getEntities();
         String statusText = dm.getText();
@@ -82,15 +80,15 @@ public class EntitiesHelper {
 
         for (Entity entity : entitiesList) {
             if (entity instanceof UserMention){
-                ss.setSpan(new EntitiesHelper.MyClickableSpan((UserMention)entity, null), entity.getStartIndex(), entity.getEndIndex(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                ss.setSpan(new MyClickableSpan((UserMention)entity, fragment), entity.getStartIndex(), entity.getEndIndex(), Spanned.SPAN_INCLUSIVE_INCLUSIVE);
             }
 
             if (entity instanceof Hashtag){
-                ss.setSpan(new EntitiesHelper.MyClickableSpan((Hashtag)entity, null), entity.getStartIndex(), entity.getEndIndex(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                ss.setSpan(new MyClickableSpan((Hashtag)entity, fragment), entity.getStartIndex(), entity.getEndIndex(), Spanned.SPAN_INCLUSIVE_INCLUSIVE);
             }
 
             if (entity instanceof URL){
-                ss.setSpan(new EntitiesHelper.MyClickableSpan((URL)entity, null), entity.getStartIndex(), entity.getEndIndex(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                ss.setSpan(new MyClickableSpan((URL)entity, fragment), entity.getStartIndex(), entity.getEndIndex(), Spanned.SPAN_INCLUSIVE_INCLUSIVE);
             }
         }
 
@@ -102,7 +100,7 @@ public class EntitiesHelper {
     /**
      * Inner classes
      */
-    static class MyClickableSpan extends ClickableSpan {
+    class MyClickableSpan extends ClickableSpan {
         Entity entity = null;
         Fragment fragment = null;
 
@@ -113,7 +111,6 @@ public class EntitiesHelper {
             if (fragment != null){
                 this.fragment = fragment;
             }
-            this.fragment = fragment;
         }
 
         public MyClickableSpan(Hashtag hashtagEntity, Fragment fragment) {
@@ -151,26 +148,33 @@ public class EntitiesHelper {
             Log.d(TAG, "onClick: tvScreenName called");
             Bundle bundle = new Bundle();
 
-            Log.d(TAG, "doAction: entity type: " + entity.getType());
-            if (entity.getType().equals("UserMention")){
-                frag = new UserProfileFragment();
-                bundle.putString("name", entity.getText());
-                frag.setArguments(bundle);
-            }
-            else if (entity.getType().equals("Hashtag")){
-                frag = new HashtagSearchFragment();
-                bundle.putString("text", "#" + entity.getText());
-                frag.setArguments(bundle);
-            }
 
-            else if (entity.getType().equals("URL")){
-                frag = new URLFragment();
-                bundle.putString("url", entity.getText());
-                frag.setArguments(bundle);
+            switch (entity.getType()){
+                case "Hashtag":
+                    frag = new HashtagSearchFragment();
+                    bundle.putString("text", "#" + entity.getText());
+                    frag.setArguments(bundle);
+                    break;
+
+                case "UserMention":
+                    frag = new UserProfileFragment();
+                    bundle.putString("name", entity.getText());
+                    frag.setArguments(bundle);
+                    break;
+
+                case "URL":
+                    frag = new URLFragment();
+                    bundle.putString("url", entity.getText());
+                    frag.setArguments(bundle);
+                    fragment.getFragmentManager().beginTransaction().add(R.id.activity_content, frag).addToBackStack(null).commit();
+                    break;
+
+                default:
+                    frag = new HomeTimelineFragment();
+                    break;
+
             }
-            else{
-                return;
-            }
+            Log.d(TAG, "doAction: entity type: " + entity.getType());
             fragment.getFragmentManager().beginTransaction().replace(R.id.activity_content, frag).addToBackStack(null).commit();
         }
     }

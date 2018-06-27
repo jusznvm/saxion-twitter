@@ -100,14 +100,14 @@ public class MainActivity extends FragmentActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
 
-                    case R.id.menu_home: {
+                    case R.id.menu_home:
                         TabLayoutFragment homeFragment = new TabLayoutFragment();
                         getSupportFragmentManager().beginTransaction().replace(R.id.activity_content, homeFragment).addToBackStack(null).commit();
                         mDrawerLayout.closeDrawer(GravityCompat.START);
                         break;
-                    }
 
-                    case R.id.menu_profile: {
+
+                    case R.id.menu_profile:
                         UserProfileFragment userProfileFragment = new UserProfileFragment();
                         Bundle bundle = new Bundle();
                         bundle.putString("name", user.getUserName());
@@ -115,34 +115,30 @@ public class MainActivity extends FragmentActivity {
                         getSupportFragmentManager().beginTransaction().replace(R.id.activity_content, userProfileFragment).addToBackStack(null).commit();
                         mDrawerLayout.closeDrawer(GravityCompat.START);
                         break;
-                    }
 
-                    case R.id.menu_dms: {
+
+                    case R.id.menu_dms:
                         DirectMessageFragment dmFragment = new DirectMessageFragment();
                         getSupportFragmentManager().beginTransaction().replace(R.id.activity_content, dmFragment).addToBackStack(null).commit();
                         mDrawerLayout.closeDrawer(GravityCompat.START);
                         break;
-                    }
 
-                    case R.id.menu_trending: {
+
+                    case R.id.menu_trending:
                         TrendingFragment trendingFragment = new TrendingFragment();
                         getSupportFragmentManager().beginTransaction().replace(R.id.activity_content, trendingFragment).addToBackStack(null).commit();
                         mDrawerLayout.closeDrawer(GravityCompat.START);
                         break;
-                    }
 
-                    case R.id.menu_settings: {
+                    case R.id.menu_settings:
                         break;
-                    }
 
-                    case R.id.menu_log_out: {
+                    case R.id.menu_log_out:
                         editor.clear();
                         editor.commit();
                         Intent intent = new Intent(MainActivity.this, AuthorizationActivity.class);
                         startActivity(intent);
                         break;
-
-                    }
 
                 }
                 return false;
