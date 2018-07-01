@@ -31,6 +31,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
+/**
+ *  Fragment that contains the view that displays a the mentions of the user
+ */
 public class MyMentionsTimeLine extends Fragment {
 
     private RecyclerView.Adapter mAdapter;

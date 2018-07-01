@@ -22,6 +22,10 @@ import java.io.IOException;
 import java.net.URLEncoder;
 import java.util.concurrent.ExecutionException;
 
+
+/**
+ *  Fragment that contains the views inside of the tabs of the main screen
+ */
 public class TabLayoutFragment extends Fragment {
 
     private static AppInfo appInfo = AppInfo.getInstance();

@@ -1,7 +1,7 @@
 package com.example.justin.simpletwitter.model;
 
 /**
- * Created by Justin on 5/10/2018.
+ * Model class that contains a respresentation of a User
  */
 
 public class User {

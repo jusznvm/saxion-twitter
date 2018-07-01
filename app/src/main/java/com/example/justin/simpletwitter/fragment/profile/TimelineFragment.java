@@ -31,6 +31,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
+/**
+ * Fragment that contains a list of tweets(statusses)
+ */
 public class TimelineFragment extends Fragment {
 
     private RecyclerView.Adapter mAdapter;
@@ -62,6 +65,9 @@ public class TimelineFragment extends Fragment {
         return view;
     }
 
+    /**
+     * Gets the tweets for a User
+     */
     class GetProfileTimelineTask extends AsyncTask<Void, Void, JSONArray> {
 
         @Override

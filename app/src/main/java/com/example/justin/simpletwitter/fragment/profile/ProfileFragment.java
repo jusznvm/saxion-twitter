@@ -31,6 +31,9 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.util.concurrent.ExecutionException;
 
+/**
+ * Fragment that holds a user profile
+ */
 public class ProfileFragment extends Fragment {
 
     public static final String TAG = "ProfileFragment";
@@ -72,6 +75,9 @@ public class ProfileFragment extends Fragment {
         return view;
     }
 
+    /**
+     * Gets the profile of a user
+     */
     class GetProfileDetails extends AsyncTask<Void, Void, JSONObject> {
 
         @Override

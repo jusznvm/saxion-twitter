@@ -35,11 +35,20 @@ import com.example.justin.simpletwitter.model.entity.UserMention;
 
 import java.util.ArrayList;
 
+/**
+ * Class that handles the entities in a Status or DM
+ */
 public class EntitiesHelper {
 
 
     public static final String TAG = "EntitiesHelper";
 
+    /**
+     * Takes in the String contents of a Status and sets all the entities accordingly
+     * @param status
+     * @param fragment
+     * @return the editted text that contains entity behaviour and style
+     */
     public SpannableString linkifyStatus(Status status, Fragment fragment) {
 
         ArrayList<Entity> entitiesList = status.getEntitiesList();
@@ -67,6 +76,12 @@ public class EntitiesHelper {
         return ss;
     }
 
+    /**
+     * Takes in the String contents of a DirectMessage and sets all the entities accordingly
+     * @param dm
+     * @param fragment
+     * @return
+     */
     public SpannableString linkifyDM(DirectMessage dm, Fragment fragment) {
 
         ArrayList<Entity> entitiesList = dm.getEntities();

@@ -12,6 +12,10 @@ import android.view.ViewGroup;
 import com.example.justin.simpletwitter.R;
 import com.example.justin.simpletwitter.adapter.MyPagerAdapter;
 
+/**
+ * Fragment that contains the tab for the user profile
+ * used in UserProfileFragment
+ */
 public class ProfileTabLayoutFragment extends Fragment{
 
     private MyPagerAdapter adapter = null;

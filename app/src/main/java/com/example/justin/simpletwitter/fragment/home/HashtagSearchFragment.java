@@ -39,9 +39,8 @@ import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
 /**
- * Created by yunus on 6/20/2018.
+ *  Fragment that contains the view that displays a hashtag search results
  */
-
 public class HashtagSearchFragment extends Fragment {
 
     public static final String TAG = "HashtagSearchFragment";
@@ -79,6 +78,9 @@ public class HashtagSearchFragment extends Fragment {
     }
 
 
+    /**
+     * Searches for a query and returns the results as Users and Statusses
+     */
     class SearchTweetTask extends AsyncTask<String, Void, JSONArray> {
 
         @Override
@@ -87,6 +89,11 @@ public class HashtagSearchFragment extends Fragment {
             statuses.clear();
         }
 
+        /**
+         * Searches for the query
+         * @param strings
+         * @return the results matching the query
+         */
         @Override
         protected JSONArray doInBackground(String... strings) {
 

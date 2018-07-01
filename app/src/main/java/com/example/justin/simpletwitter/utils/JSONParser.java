@@ -15,17 +15,21 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 /**
- * Created by Justin on 5/9/2018.
+ * Parser for all JSON content
  */
 
 public class JSONParser {
 
     private static final String TAG = "JSONParser";
 
+    /**
+     * Parses the JSON of a status
+     * @param jsonArray
+     * @return a list of mapped Status models
+     */
     public static ArrayList<Status> parseStatus(JSONArray jsonArray) {
         ArrayList<Status> statuses = new ArrayList<>();
         try {
-//            JSONArray jsonArray = jsonObject.getJSONArray("statuses");
             for (int i = 0; i < jsonArray.length(); i++) {
                 JSONObject tweetObj = jsonArray.getJSONObject(i);
 
@@ -49,8 +53,6 @@ public class JSONParser {
                 JSONObject entitiesObj = tweetObj.getJSONObject("entities");
 
 
-                // ArrayList<Entity> hashtagsList = parseHashtags(JSONHashtags);
-                // TODO: Make parser work Entities instead of subtypes door de entitiesObj mee te geven en een entitiesHolder te returnen;
 
 //                EntitiesHolder entitiesHolder = parseEntities(entitiesObj); // general parse method
                 ArrayList<Entity> entitiesList = parseEntities(entitiesObj);
@@ -85,6 +87,11 @@ public class JSONParser {
         return statuses;
     }
 
+    /**
+     * Parses the entities in a JSONObject
+     * @param entitiesObject
+     * @return a list of mapped Entity models
+     */
     private static ArrayList<Entity> parseEntities(JSONObject entitiesObject) {
         ArrayList<Entity> entitiesList = new ArrayList<>();
 
@@ -101,6 +108,11 @@ public class JSONParser {
         return entitiesList;
     }
 
+    /**
+     * Parses the Hashtags in a JSONArray
+     * @param hashtagArray
+     * @return a list of mapped Hashtag models
+     */
     private static ArrayList<Hashtag> parseHashtags(JSONArray hashtagArray) {
         ArrayList<Hashtag> hashtags = new ArrayList<>();
         try {
@@ -120,9 +132,16 @@ public class JSONParser {
             e.printStackTrace();
         }
 
+
+
         return hashtags;
     }
 
+    /**
+     * parses the URL entities from a JSONArray
+     * @param URLs
+     * @return a list of mapped URL models
+     */
     private static ArrayList<URL> parseURLs(JSONArray URLs) {
         ArrayList<URL> urls = new ArrayList<>();
         try {
@@ -153,6 +172,11 @@ public class JSONParser {
         return urls;
     }
 
+    /**
+     * parses the UserMention entities from a JSONArray
+     * @param mentions
+     * @return a list of mapped UserMention models
+     */
     private static ArrayList<UserMention> parseUserMentions(JSONArray mentions) {
         ArrayList<UserMention> userMentions = new ArrayList<>();
         try {
@@ -184,6 +208,11 @@ public class JSONParser {
         return userMentions;
     }
 
+    /**
+     * parses the User from a JSONObject
+     * @param jsonObject
+     * @return the user
+     */
     public static User parseUser(JSONObject jsonObject) {
         User userModel = null;
         try {
@@ -219,6 +248,11 @@ public class JSONParser {
         return userModel;
     }
 
+    /**
+     * parses the DirectMessages from a JSONObject
+     * @param jsonObject
+     * @return a list of mapped DirectMessage models
+     */
     public static ArrayList<DirectMessage> parseDMs(JSONObject jsonObject) {
         ArrayList<DirectMessage> dms = new ArrayList<>();
         try {
@@ -259,6 +293,11 @@ public class JSONParser {
         return dms;
     }
 
+    /**
+     * parses the Users from a JSONArray
+     * @param jsonArray
+     * @return a list of mapped User models
+     */
     public static ArrayList<User> parseUserList(JSONArray jsonArray) {
         ArrayList<User> users = new ArrayList<>();
         for (int i = 0; i < jsonArray.length(); i++) {

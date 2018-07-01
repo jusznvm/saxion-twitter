@@ -11,6 +11,9 @@ import android.widget.Button;
 
 import com.example.justin.simpletwitter.R;
 
+/**
+ * The toolbar on top of the app as a custom view
+ */
 public class ToolbarView extends DrawerLayout {
 
     private LayoutInflater inflater;

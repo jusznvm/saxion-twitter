@@ -1,7 +1,7 @@
 package com.example.justin.simpletwitter.model.entity;
 
 /**
- * Created by yunus on 5/27/2018.
+ * Model class for a URL entity
  */
 
 public class URL extends Entity {

@@ -1,7 +1,7 @@
 package com.example.justin.simpletwitter.model.entity;
 
 /**
- * Created by yunus on 6/20/2018.
+ * Base class for entity objects
  */
 
 public abstract class Entity {

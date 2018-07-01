@@ -5,7 +5,7 @@ import com.example.justin.simpletwitter.model.entity.Entity;
 import java.util.ArrayList;
 
 /**
- * Created by Justin on 5/9/2018.
+ * Model class that contains a respresentation of a Status(tweet)
  */
 
 public class Status {

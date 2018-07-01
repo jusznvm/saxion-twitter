@@ -173,7 +173,7 @@ public class MainActivity extends FragmentActivity {
         /**
          * Gets the credentials.
          * @param voids
-         * @return the credentials.
+         * @return the credentials as a JSONObject.
          */
         @Override
         protected JSONObject doInBackground(Void... voids) {
@@ -196,7 +196,7 @@ public class MainActivity extends FragmentActivity {
         }
 
         /**
-         * Sets the values accordingly.
+         * Updates the values accordingly.
          * @param jsonObject
          */
         @Override

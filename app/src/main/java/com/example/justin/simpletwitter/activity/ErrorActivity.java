@@ -7,6 +7,9 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.example.justin.simpletwitter.R;
 
+/**
+ * General error activity to display when a response isnt succesful
+ */
 public class ErrorActivity extends AppCompatActivity{
 
     @Override

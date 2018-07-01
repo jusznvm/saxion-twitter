@@ -10,6 +10,9 @@ import android.view.ViewGroup;
 
 import com.example.justin.simpletwitter.R;
 
+/**
+ * Fragment that holds a user profile, including the 2 tab fragments
+ */
 public class UserProfileFragment extends Fragment {
 
     public static String SCREENNAME = "";

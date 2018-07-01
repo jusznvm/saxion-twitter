@@ -18,6 +18,9 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
+/**
+ *  RecyclerView for displaying users
+ */
 public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder>{
 
     private ArrayList<User> users;

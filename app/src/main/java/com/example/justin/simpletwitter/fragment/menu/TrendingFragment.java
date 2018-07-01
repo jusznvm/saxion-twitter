@@ -7,6 +7,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+/**
+ * Fragment for the trending page
+ */
 public class TrendingFragment extends Fragment {
 
     public TrendingFragment() {

@@ -44,7 +44,7 @@ import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
 /**
- * Created by Yunus on 26-6-2018.
+ * Fragment that contains the webview to display the contents of a clicked URL
  */
 
 public class URLFragment extends Fragment {

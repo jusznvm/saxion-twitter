@@ -1,7 +1,7 @@
 package com.example.justin.simpletwitter.model.entity;
 
 /**
- * Created by Yunus on 18-5-2018.
+ * Model class for a hashtag entity
  */
 
 public class Hashtag extends Entity {

@@ -31,6 +31,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
+/**
+ * Fragment that contains direct messages
+ */
 public class DirectMessageFragment extends Fragment {
 
     public static final String TAG = "DirectMessageFragment";
@@ -65,6 +68,9 @@ public class DirectMessageFragment extends Fragment {
         return view;
     }
 
+    /**
+     * Gets the direct messages and loads the into the list
+     */
     public class GetDirectMessagesTask extends AsyncTask<Void, Void, JSONObject> {
 
         @Override

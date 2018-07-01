@@ -3,7 +3,7 @@ package com.example.justin.simpletwitter.model.entity;
 import static java.sql.Types.INTEGER;
 
 /**
- * Created by Yunus on 23-5-2018.
+ * Model class for a UserMention entity
  */
 
 public class UserMention extends Entity{

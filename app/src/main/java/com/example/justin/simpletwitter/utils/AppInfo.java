@@ -6,6 +6,11 @@ import com.github.scribejava.core.model.OAuth1AccessToken;
 import com.github.scribejava.core.model.OAuth1RequestToken;
 import com.github.scribejava.core.oauth.OAuth10aService;
 
+
+/**
+ * Singleton class that contains API info
+ * Also known as the AuthManager
+ */
 public class AppInfo {
 
     private static AppInfo instance = null;

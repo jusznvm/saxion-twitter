@@ -29,6 +29,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
+/**
+ * Fragment that holder the view to display a list of liked tweets
+ * Used in the ProfileTabLayoutFragment
+ */
 public class LikesFragment extends Fragment {
 
     private RecyclerView mRecyclerView;
@@ -58,6 +62,9 @@ public class LikesFragment extends Fragment {
         return view;
     }
 
+    /**
+     * Gets the likes
+     */
     class GetLikesTask extends AsyncTask<Void, Void, JSONArray> {
 
         @Override
