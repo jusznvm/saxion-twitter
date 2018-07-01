@@ -94,6 +94,10 @@ public class User {
         this.bannerUrl = bannerUrl;
     }
 
+    public void setFollowing(boolean following) {
+        this.following = following;
+    }
+
     public boolean isFollowing() {
         return following;
     }

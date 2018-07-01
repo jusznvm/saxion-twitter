@@ -43,7 +43,8 @@ import java.net.URLEncoder;
 import java.util.concurrent.ExecutionException;
 
 /**
- * Main access point of the application
+ * The center of the application, from here the main tablayout is loaded
+ * and every other fragment gets loaded into this class.
  */
 public class MainActivity extends FragmentActivity {
 
@@ -63,6 +64,7 @@ public class MainActivity extends FragmentActivity {
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
 
+    /** User thats logged in **/
     private User user = null;
 
     @Override

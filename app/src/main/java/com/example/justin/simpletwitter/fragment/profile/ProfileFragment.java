@@ -1,6 +1,8 @@
 package com.example.justin.simpletwitter.fragment.profile;
 
 
+import android.content.Intent;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -13,6 +15,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.justin.simpletwitter.activity.ErrorActivity;
 import com.example.justin.simpletwitter.utils.AppInfo;
 import com.example.justin.simpletwitter.R;
 import com.example.justin.simpletwitter.utils.TwitterAPI;
@@ -119,16 +122,41 @@ public class ProfileFragment extends Fragment {
 
         @Override
         protected Void doInBackground(Void... voids) {
-            String url;
-            if(user.isFollowing()) {
-                url = TwitterAPI.FOLLOW_USER + user.getUserName();
-            } else {
-                url = TwitterAPI.UNFOLLOW_USER + user.getUserName();
+
+            try {
+                String url;
+                if(user.isFollowing()) {
+                    url = TwitterAPI.UNFOLLOW_USER + user.getUserName();
+                    user.setFollowing(false);
+                } else {
+                    url = TwitterAPI.FOLLOW_USER + user.getUserName();
+                    user.setFollowing(true);
+                }
+                OAuthRequest request = new OAuthRequest(Verb.POST, url);
+                OAuth1AccessToken token = appInfo.getAccessToken();
+                service.signRequest(token, request);
+                Response r = service.execute(request);
+                if(!r.isSuccessful()) {
+                    Intent i = new Intent(getActivity(), ErrorActivity.class);
+                    startActivity(i);
+                }
+                Log.d(TAG, "doInBackground: " + r.getBody());
+            } catch (InterruptedException | ExecutionException | IOException e) {
+                e.printStackTrace();
             }
-            OAuthRequest request = new OAuthRequest(Verb.POST, url);
-            OAuth1AccessToken token = appInfo.getAccessToken();
-            service.signRequest(token, request);
             return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            if(user.isFollowing()) {
+                btnFollow.setText("Following");
+                btnFollow.setBackgroundColor(Color.BLUE);
+            } else {
+                btnFollow.setText("Follow");
+                btnFollow.setBackgroundColor(Color.WHITE);
+            }
         }
     }
 }
