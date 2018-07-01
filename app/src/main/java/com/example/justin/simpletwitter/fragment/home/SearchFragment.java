@@ -37,7 +37,9 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
-
+/**
+ * Fragment that represents the search functionality.
+ */
 public class SearchFragment extends Fragment{
 
     public static final String TAG = "Dodging yunus' shit";
@@ -62,6 +64,7 @@ public class SearchFragment extends Fragment{
         statuses = new ArrayList<>();
         users = new ArrayList<>();
 
+        // Listens for text input.
         etSearch = view.findViewById(R.id.et_search);
         etSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -93,6 +96,9 @@ public class SearchFragment extends Fragment{
         return view;
     }
 
+    /**
+     * Task for searching a specific status.
+     */
     class SearchTweetTask extends AsyncTask<String, Void, JSONArray> {
 
         @Override
@@ -101,6 +107,11 @@ public class SearchFragment extends Fragment{
             statuses.clear();
         }
 
+        /**
+         * Gets the statusses conform to the query.
+         * @param strings
+         * @return the corresponding statusses.
+         */
         @Override
         protected JSONArray doInBackground(String... strings) {
 
@@ -128,6 +139,10 @@ public class SearchFragment extends Fragment{
             return null;
         }
 
+        /**
+         * Update the list and show results
+         * @param jsonArray
+         */
         @Override
         protected void onPostExecute(JSONArray jsonArray) {
             super.onPostExecute(jsonArray);
@@ -136,8 +151,16 @@ public class SearchFragment extends Fragment{
         }
     }
 
+    /**
+     * Task that searches for users
+     */
     class SearchUserTask extends AsyncTask<String, Void, JSONArray> {
 
+        /**
+         * Searches for users conform to the query
+         * @param strings
+         * @return users
+         */
         @Override
         protected JSONArray doInBackground(String... strings) {
 
@@ -165,14 +188,15 @@ public class SearchFragment extends Fragment{
             return null;
         }
 
+        /**
+         * Update the list and show users.
+         * @param jsonArray
+         */
         @Override
         protected void onPostExecute(JSONArray jsonArray) {
             super.onPostExecute(jsonArray);
-            Log.d(TAG, "onPostExecute: Reached onPostExecute");
             users.addAll(JSONParser.parseUserList(jsonArray));
-            Log.d(TAG, "onPostExecute: Calling notifyDataSetChanged");
             userAdapter.notifyDataSetChanged();
-            Log.d(TAG, "onPostExecute: Called notifyDataSetChanged");
         }
     }
 }

@@ -33,6 +33,9 @@ import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
 
+/**
+ * RecyclerView for tweets (statusses)
+ */
 public class StatusAdapter extends RecyclerView.Adapter<StatusAdapter.ViewHolder> {
 
     private static final String TAG = "StatusAdapter";
@@ -84,8 +87,6 @@ public class StatusAdapter extends RecyclerView.Adapter<StatusAdapter.ViewHolder
         // Get status with the position & get the user of the status too.
 
         Status status = statuses.get(holder.getAdapterPosition());
-        Log.d(TAG, "onBindViewHolder: " + status.getTweetID());
-        Log.d(TAG, "onBindViewHolder: " + status.getText());
 
         User user = status.getUser();
 
@@ -106,9 +107,7 @@ public class StatusAdapter extends RecyclerView.Adapter<StatusAdapter.ViewHolder
 
         holder.tvScreenname.setText(screenName);
         holder.tvUsername.setText(user.getName());
-        Log.d(TAG, "onBindViewHolder: favoriteCount: " + favoriteCount + "\n of user : " + screenName);
 
-        Log.d(TAG, "onBindViewHolder: " + status.getTweetID());
         /**
          * Basically handles everything
          * for the button and the icon
@@ -196,36 +195,34 @@ public class StatusAdapter extends RecyclerView.Adapter<StatusAdapter.ViewHolder
     /*
      AsyncTasks
      */
+
+    /**
+     * Task for favoriting and unfavoriting tweets.
+     */
     class FavoriteTask extends AsyncTask<Status, Void, Void> {
 
+        /**
+         * Favorites or unfavorites a status based on whether it was already favorited or not.
+         * @param s the status to be favorited.
+         * @return all the nothing.
+         */
         @Override
         protected Void doInBackground(com.example.justin.simpletwitter.model.Status... s) {
             // Clashes with AsyncTask Status ......
             com.example.justin.simpletwitter.model.Status status = s[0];
-            // ^ Fk u.
 
             String tweetID = status.getTweetIDString();
             String url;
-            Log.d(TAG, "doInBackground: favorited = " + status.isFavorited());
 
             if (status.isFavorited()) {
-                Log.d(TAG, "FavTask: doInBackground: in IF");
                 url = TwitterAPI.FAVORITE_STATUS_DESTROY + tweetID;
-                Log.d(TAG, "doInBackground: url = " + url);
-
-
                 status.setFavoriteCount(status.getFavoriteCount()-1 < 0 ? 0 : status.getFavoriteCount()-1);
-
                 status.setFavorited(false);
             } else {
-                Log.d(TAG, "doInBackground: in ELSE");
                 url = TwitterAPI.FAVORITE_STATUS_CREATE + tweetID;
-                Log.d(TAG, "doInBackground: status = " + url);
-
                 status.setFavoriteCount(status.getFavoriteCount() + 1);
                 status.setFavorited(true);
             }
-            Log.d(TAG, "doInBackground FavTask: url = " + url);
             OAuthRequest request = new OAuthRequest(Verb.POST, url);
             service.signRequest(AppInfo.getAccessToken(), request);
 
@@ -240,6 +237,9 @@ public class StatusAdapter extends RecyclerView.Adapter<StatusAdapter.ViewHolder
             return null;
         }
 
+        /**
+        Update the list.
+         */
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
@@ -247,36 +247,33 @@ public class StatusAdapter extends RecyclerView.Adapter<StatusAdapter.ViewHolder
         }
     }
 
+    /**
+     * Task for retweeting and unretweeting statusses.
+     */
     class RetweetTask extends AsyncTask<Status, Void, Void> {
 
+        /**
+         *
+         * @param statuses the status to be retweeted.
+         * @return
+         */
         @Override
         protected Void doInBackground(com.example.justin.simpletwitter.model.Status... statuses) {
             // Clashes with AsyncTask Status ......
             com.example.justin.simpletwitter.model.Status status = statuses[0];
-            // ^ Fk u.
 
             String tweetID = status.getTweetIDString();
-            Log.d(TAG, "doInBackground: " + tweetID);
             String url = "";
-            Log.d(TAG, "doInBackground: retweeted = " + status.isRetweeted());
-
 
             if (status.isRetweeted()) {
-                Log.d(TAG, "RTTask: doInBackground: in IF");
                 url = TwitterAPI.UNRETWEET_STATUS + tweetID + ".json";
-                Log.d(TAG, "doInBackground: status = " + status.isRetweeted());
-
                 status.setRetweetCount(status.getRetweetCount()-1 < 0 ? 0 : status.getRetweetCount()-1);
                 status.setRetweeted(false);
             } else {
                 url = TwitterAPI.RETWEET_STATUS + tweetID + ".json";
-                Log.d(TAG, "doInBackground: status = " + status.isRetweeted());
-
                 status.setRetweetCount(status.getRetweetCount()+1);
                 status.setRetweeted(true);
             }
-
-            Log.d(TAG, "doInBackground RTTask: url: " + url);
             OAuthRequest request = new OAuthRequest(Verb.POST, url);
             service.signRequest(AppInfo.getAccessToken(), request);
 
@@ -291,6 +288,10 @@ public class StatusAdapter extends RecyclerView.Adapter<StatusAdapter.ViewHolder
             return null;
         }
 
+        /**
+         * Update the list
+         * @param aVoid
+         */
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);

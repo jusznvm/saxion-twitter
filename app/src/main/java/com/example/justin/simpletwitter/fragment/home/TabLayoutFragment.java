@@ -29,12 +29,14 @@ public class TabLayoutFragment extends Fragment {
 
     private MyPagerAdapter adapter = null;
 
+    // The used icons
     final private int[] tabIcons = {
             R.drawable.house,
             R.drawable.alarm,
             R.drawable.search_1
     };
 
+    // The page titles
     final private String[] tabNames = {
             "HOME","NOTIFICATIONS","SEARCH"
     };
@@ -51,6 +53,7 @@ public class TabLayoutFragment extends Fragment {
         return view;
     }
 
+    // Sets the tab icons.
     private void setupTabIcons(TabLayout tabs) {
         TabLayout.Tab tab;
         for (int x=0; x<tabIcons.length; x++) {
@@ -62,6 +65,7 @@ public class TabLayoutFragment extends Fragment {
         }
     }
 
+    // Adds fragments to the viewpager list.
     private void setupViewPager(ViewPager viewPager) {
         adapter = new MyPagerAdapter(getActivity().getSupportFragmentManager());
         adapter.addFrag(new HomeTimelineFragment(), "HOME");

@@ -6,6 +6,9 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 
 import java.util.ArrayList;
 
+/**
+ * Handles swiping between pages in the main tablayout.
+ */
 public class MyPagerAdapter extends FragmentStatePagerAdapter {
 
     private final ArrayList<Fragment> mFragmentList = new ArrayList<>();

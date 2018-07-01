@@ -24,6 +24,9 @@ import com.example.justin.simpletwitter.utils.EntitiesHelper;
 
 import java.util.ArrayList;
 
+/**
+ * RecyclerView for the DMs
+ */
 public class DMAdapter extends RecyclerView.Adapter<DMAdapter.ViewHolder> {
 
     private static final String TAG = "DMAdapted";

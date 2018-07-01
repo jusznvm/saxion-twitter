@@ -62,6 +62,7 @@ public class MyTimelineFragment extends Fragment {
         return view;
     }
 
+
     public class GetTimeLineTask extends AsyncTask<Void, Void, JSONArray> {
 
         @Override

@@ -38,6 +38,9 @@ import java.util.concurrent.ExecutionException;
 
 import static android.app.Activity.RESULT_OK;
 
+/**
+ * Fragment that represents posting a tweet.
+ */
 public class ComposeFragment extends Fragment {
 
     public static final String TAG = "ComposeFragment";
@@ -81,6 +84,7 @@ public class ComposeFragment extends Fragment {
 
         btnAddPhoto = view.findViewById(R.id.btn_add_photo);
         btnAddPhoto.setOnClickListener(new View.OnClickListener() {
+            // Opens the camera
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -101,6 +105,7 @@ public class ComposeFragment extends Fragment {
         return view;
     }
 
+    // Saves the result of the activity.
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
@@ -117,6 +122,7 @@ public class ComposeFragment extends Fragment {
         }
     }
 
+    // Saves the image in a file.
     private File getImage() {
 
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US).format(new Date());
@@ -135,8 +141,9 @@ public class ComposeFragment extends Fragment {
         return image;
     }
 
-
-
+    /**
+     * Task for adding a picture to a tweet
+     */
     private class AddMedia extends AsyncTask<Bitmap, Void, JSONObject> {
 
         @Override
@@ -151,8 +158,16 @@ public class ComposeFragment extends Fragment {
         }
     }
 
+    /**
+     * Task for posting a tweet.
+     */
     class PostTweet extends AsyncTask<String, Void, Void> {
 
+        /**
+         * Posts the tweet.
+         * @param strings
+         * @return all the nothing.
+         */
         @Override
         protected Void doInBackground(String... strings) {
             try {

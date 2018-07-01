@@ -35,6 +35,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
+/**
+ * Fragment that represents the main timeline.
+ */
 public class HomeTimelineFragment extends Fragment {
 
     private ArrayList<Status> statuses;
@@ -66,6 +69,7 @@ public class HomeTimelineFragment extends Fragment {
         mRecyclerView.setAdapter(mAdapter);
         mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.sl_home_timeline);
 
+        // Makes the hometimeline refresh on swipe
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -93,14 +97,23 @@ public class HomeTimelineFragment extends Fragment {
         mAdapter.notifyDataSetChanged();
     }
 
+    /**
+     * Gets the main timeline
+     */
     class HomeTimeLineTask extends AsyncTask<Void, Void, JSONArray> {
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+            // Clears the list.
             statuses.clear();
         }
 
+        /**
+         * Gets the main timeline.
+         * @param aVoid
+         * @return the home timeline.
+         */
         @Override
         protected JSONArray doInBackground(Void... aVoid) {
             OAuthRequest request = new OAuthRequest(Verb.GET, TwitterAPI.STATUSES_HOME_TIMELINE);

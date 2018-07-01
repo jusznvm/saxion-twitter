@@ -57,14 +57,23 @@ public class MyMentionsTimeLine extends Fragment {
         mAdapter = new StatusAdapter(statuses, this);
         mRecyclerView.setAdapter(mAdapter);
 
+        // Start the task
         GetMentionsTask task = new GetMentionsTask();
         task.execute();
 
         return view;
     }
 
+    /**
+     * Gets the mentions
+     */
     public class GetMentionsTask extends AsyncTask<Void, Void, JSONArray> {
 
+        /**
+         * Gets the mentions of the current user.
+         * @param voids
+         * @return the users mentions.
+         */
         @Override
         protected JSONArray doInBackground(Void... voids) {
 

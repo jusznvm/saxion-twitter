@@ -42,6 +42,9 @@ import java.io.IOException;
 import java.net.URLEncoder;
 import java.util.concurrent.ExecutionException;
 
+/**
+ * Main access point of the application
+ */
 public class MainActivity extends FragmentActivity {
 
     private DrawerLayout mDrawerLayout;
@@ -56,6 +59,7 @@ public class MainActivity extends FragmentActivity {
     private TextView tvName, tvScreenName, tvFollowerCount, tvFollowingCount;
     private ImageView ivProfileImg;
 
+    /** used to save username */
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
 
@@ -71,6 +75,7 @@ public class MainActivity extends FragmentActivity {
         mDrawerLayout = findViewById(R.id.activity_container);
         Button btnTest = findViewById(R.id.btn_drawer_layout);
 
+        // Compose a tweet button
         Button btnCompose = findViewById(R.id.btn_tweet);
         btnCompose.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -80,6 +85,7 @@ public class MainActivity extends FragmentActivity {
             }
         });
 
+        // Toggles the drawer in the toolbar
         btnTest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -95,6 +101,7 @@ public class MainActivity extends FragmentActivity {
         NavigationView navigationView = findViewById(R.id.nav_view);
         View hView = navigationView.getHeaderView(0);
 
+        // Handles logic for all the items in the drawer
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -158,8 +165,16 @@ public class MainActivity extends FragmentActivity {
         getSupportFragmentManager().beginTransaction().add(R.id.activity_content, firstFragment).commit();
     }
 
+    /**
+     * Gets the current logged in user's information.
+     */
     class CredentialsTask extends AsyncTask<Void, Void, JSONObject> {
 
+        /**
+         * Gets the credentials.
+         * @param voids
+         * @return the credentials.
+         */
         @Override
         protected JSONObject doInBackground(Void... voids) {
             OAuthRequest request = new OAuthRequest(Verb.GET, TwitterAPI.ACCOUNT_CREDENTIALS);
@@ -180,6 +195,10 @@ public class MainActivity extends FragmentActivity {
             return null;
         }
 
+        /**
+         * Sets the values accordingly.
+         * @param jsonObject
+         */
         @Override
         protected void onPostExecute(JSONObject jsonObject) {
             super.onPostExecute(jsonObject);
